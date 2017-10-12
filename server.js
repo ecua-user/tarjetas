@@ -17,8 +17,8 @@ puerto=3000;
 http = require('http').Server(servidor)
 port = process.env.PORT || puerto
 
-////======================= Conexión con la base de datos ======================//
-//mongoose.connect('',{ server: { reconnectTries: Number.MAX_VALUE } });
+//# region conexion======================= Conexión con la base de datos ======================//
+mongoose.connect('mongodb://Admin:abc123.....@ds117625.mlab.com:17625/ventatarjetas',{ server: { reconnectTries: Number.MAX_VALUE } });
 
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
