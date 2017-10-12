@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="../especifico/estilos/comprado.css">
+<div class="comprado">
+    <div class="row comprado">
+        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+            <h2 class="centrado">Activación de servicio</h2><br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4">
+                    <form class="form-signin" action="/cliente/tarjeta" method="post">
+                        <div class="form-group">
+                            <label for="">Código</label>
+                            <input step="1" type="number" class="form-control" required value="000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Contraseña <span>(Suele ser su número de cédula)</span></label>
+                            <input type="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Activar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+            <h2 class="centrado">Cliente</h2>
+            <div class="alert alert-warning" role="alert">
+                <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="multiCollapseExample1" type="button" class="btn btn-warning" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                </button>
+                Detalles
+            </div>
+            <div class="collapse multi-collapse" id="finalizados">
+                <div class="card card-body">
+                   <div class="alert alert-secondary" role="alert">
+                       Nombre Apellido
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

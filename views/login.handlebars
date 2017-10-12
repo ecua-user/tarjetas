@@ -1,0 +1,25 @@
+<style>
+    #body{
+        background-color: #666666;
+    }
+</style>
+<link rel="stylesheet" href="../especifico/estilos/login.css">
+<div class="row">
+    <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1"></div>
+    <div class="col-lg-4 col-md-6 col-sm-8 col-xs-10 margen">
+        <div class="fondo-blanco">
+            <h2 class="centrado "><b>Login</b></h2>
+            <img class="profile-img" src="../especifico/imagenes/login.png"  alt="">
+            <form class="form-signin" action="/users/login" method="post">
+                <input type="email" class="form-control" placeholder="Email" required autofocus>
+                <input type="password" class="form-control" placeholder="Contraseña" required><br>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="centrado">
+                <p><a href="/cliente/olvido">¿Olvidé mi contraseña?</a></p>
+                <p><a href="/cliente/confirma">Confirmar cuenta</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1"></div>
+</div>

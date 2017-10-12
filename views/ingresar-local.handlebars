@@ -1,0 +1,98 @@
+<ul class="nav nav-tabs hidden-sm hidden-xs">
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/compra">Venta</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+      <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+    </div>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+      <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+      <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+      <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/slider">Slider</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/password">Cambiar contraseña</a>
+  </li>
+</ul>
+<div id="opciones"></div>
+<br>
+
+<script src="../especifico/scripts/opciones.js"></script>
+<script src="../especifico/scripts/admin.js"></script>
+<div class="alert alert-primary margen-row" role="alert">
+    <h3 class="centrado ">Ingresar local</h3>
+</div>
+<form action="/admin/subir-local" method="post" enctype="multipart/form-data"></form>
+    <div class="row margen-row">
+        <div class="col-lg-3 col-md-3 col-sm-3 ">
+            <div id="poder form-signin">
+                <img src="../especifico/imagenes/local.png" class="img-responsive"  id="img_destino">
+            </div>
+            <div class="form-group">
+                <div class="div_file btn btn-info " >
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    320 X 320
+                    <input type="file" class="btn_enviar" id="file_url"  accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)" required/>            
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9" style="height:530px">
+            <div id="centralMensajes">
+                {{#if success_msg}}<div class="alert alert-success">{{success_msg}}</div>{{/if}} 
+                {{#if error_msg}}<div class="alert alert-danger">{{error_msg}}</div>{{/if}} 
+                {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
+            </div>
+            <h3 class="centrado">Datos</h3><br>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label for=""><b>Razón Social</b></label>
+                        <input type="text" name="razon" class="form-control" placeholder="Nombre del local" required>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b>Email</b></label>
+                        <input type="email" name="correo" placeholder="Email del local" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    
+                    <div class="form-group">
+                        <label for=""><b>Contraseña</b></label>
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b>Repetir Contraseña</b></label>
+                        <input type="password" name="rpassword" class="form-control" placeholder=" Repetir contraseña" required>
+                    </div>
+                    <div class="form-group" style="text-align:right">
+                        <button type="submit" class="btn btn-outline-primary " aria-label="Left Align">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</form>
+<link rel="stylesheet" href="../especifico/estilos/admin.css">

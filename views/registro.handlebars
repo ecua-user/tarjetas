@@ -1,0 +1,68 @@
+<script async   >
+    /*
+    window.addEventListener('load',()=>{
+        document.getElementById('body').setAttribute('background','../general/imagenes/fondo.jpg')
+    })
+    */
+</script>
+<style>
+    #body{
+        background-color: #666666;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 margen">
+        <div class="fondo-blanco">
+            <h2 class="centrado "><b>Registro</b></h2>
+            <form class="form-signin" action="/users/registro" method="post">
+                <div class="row">
+                    <div class="col-lg-6 col-6">
+                        <div class="form-group">
+                            <input type="text" name="nombre" placeholder="Nombre" class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="telefono" placeholder="Teléfono" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="sector" placeholder="Sector" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Edad</label>
+                            <input type="number" step="1" value="18" name="edad" placeholder="Edad" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password"  name="password" placeholder="Contraseña" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-6">
+                        <div class="form-group">
+                            <input type="text" name="apellido" placeholder="Apellido" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="correo" placeholder="Correo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="direccion" placeholder="Dirección" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Género</label>
+                            <select name="genero" id="generoSelector" class="form-control">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="N">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="password"  name="Rpassword" placeholder="Repetir contraseña" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </form>   
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+</div>
+<link rel="stylesheet" href="../especifico/estilos/registro.css">
+

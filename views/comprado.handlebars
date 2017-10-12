@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="../especifico/estilos/comprado.css">
+<div class="comprado">
+    <ul class="nav nav-tabs ">
+        <li class="nav-item">
+            <a class="nav-link active" href="/cliente/comprado">He comprado</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cliente/perfil">Perfil</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cliente/password">Cambiar contraseña</a>
+        </li>
+    </ul>
+    <div class="row comprado">
+        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+            <h2 class="centrado">Activación de tarjeta</h2><br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4">
+                    <form class="form-signin" action="/cliente/tarjeta" method="post">
+                        <div class="form-group">
+                            <label for="">Código</label>
+                            <input step="1" type="number" class="form-control" required value="000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Contraseña <span>(Suele ser su número de cédula)</span></label>
+                            <input  type="password" class="form-control" required >
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Activar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+            <h2 class="centrado">Tarjeta</h2>
+            <div class="alert alert-warning" role="alert">
+                <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="multiCollapseExample1" type="button" class="btn btn-warning" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                </button>
+                Detalles
+            </div>
+            <div class="collapse multi-collapse" id="finalizados">
+                <div class="card card-body">
+                   <div class="alert alert-secondary" role="alert">
+                        Esta tarjeta es válida para los locales:
+                        <ul>
+                            <li>Local 1</li>
+                            <li>Local2</li>
+                            <li>Local3</li>
+                            <li>.</li>
+                            <li>.</li>
+                            <li>Local40</li>
+                        </ul>
+                        y es válida desde:
+                        <i>DD/MM/AAAA</i> hasta <i>DD/MM/AAAA</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
