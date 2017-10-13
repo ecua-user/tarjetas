@@ -13,7 +13,18 @@ function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated())
 		return next(); 
 	else
-		res.redirect('/login'); 
+		res.redirect('/neutral'); 
+}
+
+function cadenaAleatoria() {
+    longitud =  16
+    caracteres =  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    cadena = "" 
+    max = caracteres.length - 1
+	for (var i = 0; i < longitud; i++) {
+        cadena += caracteres[Math.floor(Math.random() * (max + 1))]; 
+    }
+    return cadena;
 }
 
 //Passport_____________________________________________________________________________________________________________________________________________
@@ -22,7 +33,7 @@ passport.use(new LocalStrategy(
 		User.getUserByUsername(username, (err, user)=> {
 			if (err) throw err;
 			if (!user) { return done(null, false, { message: 'Usuario desconocido' }); }
-			if (user.confirmado) {
+			if (user.activo) {
 				User.comparePassword(password, user.password, (err, isMatch) =>{
 					if (err) throw err;
 					if (isMatch) {return done(null, user);} 
@@ -46,42 +57,100 @@ router.get('/login',(req,res)=>{
 	res.render('login')
 })
 
+router.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }), function (req, res) { dentro=true;res.redirect('/'); });
+
+
 router.get('/registro',(req,res)=>{
 	res.render('registro')
 })
 
 router.post('/registro',(req,res)=>{
-	/*
 	if(req.body.password != req.body.rpassword)
-		res.render('registro',{error: 'Las contraseñas no coinciden'})
+		res.send('Contraseñas no coinciden')
 	else{
 		if(Number(req.body.edad)<18)
-			res.render('registro',{error:'Debe ser mayor de edad para poder registrarse'})
+			res.send('Debe ser mayor de edad para poder registrarse')
 		else{
-			newUser= new User({
-				nombre: req.body.nombre,
-				cedula:req.body.cedula,
-				telefono:req.body.telefono,
-				sector:req.body.sector,
-				direccion:req.body.direccion,
-				edad:req.body.edad,
-				genero: req.body.genero,
-				username:req.body.username,
-				password: req.body.password,
-				eslocal:false,
-				esadministrador:false,
-				token:String
+			User.findOne().where({ $or: [{cedula:req.body.cedula},{username:req.body.username}]}).exec((e,resp)=>{
+				if(resp!=null){
+					res.send('Ya existe una cuenta con esta cédula o correo')
+				}
+				else{
+					newUser= new User({
+						nombre: req.body.nombre,
+						cedula:req.body.cedula,
+						telefono:req.body.telefono,
+						sector:req.body.sector,
+						direccion:req.body.direccion,
+						edad:req.body.edad,
+						genero: req.body.genero,
+						username:req.body.username,
+						password: req.body.password,
+						eslocal:false,
+						esadministrador:false,
+						token:req.body.token,
+						activo:false,
+						imagen:""
+					})
+					User.createUser(newUser,(e,user)=>{
+						if(e)
+							res.send('Error: '+e)
+						else
+							res.send('ok')
+					}) 
+				}
 			})
-			User.createUser(newUser,(e,user)=>{
-				if(e)
-					res.render('500',{error:'Ha ocurrido un error al registrarse'})
-				else
-					res.render('registro',{success_msg:'Registrado con éxito, confirme su cuenta por favor'})
-			}) 
 		}
 	} 
-	*/
-	res.send('ok')
+})
+
+router.get('/confirmar',(req,res)=>{
+	res.render('confirmar')
+})
+router.post('/confirmar',(req,res)=>{
+	User.findOne().where({$and: [{username:req.body.username},{activo:false},{token:req.body.token}]}).exec((e,resp)=>{
+		if(e)
+			res.render('500',{error:e})
+		else{
+			if(resp!=null){
+				User.findOneAndUpdate({username:req.body.username},{activo:true, token:cadenaAleatoria()}).exec((e,resp)=>{
+					if(e)
+						res.render('500',{error:e})
+					else
+						res.render('login',{success_msg:'Ahora ya puedes iniciar sesión'})
+				})
+			}else{
+				res.render('confirmar',{error:'Este usuario no existe, el token es incorrecto o su cuenta ya estaba confirmada'})
+			}
+		}
+	})
+})
+
+//Cierra sesión________________________________________________________________________________________________________________________________________
+router.get('/logout',  (req, res)=> { req.logout(); res.redirect('/users/login'); });
+
+router.get('/olvido',(req,res)=>{
+	res.render('olvido')
+})
+
+router.post('/olvido-mail',(req,res)=>{
+	User.findOne().where({username:req.body.username}).select('token').exec((e,resp)=>{
+		if(e){
+			res.send('Error: '+e)
+		}
+		else{
+			if(resp !=null){
+				res.send(resp.token+'')
+			}else{
+				res.send('Error: No existe este usuario')
+			}
+		}
+		
+	})
+})
+
+router.get('/recuperar',(req,res)=>{
+	res.render('recuperar')
 })
 //#####################################################################################################
 

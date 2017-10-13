@@ -124,3 +124,10 @@
 #996600 CAfe
 #FFFFFF Blanco
 */
+
+#modal-carga{
+    background-image: url('../especifico/imagenes/cargando.gif')
+}
+.centrado{
+    text-align: center;
+}

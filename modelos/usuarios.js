@@ -15,7 +15,9 @@ var usuariosSchema = mongoose.Schema({
     password: String,
     eslocal:Boolean,
 	esadministrador:Boolean,
-	token:String
+	token:String,
+	activo:Boolean,
+	imagen:String
 });
 
 //Exporta el esquema para poder ser usado en cada ruta que sea  necesario____________________________________________________________________

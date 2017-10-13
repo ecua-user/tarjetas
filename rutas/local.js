@@ -5,15 +5,15 @@ cloudinary = require('cloudinary')
 
 //Confirma la autenticación del usuario________________________________________________________________
 function ensureAuthenticated(req, res, next) { 
-	if (req.isAuthenticated())
+	if (req.isAuthenticated() && req.user.eslocal)
 		return next(); 
 	else
-		res.redirect('/login'); 
+		res.redirect('/neutral'); 
 }
 
 //########################################  Se establecen las rutas ###################################
 
-router.get('/',(req,res)=>{
+router.get('/',ensureAuthenticated,(req,res)=>{
 	res.render('local')
 })
 

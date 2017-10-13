@@ -10,14 +10,19 @@
         <div class="fondo-blanco">
             <h2 class="centrado "><b>Login</b></h2>
             <img class="profile-img" src="../especifico/imagenes/login.png"  alt="">
+            <div id="centralMensajes">
+                {{#if success_msg}}<div class="alert alert-success">{{success_msg}}</div>{{/if}} 
+                {{#if error_msg}}<div class="alert alert-danger">{{error_msg}}</div>{{/if}} 
+                {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
+            </div>
             <form class="form-signin" action="/users/login" method="post">
-                <input type="email" class="form-control" placeholder="Email" required autofocus>
-                <input type="password" class="form-control" placeholder="Contraseña" required><br>
+                <input type="email" name="username" class="form-control" placeholder="Email" required autofocus>
+                <input type="password" name="password" class="form-control" placeholder="Contraseña" required><br>
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
             <div class="centrado">
-                <p><a href="/cliente/olvido">¿Olvidé mi contraseña?</a></p>
-                <p><a href="/cliente/confirma">Confirmar cuenta</a></p>
+                <p><a href="/users/olvido">¿Olvidé mi contraseña?</a></p>
+                <p><a href="/users/confirmar">Confirmar cuenta</a></p>
             </div>
         </div>
     </div>
