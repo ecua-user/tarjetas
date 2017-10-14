@@ -14,9 +14,12 @@
                 <div class="alert alert-danger" id="div-error" style="display:none"></div>
             </div>
             <img class="profile-img" src="../especifico/imagenes/login.png"  alt="">
+            <p class="centrado">Se enviará un token de recuperación a su email</p>
             <form class="form-signin" action="/users/olvido" method="post" onsubmit="olvido(event)">
+            <div class="form-group">
                 <input type="email" id="usuario-mail" name="username" class="form-control" placeholder="Email" required autofocus>
-                <br><button type="submit" class="btn btn-primary btn-block">Confirmar</button>
+            </div>
+                <button type="submit" class="btn btn-primary btn-block">Confirmar</button>
                 <a class="centrado btn-block" href="/users/recuperar">Tengo un token</a>
             </form>
         </div>

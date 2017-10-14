@@ -57,7 +57,7 @@ router.get('/login',(req,res)=>{
 	res.render('login')
 })
 
-router.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }), function (req, res) { dentro=true;res.redirect('/'); });
+router.post('/login', passport.authenticate('local', { successRedirect: '/neutral/', failureRedirect: '/users/login', failureFlash: true }), (req, res)=> { res.redirect('/'); });
 
 
 router.get('/registro',(req,res)=>{
@@ -151,6 +151,32 @@ router.post('/olvido-mail',(req,res)=>{
 
 router.get('/recuperar',(req,res)=>{
 	res.render('recuperar')
+})
+router.post('/recuperar',(req,res)=>{
+	if(req.body.password!=req.body.rpassword){
+		res.render('recuperar',{error:'Las contraseñas no coinciden'})
+	}else{
+		User.findOne().where({$and:[{username:req.body.username},{token:req.body.token}]}).select('token').exec((e,resp)=>{
+			if(e)
+				res.render('500',{error:e})
+			else{
+				if(resp!=null){
+					bcrypt.genSalt(10, function (err, salt) {
+						bcrypt.hash(req.body.password, salt, function (err, hash) {
+							User.findOneAndUpdate({ username: req.body.username }, {password: hash,	token: cadenaAleatoria()
+							}, (err)=> {
+								if (err)
+									res.render('500',{error:err})
+								else
+									res.render('login', { success_msg: 'Contraseña cambiada con éxito' });
+							});
+						});
+					});
+
+				}
+			}
+		})
+	}
 })
 //#####################################################################################################
 

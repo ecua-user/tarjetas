@@ -17,3 +17,7 @@ function cargando(){
 function no_cargando(){
     swal.close()
 }
+function cambiar_password(){
+    usuario=document.getElementById('id_user').innerText
+    $('#modal-password').modal()
+}

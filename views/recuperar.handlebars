@@ -1,1 +1,36 @@
-<h1>hola</h1>
+<style>
+    #body{
+        background-color: #666666;
+    }
+</style>
+<link rel="stylesheet" href="../especifico/estilos/login.css">
+<div class="row">
+    <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1"></div>
+    <div class="col-lg-4 col-md-6 col-sm-8 col-xs-10 margen">
+        <div class="fondo-blanco">
+            <h2 class="centrado "><b>Recuperación de la cuenta</b></h2>
+            <div id="centralMensajes">
+                <div class="alert alert-success" id="div-correcto" style="display:none"></div>
+                <div class="alert alert-danger" id="div-error" style="display:none"></div>
+            </div>
+            <img class="profile-img" src="../especifico/imagenes/login.png"  alt="">
+            <form class="form-signin" action="/users/recuperar" method="post">
+                <div class="form-group">
+                    <input type="email" name="username" class="form-control" placeholder="Email" required autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="text" maxlength="16" minlength="16" name="token" class="form-control" placeholder="Token" required>
+                </div>
+                <div class="form-group">
+                    <input  type="password" pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." minlength="8"  name="password" placeholder="Nueva contraseña" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." type="password" minlength="8"  name="rpassword" placeholder="Repetir nueva contraseña" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1"></div>
+</div>
+<script src="../especifico/scripts/users.js"></script>
