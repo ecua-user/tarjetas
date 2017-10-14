@@ -4,6 +4,7 @@ bcrypt = require('bcryptjs');
 
 //Se crea el esquema necesario_______________________________________________________________________________________________________________
 var usuariosSchema = mongoose.Schema({
+	codigo:String,
 	nombre: String,
 	cedula:String,
     telefono:String,

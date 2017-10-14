@@ -22,10 +22,10 @@
                     <input type="text" maxlength="16" minlength="16" name="token" class="form-control" placeholder="Token" required>
                 </div>
                 <div class="form-group">
-                    <input  type="password" pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." minlength="8"  name="password" placeholder="Nueva contraseña" class="form-control" required>
+                    <input  type="password"  minlength="8"  name="password" placeholder="Nueva contraseña" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <input pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." type="password" minlength="8"  name="rpassword" placeholder="Repetir nueva contraseña" class="form-control" required>
+                    <input  minlength="8"  name="rpassword" placeholder="Repetir nueva contraseña" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Continuar</button>
             </form>

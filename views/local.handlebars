@@ -1,11 +1,12 @@
 <link rel="stylesheet" href="../especifico/estilos/comprado.css">
 <div class="comprado">
     <div class="row comprado">
-        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+        <div class="col-lg-8 col-md-7 col-sm-8 col-xs-12">
             <h2 class="centrado">Activación de servicio</h2><br>
+            <img class="profile-img" src="{{user.imagen}}"  alt="">
             <div class="row">
-                <div class="col-lg-4 col-md-4"></div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-3"></div>
+                <div class="col-lg-4 col-md-6">
                     <form class="form-signin" action="/cliente/tarjeta" method="post">
                         <div class="form-group">
                             <label for="">Código</label>
@@ -20,10 +21,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-3"></div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
             <h2 class="centrado">Cliente</h2>
             <div class="alert alert-warning" role="alert">
                 <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="multiCollapseExample1" type="button" class="btn btn-warning" aria-label="Left Align">
@@ -41,3 +42,14 @@
         </div>
     </div>
 </div>
+<style>
+    .profile-img{
+        width: 126px;
+        height: 126px;
+        margin: 0 auto 10px;
+        display: block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }   
+</style>

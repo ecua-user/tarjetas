@@ -77,6 +77,7 @@ router.post('/registro',(req,res)=>{
 				}
 				else{
 					newUser= new User({
+						codigo:Date.now(),
 						nombre: req.body.nombre,
 						cedula:req.body.cedula,
 						telefono:req.body.telefono,
@@ -172,12 +173,53 @@ router.post('/recuperar',(req,res)=>{
 							});
 						});
 					});
-
 				}
 			}
 		})
 	}
 })
+router.get('/password',ensureAuthenticated,(req,res)=>{
+	renderizar='password-cliente'
+	if(req.user.esadministrador)
+		renderizar='password-admin'
+	if(req.user.eslocal)
+		renderizar='password-local'
+	res.render(renderizar)
+})
+
+
+router.post('/cambiar',ensureAuthenticated,(req,res)=>{
+	ruta='password-cliente'
+	if(req.user.esadministrador)
+		ruta='password-admin'
+	if(req.user.eslocal)
+		ruta='password-local'	
+	if(req.body.Npassword!=req.body.RNpassword)
+		res.render(ruta,{error:'Contraseñas no coinciden'})
+	else{
+		bcrypt.compare(req.body.password, req.user.password, (err, respuesta) =>{
+			if(err)
+				res.render('500',{error:err})
+			else{
+				if(!respuesta)
+					res.render(ruta,{error:'La contraseña es incorrecta'})
+				else{
+					bcrypt.genSalt(10, (err, salt) =>{
+						bcrypt.hash(req.body.Npassword, salt,  (err, hash)=> {
+							User.findOneAndUpdate({ username: req.user.username }, {password: hash}, (err)=> {
+								if (err){res.render('500',{error:err})}else{
+									req.logout()
+									res.render('login',{success_msg:'Contraseña cambiada'});
+								}
+							});
+						});
+					});
+				}	
+			}
+		});
+	}
+})
+
 //#####################################################################################################
 
 //Permite el enrutamiento______________________________________________________________________________
