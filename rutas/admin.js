@@ -165,7 +165,7 @@ router.get('/', ensureAuthenticated, (req, res) => { res.render('admin') })
                         if (e)
                             res.render('500', { error: e })
                         else
-                            res.render('admiin-ingresar-local', { success_msg: 'Local ingresado con éxito' })
+                            res.render('admin-ingresar-local', { success_msg: 'Local ingresado con éxito' })
                     })
                 }, { public_id: 'locales/' + codigo })
             }
