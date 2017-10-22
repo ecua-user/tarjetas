@@ -54,14 +54,14 @@ passport.deserializeUser((id, done)=> { User.getUserById(id,(err, user) =>{ done
 
 //########################################  Se establecen las rutas ###################################
 router.get('/login',(req,res)=>{
-	res.render('login')
+	res.render('users-login')
 })
 
 router.post('/login', passport.authenticate('local', { successRedirect: '/neutral/', failureRedirect: '/users/login', failureFlash: true }), (req, res)=> { res.redirect('/'); });
 
 
 router.get('/registro',(req,res)=>{
-	res.render('registro')
+	res.render('users-registro')
 })
 
 router.post('/registro',(req,res)=>{
@@ -91,6 +91,7 @@ router.post('/registro',(req,res)=>{
 						esadministrador:false,
 						token:req.body.token,
 						activo:false,
+						esvendedor:false,
 						imagen:""
 					})
 					User.createUser(newUser,(e,user)=>{
@@ -106,7 +107,7 @@ router.post('/registro',(req,res)=>{
 })
 
 router.get('/confirmar',(req,res)=>{
-	res.render('confirmar')
+	res.render('users-confirmar')
 })
 router.post('/confirmar',(req,res)=>{
 	User.findOne().where({$and: [{username:req.body.username},{activo:false},{token:req.body.token}]}).exec((e,resp)=>{
@@ -118,10 +119,10 @@ router.post('/confirmar',(req,res)=>{
 					if(e)
 						res.render('500',{error:e})
 					else
-						res.render('login',{success_msg:'Ahora ya puedes iniciar sesión'})
+						res.render('users-login',{success_msg:'Ahora ya puedes iniciar sesión'})
 				})
 			}else{
-				res.render('confirmar',{error:'Este usuario no existe, el token es incorrecto o su cuenta ya estaba confirmada'})
+				res.render('users-confirmar',{error:'Este usuario no existe, el token es incorrecto o su cuenta ya estaba confirmada'})
 			}
 		}
 	})
@@ -131,27 +132,25 @@ router.post('/confirmar',(req,res)=>{
 router.get('/logout',  (req, res)=> { req.logout(); res.redirect('/users/login'); });
 
 router.get('/olvido',(req,res)=>{
-	res.render('olvido')
+	res.render('users-olvido')
 })
 
 router.post('/olvido-mail',(req,res)=>{
 	User.findOne().where({username:req.body.username}).select('token').exec((e,resp)=>{
-		if(e){
+		if(e)
 			res.send('Error: '+e)
-		}
 		else{
-			if(resp !=null){
+			if(resp !=null)
 				res.send(resp.token+'')
-			}else{
+			else
 				res.send('Error: No existe este usuario')
-			}
 		}
 		
 	})
 })
 
 router.get('/recuperar',(req,res)=>{
-	res.render('recuperar')
+	res.render('users-recuperar')
 })
 router.post('/recuperar',(req,res)=>{
 	if(req.body.password!=req.body.rpassword){
@@ -169,7 +168,7 @@ router.post('/recuperar',(req,res)=>{
 								if (err)
 									res.render('500',{error:err})
 								else
-									res.render('login', { success_msg: 'Contraseña cambiada con éxito' });
+									res.render('users-login', { success_msg: 'Contraseña cambiada con éxito' });
 							});
 						});
 					});
@@ -179,21 +178,25 @@ router.post('/recuperar',(req,res)=>{
 	}
 })
 router.get('/password',ensureAuthenticated,(req,res)=>{
-	renderizar='password-cliente'
+	renderizar='users-password-cliente'
 	if(req.user.esadministrador)
-		renderizar='password-admin'
+		renderizar='users-password-admin'
 	if(req.user.eslocal)
-		renderizar='password-local'
+		renderizar='users-password-local'
+	if(req.user.esvendedor)
+		renderizar='users-password-vendedor'
 	res.render(renderizar)
 })
 
 
 router.post('/cambiar',ensureAuthenticated,(req,res)=>{
-	ruta='password-cliente'
+	ruta='users-password-cliente'
 	if(req.user.esadministrador)
-		ruta='password-admin'
+		ruta='users-password-admin'
 	if(req.user.eslocal)
-		ruta='password-local'	
+		ruta='users-password-local'	
+	if(req.user.esvendedor)
+		ruta='user-password-vendedor'
 	if(req.body.Npassword!=req.body.RNpassword)
 		res.render(ruta,{error:'Contraseñas no coinciden'})
 	else{
@@ -209,7 +212,7 @@ router.post('/cambiar',ensureAuthenticated,(req,res)=>{
 							User.findOneAndUpdate({ username: req.user.username }, {password: hash}, (err)=> {
 								if (err){res.render('500',{error:err})}else{
 									req.logout()
-									res.render('login',{success_msg:'Contraseña cambiada'});
+									res.render('users-login',{success_msg:'Contraseña cambiada'});
 								}
 							});
 						});

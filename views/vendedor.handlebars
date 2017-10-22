@@ -1,0 +1,31 @@
+<div class="comprado">
+    <ul class="nav nav-tabs ">
+        <li class="nav-item">
+            <a class="nav-link active" href="/vendedor/vender">Vender tarjetas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+        </li>
+    </ul>
+</div>
+<br>
+<div class=" comprado">
+    <h2 class="centrado">Venta de tarjetas</h2>
+    <br>
+    <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <form class="form-signin" action="/vendedor/venta" method="post">
+                <div class="form-group">
+                    <label for="">Código</label>
+                    <input step="1" type="number" class="form-control" required value="000000">
+                </div>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="email" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Vender</button>
+            </form>
+        </div>
+    </div>
+</div>

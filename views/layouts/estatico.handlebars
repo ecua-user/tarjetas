@@ -10,7 +10,7 @@
     <meta name="keywords" content="">
     <meta itemprop="name" content="República del Salvador Activa">
     <meta itemprop="description" content="Descuentos para toda clase de cosas">
-    <meta itemprop="image" content="../general/imagenes/logotipo.jpeg"/>
+    <meta itemprop="image" content="../general/imagenes/logotipo.jpeg" />
     <meta property="og:title" content="República del Salvador actíva" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="http://.com/" />
@@ -39,15 +39,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.2/sweetalert2.min.css">
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function(){
+        (function () {
             emailjs.init("user_cAAuKh7iKAYJ9IN6c9hs6");
         })();
     </script>
 </head>
+
 <body id="body">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Inicio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -55,21 +57,36 @@
             <div class="my-2 my-lg-0">
                 <ul class="nav navbar-nav navbar-right">
                     {{#if user}}
-                        <li><a class="nav-link" href="/users/logout">Cerrar sesión</a></li>
-                    {{else}}    
-                        <li><a class="nav-link" href="/users/login">Login</a></li>
-                        <li><a class="nav-link" href="/users/registro">Registrar</a></li>
-                     {{/if}}
-                    {{#if user.esadministrador}}
-                    <li><a class="nav-link" href="/admin/">Administrar</a></li>
-                    {{else}} 
-                        {{#if user.eslocal}}
-                            <li><a class="nav-link" href="/local/">Vender</a></li>
-                        {{else}} 
-                            <li><a class="nav-link" href="/cliente/comprado">He comprado</a></li>
-                        {{/if}}
-                    {{/if}}
-                    <li><a class="nav-link" href="/index/acerca">Acerca de</a></li>
+                    <li>
+                        <a class="nav-link" href="/users/logout">Cerrar sesión</a>
+                    </li>
+                    {{else}}
+                    <li>
+                        <a class="nav-link" href="/users/login">Login</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/users/registro">Registrar</a>
+                    </li>
+                    {{/if}} {{#if user.esadministrador}}
+                    <li>
+                        <a class="nav-link" href="/admin/">Administrar</a>
+                    </li>
+                    {{else}} {{#if user.eslocal}}
+                    <li>
+                        <a class="nav-link" href="/local/">Vender</a>
+                    </li>
+                    {{else}} {{#if user.esvendedor}}
+                    <li>
+                        <a class="nav-link" href="/vendedor/">Vender</a>
+                    </li>
+                    {{else}}
+                    <li>
+                        <a class="nav-link" href="/cliente/comprado">He comprado</a>
+                    </li>
+                    {{/if}} {{/if}} {{/if}}
+                    <li>
+                        <a class="nav-link" href="/index/acerca">Acerca de</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -85,4 +102,5 @@
     </footer>
 
 </body>
+
 </html>

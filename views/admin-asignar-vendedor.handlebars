@@ -1,0 +1,79 @@
+<ul class="nav nav-tabs hidden-sm hidden-xs">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/slider">Slider</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+    </li>
+</ul>
+<div id="opciones"></div>
+<br>
+<script src="../especifico/scripts/opciones.js"></script>
+<div class="alert alert-primary margen-row" role="alert">
+    <h3 class="centrado ">Asignar tarjetas a vendedor</h3>
+</div>
+<div class="row alert">
+    <div class="col-lg-4 col-sm-2 col-md-3"></div>
+    <div class="col-lg-4 col-sm-8 col-md-6">
+        <form  action="/admin/asignar-vendedor" method="post">
+            <div class="form-group row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="">Fecha y hora</label>
+                    <input type="datetime-local" autocomplete="" class="form-control" readonly>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="">Vendedor</label>
+                    <select name="vendedor" class="form-control" id="">
+                        
+                    </select>
+                </div>          
+            </div>
+            <div class="form-group">
+                <label for="">Desde la tarjeta número:</label>
+                <input type="number" class="form-control" name="tarjeta-ini" min="0" step="1" value="0000">
+            </div>
+            <div class="form-group">
+                <label for="">Hasta la tarjeta número:</label>
+                <input type="number" class="form-control" name="tarjeta-fin" min="0" step="1" value="0000">
+            </div>
+            <button type="submit" class="btn btn-info">Hacer entrega</button>
+        </form>
+    </div>
+    <div class="col-lg-4 col-sm-2 col-md-3"></div>
+</div>
+
+<link rel="stylesheet" href="../especifico/estilos/admin.css">

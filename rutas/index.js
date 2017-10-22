@@ -3,7 +3,7 @@ express = require('express')
 router = express.Router()
 
 //########################################  Se establecen las rutas ###################################
-router.get('/',(req,res)=>{
+router.get('/',(req,res)=>{ 
     res.render('index')
 })
 
@@ -14,8 +14,12 @@ router.get('/neutral',(req,res)=>{
         else{
             if(req.user.eslocal)
                 res.redirect('/local')
-            else
-                res.redirect('/cliente/comprado')
+            else{
+                if(req.user.esvendedor)
+                    res.redirect('/vendedor')
+                else
+                    res.redirect('/cliente/comprado')
+            }     
         }
     }catch(e){
         res.redirect('/users/login')

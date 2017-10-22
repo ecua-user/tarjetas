@@ -17,6 +17,7 @@ function cargando(){
 function no_cargando(){
     swal.close()
 }
-function cambiar_password(){
-    $('#modal-password').modal({backdrop:'static'})
+
+function asignar(id,contenido){
+    document.getElementById(id).value=contenido
 }

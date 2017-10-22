@@ -1,7 +1,6 @@
 //Dependencias necesarias______________________________________________________________________________
 express = require('express')
 router = express.Router()
-cloudinary = require('cloudinary')
 
 //Confirma la autenticación del usuario________________________________________________________________
 function ensureAuthenticated(req, res, next) { 
@@ -12,7 +11,6 @@ function ensureAuthenticated(req, res, next) {
 }
 
 //########################################  Se establecen las rutas ###################################
-
 router.get('/',ensureAuthenticated,(req,res)=>{
 	res.render('local')
 })
