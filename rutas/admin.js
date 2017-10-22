@@ -229,17 +229,15 @@ router.get('/', ensureAuthenticated, (req, res) => { res.render('admin') })
         })
 
 //Tarjeta______________________________________________________________________________________________________
-    function atributo(){
-        
-    }
+
     /*Ingreso:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-    router.get('/reg-tarj', (req, res) => { 
+    router.get('/reg-tarj', ensureAuthenticated,(req, res) => { 
         User.find().where({eslocal:true}).exec((error,locales)=>{
             res.render('admin-reg-tarj',{locales:locales}) 
         })
     })
 
-    router.post('/ing-tarjeta',(req,res)=>{
+    router.post('/ing-tarjeta',ensureAuthenticated,(req,res)=>{
         var query=new Array()
         var localeshtml=req.body.locales
         var locales_elegidos=''
