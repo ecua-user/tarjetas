@@ -135,12 +135,11 @@ function validaciones(event) {
 		if(opciones[i].selected)
 			contador++
 	}
-	/*
 	if(contador<40 || contador>40){
 		presentarError('Deben elegirse 40 locales comerciales',event)
 		return
 	}
-	*/
+	
 }
 function presentarError(mensaje,event) {
 	no_cargando()
