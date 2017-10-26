@@ -52,8 +52,9 @@
     <div class="row margen-row">
         <div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
             <h4 class="centrado">Datos</h4>
+            <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
             <div id="centralMensajes">
-                <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
+                
                 {{#if success_msg}}
                 <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
                 <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
