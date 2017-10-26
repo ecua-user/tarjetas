@@ -49,55 +49,90 @@
     <h3 class="centrado ">Ingresar local</h3>
 </div>
 <form action="/admin/ingresar-local" method="post" enctype="multipart/form-data">
-    <div class="row margen-row">
-        <div class="col-lg-3 col-md-3 col-sm-3 ">
+    <div id="centralMensajes" class="margen-row">
+        {{#if success_msg}}
+        <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
+        <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>{{/if}}
+    </div>
+    <div class="row margen-row" >
+        <div class="col-lg-3 col-md-3 col-sm-5">
+            <h4 class="centrado">Logotipo</h4>
             <div id="poder form-signin">
-                <img src="../especifico/imagenes/local.png" class="img-responsive"  id="img_destino">
+                <img src="../especifico/imagenes/local.png" class="img-responsive" id="img_destino">
             </div>
             <div class="form-group">
-                <div class="div_file btn btn-info " >
+                <div class="div_file btn btn-info ">
                     <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
                     320 X 320
-                    <input type="file" class="btn_enviar" id="file_url"  accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)" required/>            
+                    <input type="file" class="btn_enviar" id="file_url" accept=".jpg,.png," name="image_logotipo" onchange="alertaOferta(this,this.files[0].size)"
+                        required/>
                 </div>
             </div>
         </div>
-        <div class="col-lg-9 col-md-9 col-sm-9" style="height:530px">
-            <div id="centralMensajes">
-                {{#if success_msg}}<div class="alert alert-success">{{success_msg}}</div>{{/if}} 
-                {{#if error_msg}}<div class="alert alert-danger">{{error_msg}}</div>{{/if}} 
-                {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
+        <div class="col-lg-3 col-md-3 col-sm-5">
+            <h4 class="centrado">Beneficio</h4>
+            <div id="poder1 form-signin">
+                <img src="../especifico/imagenes/local.png" class="img-responsive" id="img_destino1">
             </div>
-            <h3 class="centrado">Datos</h3><br>
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="form-group">
-                        <label for=""><b>Razón Social</b></label>
-                        <input type="text" name="nombre" class="form-control" placeholder="Nombre del local" required>
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Email</b></label>
-                        <input type="email" name="username" placeholder="Email del local" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="form-group">
-                        <label for=""><b>Contraseña</b></label>
-                        <input type="password" minlength="8" name="password" class="form-control" placeholder="Contraseña" required>
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Repetir Contraseña</b></label>
-                        <input type="password" minlength="8" name="rpassword" class="form-control" placeholder=" Repetir contraseña" required>
-                    </div>
-                    <div class="form-group" style="text-align:right">
-                        <button type="submit" class="btn btn-outline-primary " aria-label="Left Align">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </button>
-                    </div>
+            <div class="form-group">
+                <div class="div_file btn btn-info ">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    320 X 320
+                    <input type="file" class="btn_enviar" id="file_url1" accept=".jpg,.png," name="image_beneficio" onchange="alertaOferta1(this,this.files[0].size)"
+                        required/>
                 </div>
             </div>
-            
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-5">
+            <div class="form-group">
+                <label for="">
+                    <b>Razón Social</b>
+                </label>
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre del local" required>
+            </div>
+            <div class="form-group">
+                <label for="">
+                    <b>Beneficio %</b>
+                </label>
+                <input type="number" value="0" name="beneficio" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for=""><b>Dirección</b></label>
+                <input type="text" placeholder="Dirección" name="direccion" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for=""><b>Teléfono</b></label>
+                <input type="tel" placeholder="teléfono" name="telefono" class="form-control" required>
+            </div>
+             <div class="form-group">
+                <label for=""><b>Inf. Adicional</b></label>
+                <input type="text" placeholder="Info" name="adicional" class="form-control" required>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-5">
+            <div class="form-group">
+                <label for=""><b>Email</b></label>
+                <input type="email"  class="form-control" name="username" placeholder="Email">
+            </div>   
+            <div class="form-group">
+                <label for="">
+                    <b>Contraseña</b>
+                </label>
+                <input type="password" minlength="8" name="password" class="form-control" placeholder="Contraseña" required>
+            </div>
+            <div class="form-group">
+                <label for="">
+                    <b>Repetir Contraseña</b>
+                </label>
+                <input type="password" minlength="8" name="rpassword" class="form-control" placeholder=" Repetir contraseña" required>
+            </div> 
+            <div class="form-group" style="text-align:right">
+                <button type="submit" class="btn btn-outline-primary " aria-label="Left Align">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </button>
+            </div>     
         </div>
     </div>
-    </form>
+</form>
 <link rel="stylesheet" href="../especifico/estilos/admin.css">

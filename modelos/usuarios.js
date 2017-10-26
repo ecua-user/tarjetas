@@ -18,7 +18,10 @@ var usuariosSchema = mongoose.Schema({
 	esadministrador:Boolean,
 	token:String,
 	activo:Boolean,
-	imagen:String,
+	logotipo:String,
+	beneficio:String,
+	beneficio_img:String,
+	adicional:String,
 	esvendedor:Boolean
 });
 

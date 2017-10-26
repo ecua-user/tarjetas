@@ -48,7 +48,7 @@
 <div class="alert alert-primary  margen-row" role="alert">
     <h3 class="centrado ">Registrar tarjetas</h3>
 </div>
-<form action="/admin/ing-tarjeta" method="post" onsubmit="validaciones(event)">
+<form action="/admin/ing-tarjeta" method="post" onsubmit="validaciones(event)" enctype="multipart/form-data">
     <div class="row margen-row">
         <div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
             <h4 class="centrado">Datos</h4>
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6">
-            <!--<h4 class="centrado">Imágen</h4>
+            <h4 class="centrado">Imágen</h4>
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-8">
@@ -104,10 +104,10 @@
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
             <h4 class="centrado">Locales</h4>
             <p class="centrado">CTRL para seleccionar mas</p>
-            <select name="locales" size="10" id=""  multiple class="form-control">
+            <select name="locales" size="10" id="" required multiple class="form-control">
                 {{#if locales}}
                     {{#each locales}}
                         <option value="{{this.codigo}}">{{this.nombre}}</option>

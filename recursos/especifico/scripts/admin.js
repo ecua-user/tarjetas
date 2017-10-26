@@ -18,6 +18,26 @@ function alertaOferta(input, val) {
 		}
 	}
 }
+function alertaOferta1(input, val) {
+	document.getElementById('centralMensajes').innerHTML = ''
+	var imagenAnterior = document.getElementById('img_destino1').src;
+	if ((val / 1024) > 3000) {
+		document.getElementById('centralMensajes').innerHTML = '<div class="alert alert-danger">Esta imágen pesa mas de 3Mb</div>';
+		document.getElementById('file_url1').value = ''
+		$('#esconder').css("display", "none")
+		document.getElementById('img_destino1').src = imagenAnterior;
+	} else {
+		$('#esconder').css("display", "block")
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload =  (e)=> {
+				$('#img_destino1').attr('src', e.target.result);
+				document.getElementById('poder1').style.display = 'block';
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+}
 
 function modificar_vendedor(identidad){
 	envio={codigo:identidad}
@@ -69,6 +89,7 @@ function filtro_vendedores(){
 }
 
 function modificar_local(identidad){
+	
 	cargando();
 	envio={codigo:identidad}
 	$.ajax({
@@ -79,7 +100,11 @@ function modificar_local(identidad){
 		asignar('modificar-nombre',datos.nombre)
 		asignar('modificar-email',datos.username)
 		asignar('modificar-cod',datos.codigo)
-		document.getElementById('img_destino').setAttribute('src',datos.imagen)
+		asignar('modificar-beneficio',datos.beneficio)
+		asignar('modificar-direccion',datos.direccion)
+		asignar('modificar-telefono',datos.telefono)	
+		document.getElementById('img_destino').setAttribute('src',datos.logotipo)
+		document.getElementById('img_destino1').setAttribute('src',datos.beneficio_img)
 		no_cargando()
 		$('#modal-modificar-local').modal()
 	})
@@ -135,11 +160,12 @@ function validaciones(event) {
 		if(opciones[i].selected)
 			contador++
 	}
+	/*
 	if(contador<40 || contador>40){
 		presentarError('Deben elegirse 40 locales comerciales',event)
 		return
 	}
-	
+	*/
 }
 function presentarError(mensaje,event) {
 	no_cargando()

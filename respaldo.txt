@@ -1,0 +1,19 @@
+<div class="form-group">
+                            <input type="text" style="display:none" id="modificar-cod" name="codigo">
+                            <label for="">Razón social</label>
+                            <input id="modificar-nombre" required type="text" name="nombre" class="form-control">
+                        </div>
+                        <div id="poder form-signin">
+                            <img src="../especifico/imagenes/local.png" class="img-responsive"  id="img_destino">
+                        </div>
+                        <div class="form-group">
+                            <div class="div_file btn btn-info " >
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                                320 X 320
+                                <input type="file" class="btn_enviar" id="file_url"  accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)"/>            
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="email" required name="username" class="form-control" id="modificar-email">
+                        </div>

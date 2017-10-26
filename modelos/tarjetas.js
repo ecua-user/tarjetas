@@ -4,6 +4,8 @@ TarjetaSchema=new mongoose.Schema({
     fechainicial:Date,
     fechafinal:Date,
     locales:Array,
-    activacion:String
+    imagen:String,
+    activacion:String,
+    activo:Boolean
 }) 
 var Tarjetas=module.exports=mongoose.model('Tarjetas',TarjetaSchema);
