@@ -34,7 +34,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/slider">Slider</a>
+        <a class="nav-link" href="/admin/slider">Home</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/users/password">Cambiar contraseña</a>
@@ -58,8 +58,9 @@
             </div>
         </div>
     </div>
-    <div class="alert alert-secondary" role="alert">
+    
         {{#if vendedor}} {{#each vendedor}}
+        <div class="alert alert-secondary" role="alert">
         <div class="vendedores-buscar row">
             <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
                 <h4 class="busqueda">{{this.cedula}} {{this.nombre}}, {{this.edad}} años</h4>
@@ -73,8 +74,9 @@
                 </button>
             </div>
         </div>
+        </div>
         {{/each}} {{/if}}
-    </div>
+    
 </div>
 
 

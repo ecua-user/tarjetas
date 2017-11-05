@@ -32,13 +32,21 @@ router.get('/neutral',(req,res)=>{
 router.get('/tarjetas:codigo',(req,res)=>{
     var codigoE=(req.params.codigo).substr(1,req.params.codigo.length)
     ImgTarjeta.findOne().where({codigo:codigoE}).exec((error,respuesta)=>{
+        if(error)
+            res.render('500',{error:error})
+        else{
             query = new Array()
-            for (var i = 0; i < respuesta.locales.length; i++) {
-                query.push({ codigo: respuesta.locales[i].local })
+            if(respuesta!=null){
+                for (var i = 0; i < respuesta.locales.length; i++) {
+                    query.push({ codigo: respuesta.locales[i].local })
+                }
+                User.find().where({ $and: [{ $or: query }, { eslocal: true }] }).exec((err, resp) => {
+                    res.render('locales', { locales: resp, tarjeta: respuesta.imagen, inicial:respuesta.inicial, final:respuesta.final})
+                })
+            }else{
+                res.render('500',{error: 'No existe'})
             }
-            User.find().where({ $and: [{ $or: query }, { eslocal: true }] }).exec((err, resp) => {
-                res.render('locales', { locales: resp, tarjeta: respuesta.imagen, inicial:respuesta.inicial, final:respuesta.final})
-            })
+        }           
     })
 })
 //#####################################################################################################

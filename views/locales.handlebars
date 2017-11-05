@@ -11,7 +11,7 @@
        background: rgba(39, 75, 100, 0.4);
    }
    #info:hover {
-        background-color: white;
+        background-color: white; 
     }
 </style>
 <link rel="stylesheet" href="../especifico/estilos/index.css">
@@ -68,13 +68,13 @@
                         </div>          
                         <div class="caption" style="height:1%">
                             <div style="display:none">
-                                <p id="di_loc">{{this.direccion}}</p>
-                                <p id="tel_loc">{{this.telefono}}</p>
-                                <p id="adic-loc">{{this.adicional}}</p>
-                                <p id="img-ben">{{this.beneficio_img}}</p>
+                                <p id="di_loc{{this.codigo}}">{{this.direccion}}</p>
+                                <p id="tel_loc{{this.codigo}}">{{this.telefono}}</p>
+                                <p id="adic-loc{{this.codigo}}">{{this.adicional}}</p>
+                                <p id="img-ben{{this.codigo}}">{{this.beneficio_img}}</p>
                             </div>
                             <h5 class="centrado"><b class="blanco" id="nom{{this.codigo}}">{{this.nombre}}</b></h5>
-                            <p class="centrado blanco" id="benef-loc">{{this.beneficio}} % de descuento</p>   
+                            <p class="centrado blanco" id="benef-loc{{this.codigo}}">{{this.beneficio}}</p>   
                             <a class="borde-redondo"><button class="btn btn-primary" onclick="detallar('{{this.codigo}}')" style="width:100%;">Mas información</button></a>                         
                         </div>
                     </a>

@@ -173,3 +173,60 @@ function presentarError(mensaje,event) {
 	document.getElementById('div-peligro').innerText = mensaje
 	document.getElementById('div-peligro').style.display = 'block'
 }
+function switchSliderVideo(){
+	cargando()
+	if( $('#chek-video-slider').is(':checked') ){
+		document.getElementById('selecHome').innerText='Slider'
+		envio={decision:'slider'}
+	}	
+	else{
+		document.getElementById('selecHome').innerText='Video'
+		envio={decision:'video'}
+	}
+	$.ajax({
+		method: "POST",
+		url: "/admin/home",
+		data: envio
+	}).done(( respuesta )=>{
+		no_cargando()
+		swal("Listo", respuesta)
+	})
+}
+
+
+
+function comprobar_validez(event){	
+	document.getElementById('div-error').innerText=''
+	document.getElementById('div-error').style.display='none'
+	event.preventDefault()
+	if(valor('tarj_ini')>valor('tarje_fin')){
+		document.getElementById('div-error').innerText='Tarjeta final debe ser mayor a inicial'
+		document.getElementById('div-error').style.display='block'	
+		return;
+	}
+	cargando()
+	var envio={tarjeta_ini:valor('tarj_ini'), tarjeta_fin:valor('tarje_fin')}
+	$.ajax({
+		method: "POST",
+		url: "/admin/comprobacion",
+		data: envio
+	}).done(( respuesta )=>{
+		var resta=Number(envio.tarjeta_fin)-Number(envio.tarjeta_ini)
+		resta++
+		if(resta!=respuesta){
+			document.getElementById('div-error').innerText='No estan registradas algunas de esas tarjetas o ya han sido asignadas a un vendedor'
+			document.getElementById('div-error').style.display='block'			
+		}else{
+			envio={tarjeta_ini:valor('tarj_ini'), tarjeta_fin:valor('tarje_fin'), vendedor:valor('todos_vendedores'), fecha:valor('fechayhora')}
+			$.ajax({
+				method: "POST",
+				url: "/admin/asignar-vendedor",
+				data: envio
+			}).done(( respuesta )=>{
+				swal("Listo", respuesta)
+				location.reload();
+			})
+		}
+		no_cargando();
+	})
+}

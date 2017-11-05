@@ -21,3 +21,6 @@ function no_cargando(){
 function asignar(id,contenido){
     document.getElementById(id).value=contenido
 }
+function obtenerTexto(identidad){
+    return document.getElementById(identidad).innerText
+}

@@ -12,122 +12,153 @@
         </li>
     </ul>
     <div class="row comprado">
-        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+        <div class="col-lg-8 col-md-7 ">
             <h2 class="centrado">Perfil</h2>
             <div class="alert alert-success" role="alert">
                 <button data-toggle="collapse" href="#activos" aria-expanded="false" aria-controls="activos" type="button" class="btn btn-success"
                     aria-label="Left Align">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                </button> Mis tarjetas activas (1)
+                </button> Mis tarjetas activas (<b id="num_act"></b>)
             </div>
             <div class="collapse multi-collapse" id="activos">
                 <div class="card card-body">
-                    <div class="alert alert-secondary" role="alert">
+                    {{#if activas}} {{#each activas}}
+                    <div class="alert alert-secondary trj_activas" role="alert">
                         <div class="row">
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-info" aria-label="Left Align">
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-5">
+                                <button id="{{this.numero}}" onclick="detallar_trj(this.id)" type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                 </button>
-                           </div>
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-primary" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                </button>
-                           </div>
-                           <div class="col-lg-8 col-md-6 col-sm-6">
-                               <h3>Código: <i> 00003 </i></h3>   
-                           </div>
-                           <div class="col-lg-2 col-md-2 col-sm-6  centrado">
-                               <b>40&#47;40</b>
-                           </div>
-                       </div>
+                            </div>
+                            <div class="col-lg-10 col-md-8 col-sm-8 col-xs-7">
+                                <h3>Tarjeta : #
+                                    <i> {{this.numero}} </i>
+                                </h3>
+                            </div>
+                        </div>
                     </div>
+                    {{/each}} {{/if}}
+
                 </div>
             </div>
             <div class="alert alert-warning" role="alert">
-                <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="multiCollapseExample1" type="button" class="btn btn-warning" aria-label="Left Align">
+                <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="multiCollapseExample1" type="button"
+                    class="btn btn-warning" aria-label="Left Align">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </button>
-                Mis tarjetas finalizadas (1)
+                Mis tarjetas finalizadas (<b id="num_fin"></b>)
             </div>
             <div class="collapse multi-collapse" id="finalizados">
                 <div class="card card-body">
-                   <div class="alert alert-secondary" role="alert">
-                       <div class="row">
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-info" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                                </button>
-                           </div>
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-primary" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                </button>
-                           </div>
-                           <div class="col-lg-8 col-md-6 col-sm-6">
-                               <h3>Código: <i> 00002 </i></h3>   
-                           </div>
-                           <div class="col-lg-2 col-md-2 col-sm-6  centrado">
-                               <b>40&#47;40</b>
-                           </div>
-                       </div>
+                    <div class="alert alert-secondary" role="alert">
+                        {{#if finalizadas}} {{#each finalizadas}}
+                        <div class="alert alert-secondary trj_fin" role="alert">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-2 col-sm-6">
+                                    <button id="{{this.numero}}" onclick="detallar_trj(this.id)" type="button"  class="btn btn-info" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="col-lg-1 col-md-2 col-sm-6">
+                                    <button type="button" onclick="renovar()" class="btn btn-primary" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="col-lg-8 col-md-6 col-sm-6">
+                                    <h3>Tarjeta : #
+                                        <i> {{this.numero}} </i>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}} {{/if}}
+
                     </div>
                 </div>
             </div>
             <div class="alert alert-danger" role="alert">
-                 <button data-toggle="collapse" href="#caducados" aria-expanded="false" aria-controls="caducados" type="button" class="btn btn-danger" aria-label="Left Align">
+                <button data-toggle="collapse" href="#caducados" aria-expanded="false" aria-controls="caducados" type="button" class="btn btn-danger"
+                    aria-label="Left Align">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </button>
-                Mis tarjetas caducadas  (1)
+                Mis tarjetas caducadas (<b id="num_cad"></b>)
             </div>
             <div class="collapse multi-collapse" id="caducados">
                 <div class="card card-body">
-                   <div class="alert alert-secondary" role="alert">
+                    {{#if caducadas}} {{#each caducadas}}
+                    <div class="alert alert-secondary trj_cad" role="alert">
                         <div class="row">
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-info" aria-label="Left Align">
+                            <div class="col-lg-1 col-md-2 col-sm-6">
+                                <button id="{{this.numero}}" onclick="detallar_trj(this.id)" type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                 </button>
-                           </div>
-                           <div class="col-lg-1 col-md-2 col-sm-6">
-                               <button type="button" class="btn btn-primary" aria-label="Left Align">
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-sm-6">
+                                <button type="button" onclick="renovar()" class="btn btn-primary" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                                 </button>
-                           </div>
-                           <div class="col-lg-8 col-md-6 col-sm-6">
-                               <h3>Código: <i> 00001 </i></h3>   
-                           </div>
-                           <div class="col-lg-2 col-md-2 col-sm-6  centrado">
-                               <b>40&#47;40</b>
-                           </div>
-                       </div>
+                            </div>
+                            <div class="col-lg-8 col-md-6 col-sm-6">
+                                <h3>Tarjeta: #
+                                    <i> {{this.numero}} </i>
+                                </h3>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {{/each}} {{/if}}
             </div>
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
-            <h2 class="centrado">Notificaciones</h2>
-            <div class="alert alert-warning" role="alert">
-                <button data-toggle="collapse" href="#notificaciones" aria-expanded="false" aria-controls="notificaciones" type="button"
-                    class="btn btn-warning" aria-label="Left Align">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                </button> Detalles
-            </div>
-            <div class="collapse multi-collapse" id="notificaciones">
-                <div class="card card-body">
-                    <div class="alert alert-secondary" role="alert">
-                        <div class="alert alert-warning" role="alert">
-                            El día 9/10/2017 a las 9:00 am se ha hecho uso de la tarjeta en el local "Local1"
-                        </div> 
-                        <div class="alert alert-warning" role="alert">
-                            El día 8/10/2017 a las 12:00 am se ha hecho uso de la tarjeta en el local "Local2"
-                        </div> 
-                        <div class="alert alert-warning" role="alert">
-                            El día 8/10/2017 a las 10:00 am se ha hecho uso de la tarjeta en el local "Local3"
-                        </div> 
+    </div>
+    <div class="col-lg-4 col-md-5">
+        <h2 class="centrado">Notificaciones</h2>
+        <div class="alert alert-warning" role="alert">
+            <button data-toggle="collapse" href="#notificaciones" aria-expanded="false" aria-controls="notificaciones" type="button"
+                class="btn btn-warning" aria-label="Left Align">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </button> Detalles
+        </div>
+        <div class="collapse multi-collapse" id="notificaciones">
+            <div class="card card-body">
+                <div class="alert alert-secondary" role="alert">
+                    {{#if notificaciones}} {{#each notificaciones}}
+                    <div class="alert alert-warning" role="alert">
+                        El día {{this.fecha}} a las {{this.hora}} se ha hecho uso de la tarjeta {{this.numero}} en el local "{{this.local}}"
                     </div>
+                    {{/each}} {{/if}}
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
+<script src="../especifico/scripts/index.js"></script>
+<script>
+    window.addEventListener('load',conteoTarj)
+</script>
+
+<div id="detalle-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tarjeta # <b id="txtnum"></b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="centrado">Válido desde: <i id="txt-desde"></i></p>
+        <p class="centrado">Válido hasta: <i id="txt-hasta"></i></p>
+        <strong ><h3>Locales:</h3></strong>
+        <table class="table" id="tabla_locales">
+            <th>
+                <td>Local</td>
+                <td>Estado</td>
+            </th>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>

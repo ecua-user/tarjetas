@@ -6,6 +6,11 @@ TarjetaSchema=new mongoose.Schema({
     locales:Array,
     imagen:String,
     activacion:String,
-    activo:Boolean
+    activo:Boolean,
+    vendedor:String,
+    fechaasignacion:Date,
+    fechaventa: Date,
+    vendida:Boolean,
+    cliente:String
 }) 
 var Tarjetas=module.exports=mongoose.model('Tarjetas',TarjetaSchema);

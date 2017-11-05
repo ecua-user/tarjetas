@@ -11,6 +11,7 @@
     User = require('../modelos/usuarios')
     Tarjeta = require('../modelos/tarjetas')
     ImgTarjeta = require('../modelos/img_tarjetas')
+    Configuracion = require('../modelos/configuracion')
 
 //Confirma la autenticación del usuario_____________________________________________________________________
     function ensureAuthenticated(req, res, next) {
@@ -116,8 +117,7 @@
             else
                 res.redirect('/admin/modificar-vendedor')
         })
-    })
-    
+    })   
     /*Elimina al vendedor */
     router.post('/eliminar-vendedor', ensureAuthenticated, (req, res) => {
         User.findOneAndRemove({ codigo: req.body.codigo }, (error, respuesta) => {
@@ -127,10 +127,32 @@
                 res.send('Elimiando con éxito')
         })
     })
-    
-    /*Asignación de tarjetas*/
     router.get('/asignar-vendedor', ensureAuthenticated, (req, res) => {
-        res.render('admin-asignar-vendedor')
+        User.find().where({esvendedor: true}).exec((err,vendedores)=>{
+            if(err)
+                res.render('500',{error:err})
+            else
+                res.render('admin-asignar-vendedor',{vendedor:vendedores})
+        })  
+    })
+    router.post('/asignar-vendedor',ensureAuthenticated,(req,res)=>{
+        try {
+            for(var i=req.body.tarjeta_ini;i<=req.body.tarjeta_fin;i++){
+                Tarjeta.findOneAndUpdate({numero:i},{vendedor:req.body.vendedor, fechaasignacion: new Date(req.body.fecha)},(err,resp)=>{})
+            }
+            res.send('Tarjetas asignadas') 
+        } catch (error) {
+            res.send('Error')
+        }                 
+    })
+    router.post('/comprobacion',ensureAuthenticated,(req,res)=>{
+        var query=new Array()
+        for(var i=req.body.tarjeta_ini;i<=req.body.tarjeta_fin;i++){
+            query.push({$and:[{'numero':i},{'vendedor':""}]})
+        }
+        Tarjeta.find().where({$or:query}).exec((err,respuesta)=>{
+            res.send(''+respuesta.length)
+        })
     })
 
 //Local_____________________________________________________________________________________________________
@@ -340,7 +362,10 @@
                                         locales: elegidos,
                                         imagen: newCodigo,
                                         activo: false,
-                                        activacion: cadenaAleatoria()
+                                        vendedor:"",
+                                        vendida:false,
+                                        activacion: cadenaAleatoria(),
+                                        cliente:""
                                     })
                                     nuevaTarjeta.save((error, respuesta) => {
                                         if (error)
@@ -402,13 +427,38 @@
 //Slider____________________________________________________________________________________________________
 
     /*Ingresar imagenes:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-    router.get('/slider', ensureAuthenticated, (req, res) => { res.render('admin-slider') })
+    router.get('/slider', ensureAuthenticated, (req, res) => { 
+        Configuracion.findOne().where({codigo:1}).exec((error,respuesta)=>{
+            if(respuesta.slider==true)
+                res.render('admin-slider',{chek:'checked', texto:'Slider'}) 
+            else    
+                res.render('admin-slider',{chek:'', texto:'Video'}) 
+        })   
+    })
 
     /*Modificar imagenes::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
     router.get('/modificar-slider', (req, res) => {
         res.render('admin-modificar-slider')
     })
 
+    /*cambiar home*/
+    router.post('/home',ensureAuthenticated,(req,res)=>{
+        if(req.body.decision=='slider'){
+            Configuracion.findOneAndUpdate({codigo:1},{slider:true,video:false},(error,respuesta)=>{
+                if(error)
+                    res.send('error')
+                else
+                    res.send('ok')
+            })
+        }else{
+            Configuracion.findOneAndUpdate({codigo:1},{slider:false,video:true},(error,respuesta)=>{
+                if(error)
+                    res.send('error')
+                else
+                    res.send('ok')
+            })
+        }
+    })
 
 //Permite el enrutamiento___________________________________________________________________________________
     module.exports = router;
