@@ -1,24 +1,106 @@
 <br>
-<div class="fondo-blanco">
-        <div class="card text-center">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
+<div class="fondo-blanco" style="min-height:540px">
+    <div class="card text-center" style="min-height:540px">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
                     <a id="link-indiv" class="nav-link active" href="/cliente/perfil">Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="link-grup" class="nav-link" href="/cliente/comprado">Activar tarjeta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="link-grup" class="nav-link" href="/users/password">Cambiar contraseña</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <div class="alert alert-danger" id="control_error" style="display:none"></div>
-            </div>
-            <div class="card-body">
+                </li>
+                <li class="nav-item">
+                    <a id="link-grup" class="nav-link" href="/cliente/comprado">Activar tarjeta</a>
+                </li>
+                <li class="nav-item">
+                    <a id="link-grup" class="nav-link" href="/users/password">Cambiar contraseña</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="alert alert-danger" id="control_error" style="display:none"></div>
+        </div>
+        <div class="card-body" style="text-align:left">
+            <h2 class="centrado">Perfil</h2>
+            <br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <h3 class="centrado">Notificaciones</h3>
+                    <div class="alert alert-warning" role="alert">
+                        <button data-toggle="collapse" href="#notificaciones" aria-expanded="false" aria-controls="notificaciones" type="button"
+                            class="btn btn-warning" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                        </button> Detalles
+                    </div>
+                    <div class="collapse multi-collapse" id="notificaciones">
+                        <div class="card card-body">
+                            <div class="alert alert-secondary" role="alert">
+                                {{#if notificaciones}} {{#each notificaciones}}
+                                <div class="alert alert-warning" role="alert">
+                                    El día {{this.fecha}} a las {{this.hora}} se ha hecho uso de la tarjeta {{this.numero}} en el local "{{this.local}}"
+                                </div>
+                                {{/each}} {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <h3 class="centrado">Mis Tarjetas</h3>
+                    <div class="alert alert-success" role="alert">
+                        <button data-toggle="collapse" href="#activos" aria-expanded="false" aria-controls="activos" type="button" class="btn btn-success"
+                            aria-label="Left Align">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                        </button> Mis tarjetas activas (
+                        <b id="num_act"></b>)
+                    </div>
+                    <div class="collapse multi-collapse" id="activos">
+                        <div class="card card-body">
+                            {{#if activas}} {{#each activas}}
+                            <div class="alert alert-secondary trj_activas" role="alert">
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-2 col-sm-2 col-xs-5">
+                                        <button id="{{this.numero}}" onclick="detallar_trj(this.id)" type="button" class="btn btn-info" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-10 col-md-8 col-sm-8 col-xs-7">
+                                        <h3>Tarjeta : #
+                                            <i> {{this.numero}} </i>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}} {{/if}}
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                        <button data-toggle="collapse" href="#activos" aria-expanded="false" aria-controls="activos" type="button" class="btn btn-danger"
+                            aria-label="Left Align">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                        </button> Mis tarjetas finalizadas (
+                        <b id="num_act"></b>)
+                    </div>
+                    <div class="collapse multi-collapse" id="activos">
+                        <div class="card card-body">
+                            {{#if finalizadas}} {{#each finalizadas}}
+                            <div class="alert alert-secondary trj_fin" role="alert">
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-2 col-sm-2 col-xs-5">
+                                        <button id="{{this.numero}}" onclick="detallar_trj(this.id)" type="button" class="btn btn-info" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-10 col-md-8 col-sm-8 col-xs-7">
+                                        <h3>Tarjeta : #
+                                            <i> {{this.numero}} </i>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}} {{/if}}
 
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
+</div>
