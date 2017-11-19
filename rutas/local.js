@@ -43,5 +43,54 @@ router.post ('/activar', ensureAuthenticated, (req,res)=>{
             
     })
 })
+
+
+router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
+    Tarjeta.findOne().where({numero: req.body.numero}).exec((error, tarjeta)=>{
+        var sumatoria=0;
+        var comprobante=0;
+        for(var i=0; i < tarjeta.locales.length;i++){
+            for(var j=0;j< tarjeta.locales[i].beneficio.length;j++){
+                sumatoria++
+                if(tarjeta.locales[i].beneficio[j].activo==false){
+                    comprobante++
+                }
+            }
+        }
+        if(sumatoria==comprobante){
+            Tarjeta.findOneAndUpdate({numero: req.body.numero},{activo:false},(error, respuesta)=>{
+
+            })
+        }
+    })
+    Tarjeta.findOne().where({numero: req.body.numero}).exec((error, tarjeta)=>{
+        if(error)
+            res.send('Error')
+        else{
+            if((new Date(tarjeta.fechafinal))>= (new Date(req.body.fecha))){
+                for(var i=0; i < tarjeta.locales.length;i++){
+                    if(tarjeta.locales[i].local==req.user.codigo){
+                        for(var j=0;j< tarjeta.locales[i].beneficio.length;j++){
+                            if(req.body.codigo== tarjeta.locales[i].beneficio[j].codigo){
+                                if(tarjeta.locales[i].beneficio[j].activo==true){
+                                    tarjeta.locales[i].beneficio[j].activo=false
+                                    Tarjeta.findOneAndUpdate({numero: req.body.numero},{locales:tarjeta.locales},(error, respuesta)=>{
+                                        res.send('Beneficio aplicado con éxito')
+                                    }) 
+                                }else{
+                                    res.send('No puede activarse, Ya se ha ocupado ese beneficio')
+                                }                                
+                            }
+                        }
+                    }
+                }
+            }else{
+                Tarjeta.findOneAndUpdate({numero: req.body.numero},{activo:false},(error, respuesta)=>{
+                    res.send('Tarjeta caducada')
+                })               
+            }
+        }
+    })
+})
 //Permite el enrutamiento______________________________________________________________________________
 module.exports = router;

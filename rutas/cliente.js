@@ -28,11 +28,47 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/perfil',ensureAuthenticated,(req,res)=>{ 
-	Tarjeta.find().where({cliente:req.user.username}).exec((error, tarjetas)=>{
-		console.log(tarjetas)
-		res.render('cliente/perfil') 
+	Notificacion.find().where({cliente:req.user.username}).exec((error,notificaciones)=>{
+		if(error)
+			res.render('errores/500',{error:error})
+		else{
+			Tarjeta.find().where({cliente: req.user.username}).exec((error, tarjetas)=>{
+				if(error)
+					res.render('errores/500',{error:error})
+				else{
+					var activas=new Array()
+					var finalizadas=new Array()
+					if(tarjetas!=null){
+						for(var i=0;i<tarjetas.length;i++){
+							if(tarjetas[i].activo)
+								activas.push(tarjetas[i])
+							else
+								finalizadas.push(tarjetas[i])
+														
+						}	
+						res.render('cliente/perfil',{activas:activas,finalizadas:finalizadas,notificaciones:extraerdDatos(notificaciones)})					
+					}					
+				}
+			})			
+		}
 	})
 })
+function extraerdDatos(notificaciones){
+	notificaciones=notificaciones.reverse()
+	var notific=new Array()
+	for(var i=0;i < notificaciones.length;i++){
+		var fecha= new Date(notificaciones[i].fecha)
+		var nFecha=fecha.getDate()+'/'+ (fecha.getMonth()+1)+'/'+ fecha.getFullYear()
+		var hora =fecha.getHours()+':'+ fecha.getMinutes()
+		notific.push({
+			fecha: nFecha,
+			hora: hora,
+			numero: notificaciones[i].numero,
+			local:notificaciones[i].local_nombre
+		})
+	}
+	return notific
+}
 
 router.get('/comprado', ensureAuthenticated, (req,res)=>{
     res.render('cliente/activar')

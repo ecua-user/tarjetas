@@ -69,15 +69,15 @@
                             </div>
                             {{/each}} {{/if}}
                         </div>
-                    </div>
+                    </div><br>
                     <div class="alert alert-danger" role="alert">
-                        <button data-toggle="collapse" href="#activos" aria-expanded="false" aria-controls="activos" type="button" class="btn btn-danger"
+                        <button data-toggle="collapse" href="#finalizados" aria-expanded="false" aria-controls="activos" type="button" class="btn btn-danger"
                             aria-label="Left Align">
                             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                         </button> Mis tarjetas finalizadas (
                         <b id="num_act"></b>)
                     </div>
-                    <div class="collapse multi-collapse" id="activos">
+                    <div class="collapse multi-collapse" id="finalizados">
                         <div class="card card-body">
                             {{#if finalizadas}} {{#each finalizadas}}
                             <div class="alert alert-secondary trj_fin" role="alert">

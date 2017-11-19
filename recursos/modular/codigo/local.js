@@ -36,11 +36,29 @@ function activar_desc(event){
                         <p class="centrado">${respuesta[1].beneficio[i].beneficio}</p><br>
                         <strong class="centrado pinfor">Restricciones</strong>
                         <p class="centrado">${respuesta[1].beneficio[i].restriccion}</p>
-                        <button class="btn btn-dark">Usar beneficio</button>
+                        <button class="btn btn-dark" onclick="usar_beneficio('${respuesta[1].beneficio[i].codigo}')">Usar beneficio</button>
                     </div>`
         }
         innerTexto('beneficios', cadena)
         no_cargando()
          $('#modal_ventas').modal()
     })
+}
+
+
+function usar_beneficio(codigo){
+    try {
+        var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date()}
+        cargando()
+        $.ajax({
+            method: "POST",
+            url: "/local/usar-beneficio",
+            data: envio
+        }).done(( respuesta )=>{
+            no_cargando()
+            swal(respuesta)
+        }) 
+    } catch (error) {
+        alert(error)
+    }
 }
