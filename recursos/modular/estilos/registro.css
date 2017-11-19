@@ -1,0 +1,28 @@
+
+@media screen and (min-height: 600px) {
+    .margen{
+        padding-top:500px;
+    }
+}
+@media screen and (min-height: 600px) and (min-height: 400px) {
+    .margen{
+        padding-top:140px;
+    }
+}
+@media screen and (min-height: 400px) and (min-height: 200px) {
+    .margen{
+        padding-top:80px;
+    }
+}
+@media screen and (min-height: 200px){
+    .margen{
+        padding-top:50px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+.form-signin
+{
+    padding: 15px;
+    margin: 0 auto;
+}

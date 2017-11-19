@@ -1,0 +1,203 @@
+<script src="../modular/codigo/admin.js"></script>
+<script>
+    window.addEventListener('load',opciones)
+</script>
+<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/slider">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+    </li>
+</ul>
+<div id="opciones"></div>
+<br>
+
+<div class="alert alert-primary margen-row" role="alert">
+    <h3 class="centrado ">Ingresar local</h3>
+</div>
+<form action="/admin/ingresar-local" method="post" enctype="multipart/form-data">
+    <div id="centralMensajes" class="margen-row">
+        {{#if success_msg}}
+        <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
+        <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>{{/if}}
+    </div>
+    <div class="row margen-row fondo-blanco borde-redondo" style="margin-bottom:12px">
+        <div class="col-lg-3 col-sm-6">
+            <h4 class="centrado">Logotipo</h4> 
+            <div id="poder form-signin">
+                <img src="../modular/imagenes/local.png" class="img-responsive" id="img_destino">
+            </div>
+            <div class="form-group">
+                <div class="div_file btn btn-info ">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    500 X 500
+                    <input type="file" class="btn_enviar" id="file_url" accept="image/*" name="logotipo" onchange="alertaOferta(this,this.files[0].size)"
+                        required/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <h4 class="centrado">Beneficios</h4> 
+            <div class="form-group">
+                <div class="div_file btn btn-info ">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    Selección múltiple 
+                    <input type="file" class="btn_enviar" multiple id="file_url1" accept=".jpg,.png," name="beneficios" onchange="alertaOferta1(this)"
+                        required/>
+                </div>
+                <div id="beneficios_desc" style="margin-top:4px">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3  col-sm-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-font"></i></span>
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre del local" required>
+                </div>       
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-facebook"></i></span>
+                    <input type="url" title="Ingrese http://" name="linkface" class="form-control" placeholder="Link de facebook" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-instagram"></i></span>
+                    <input type="url" title="Ingrese http://" name="linkInst" class="form-control" placeholder="Link de instagram" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-google-maps"></i></span>
+                    <input type="text" placeholder="Dirección" name="direccion" class="form-control" required>
+                </div>     
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-whatsapp"></i></span>
+                    <input type="tel" placeholder="Teléfono" name="telefono" class="form-control" required>
+                </div>     
+            </div>
+            <div class="form-group" title="Ingrese http://">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-globe"></i></span>
+                    <input title="Ingrese http://" type="url" placeholder="Sitio web" name="website" class="form-control" >
+                </div>     
+            </div>
+        </div>
+        <div class="col-lg-3  col-sm-6">
+            <div class="form-group" title="Hora de apertura">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-lock-open"></i></span>
+                    <input type="time" placeholder="Hora de apertura" name="abierto" class="form-control" required>
+                </div>     
+            </div>
+            <div class="form-group" title="Hora de Cierre">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-lock"></i></span>
+                    <input type="time" placeholder="Hora de cierre" name="cierre" class="form-control" required>
+                </div>     
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-email"></i></span>
+                    <input type="email"  class="form-control" required name="username" placeholder="Email">
+                </div>             
+            </div> 
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-shield-security"></i></span>
+                    <input type="password" minlength="8" name="password" class="form-control" placeholder="Contraseña" required>
+                </div>             
+            </div> 
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-shield-security"></i></span>
+                    <input type="password" minlength="8" name="rpassword" class="form-control" placeholder=" Repetir contraseña" required>
+                </div>             
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width:100%">
+                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>  Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<link rel="stylesheet" href="../modular/estilos/admin.css">
+<script>
+    $(document).ready(function(e){
+        //Local logo
+        $('#input-logotipo').customFile({
+            type:'image',
+            image : {
+                minSize : [500,500] ,
+                maxSize : [500,500]
+            },
+            allowed:["exe", "jpeg", "jpg", "png"],
+            maxFiles:1,
+            messages : {
+                errorType : 'Solo puedes seleccionar imagenes de 500x500',
+            },
+            filePicker : "<h3>Ingresar logotipo</h3><div>Una imágen de 500x500</div>"       
+        });
+        $(document).ready(function(e){
+        //Beneficios
+        $('#input-beneficios').customFile({
+            allowed:["exe", "jpeg", "jpg", "png"],
+            maxFiles:3,
+            messages : {
+                errorType : 'Solo puedes seleccionar imagenes',
+            },
+            fileWrapper : `<div class="cif-parent"></div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Beneficio..." type="text" name="beneficio" required />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Restricciones" name="restricciones" required />
+                            </div>`
+        });
+    });
+    })
+</script>  
+
+ 

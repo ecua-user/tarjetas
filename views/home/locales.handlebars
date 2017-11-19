@@ -1,0 +1,132 @@
+<style>
+    #local-desc {
+        background: rgba(12, 49, 75, 0.7);
+    }
+
+    .fondo-locales {
+        background: rgba(23, 57, 80, 0.7);
+    }
+
+    #info:hover {
+        background-color: white;
+    }
+</style>
+<link rel="stylesheet" href="../modular/estilos/index.css">
+<div style="margin:12px">
+    <div style="display:none">
+        <p id="fecha_inic">{{inicial}}</p>
+        <p id="fecha_fin">{{final}}</p>
+    </div>
+    <h3 class="centrado titulo" name="detalles-importantes">{{#if tarjeta}}{{tarjeta.titulo}}{{/if}}</h3>
+    <div class="centrado">
+        
+    <h4 class="alert alert-dark"  >Válido desde el  <b id="vald"></b>, hasta el <b id="valh"></b></h4>
+        
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>
+        <div class="col-lg-2 col-md-2  col-sm-4 hidden-xs">
+            <img src="{{tarjeta}}" alt="" class="img-responsive" width="100%">
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:20px;margin-bottom:40px">
+        {{#if locales}} {{#each locales}}
+        <div class="col-lg-3 col-md-4 col-sm-6" style="padding-bottom:12px">
+            <div class="fondo-blanco borde-redondo">
+                <div>
+                    <a href="javascript:detallar('{{this.codigo}}')">
+                        <img src="{{this.logotipo}}" class="borde-redondo" width="100%" alt="">
+                    </a>
+                </div>
+                <div class="caption" style="padding-top:6px">
+                    <h4 class="centrado" id="nom{{this.codigo}}">{{this.nombre}}</h4>
+                    <div class="centrado">
+                        <button type="button" class="btn btn-dark" aria-label="Left Align">
+                            <span>
+                                <a href="{{this.facebook}}">
+                                    <i class="zmdi zmdi-facebook-box blanco"></i>
+                                </a>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-dark">
+                            <span>
+                                <a href="{{this.instagram}}">
+                                    <i class="zmdi zmdi-instagram blanco"></i>
+                                </a>
+                            </span>
+                        </button>
+                    </div>
+                    <br>
+                    <a class="borde-redondo">
+                        <button class="btn btn-dark" onclick="detallar('{{this.codigo}}')" style="width:100%; font-size:126%">
+                            Mas información
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{/each}} {{/if}}
+    </div>
+</div>
+<script>
+    window.addEventListener('load', () => {
+        document.getElementById('local-desc').style.display = 'none'
+        document.getElementById('tarjeta-img').style.display = 'block'
+    })
+</script>
+<script src="../modular/codigo/home.js"></script>
+
+<div class="modal fade" id="local-info" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nom_loc"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="centrado">
+                    <h3>-----Datos informativos-----</h3>
+                    <img width="40%" src="" id="img_loc" alt="">
+                </div>
+                <div class="row centrado" style="margin-top:12px">
+                    <div class="col-lg-6 col-md-6" >
+                        <p><b class="pinfor">Válido desde</b></p>
+                        <p id="val_desde"></p>
+                        <p><b class="pinfor">Teléfono</b></p>
+                        <p ><a href="tel://0987922222" id="tel-loc"></a> </p>
+                        <p><b class="pinfor">Sitio web</b></p>
+                        <p ><a id="web_loc" href="" target="_blank">www.pagina.com</a></p>
+                        
+                    </div>
+                    <div class="col-lg-6 col-md-6" >
+                        <p><b class="pinfor">Válido hasta</b></p>
+                        <p id="val_hasta"></p>
+                        <p><b class="pinfor">Email</b></p>
+                        <p><a id="mail_loc" href="mailto:"></a></p>
+                        <p><b class="pinfor">Horario de atención:</b></p>
+                        <p id="ate_loc"></p>
+                        
+                    </div>
+                </div>
+                <div class="centrado">
+                    <a data-toggle="collapse" href="#beneficios" aria-expanded="false" aria-controls="notificaciones" type="button" class="pinfor"
+                            style="color:black">Beneficios
+                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </a>
+                    <div id="beneficios" style="margin-top:12px" class="collapse multi-collapse">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener('load',()=>{
+        innerTexto('vald', ordenarFechas(obtenerTexto('fecha_inic')))
+        innerTexto('valh', ordenarFechas(obtenerTexto('fecha_fin')))
+    })
+</script>

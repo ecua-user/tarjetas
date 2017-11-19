@@ -1,0 +1,81 @@
+
+<div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 margen">
+        <div class="fondo-blanco borde-redondo">
+            <h2 class="centrado "><b>Registro</b></h2>
+            <div id="centralMensajes">
+                <div class="alert alert-success" id="div-correcto" style="display:none"></div>
+                <div class="alert alert-danger" id="div-error" style="display:none"></div>
+            </div>
+            <form class="form-signin" action="/users/registro" method="post" onsubmit="registro(event)">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" title="No se incluyen números" pattern="^[a-zA-ZñÑ\s\W]*" id="txtnombre" autofocus placeholder="Nombre completo" class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Edad</span>
+                                <input type="number" step="1" value="18" min="18" max="150" id="txtedad" placeholder="Edad" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" id="txtsector" placeholder="Sector" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="txtcorreo" placeholder="Correo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input  type="password"  title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." minlength="8"  id="txtpassword" placeholder="Contraseña" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." type="password" minlength="8"  id="txtRpassword" placeholder="Repetir contraseña" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <input minlength="10" maxlength="10" type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()" id="txtcedula" placeholder="Cédula" class="form-control" required>
+                        </div>
+                         <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Genero</span>
+                                <select name="selgenero" id="generoSelector" class="form-control">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="N">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Referido</span>
+                                <select name="referido" class="form-control" id="">
+                                    <option value="0000000000">Ninguno</option>
+                                    {{#if referido}}
+                                        {{#each referido}}
+                                            <option value="{{this.codigo}}">{{this.nombre}}</option>
+                                        {{/each}}
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" pattern="^(09)[0-9]*" title="Ingreser un número de celular válido" id="txttelefono" minlength="10" maxlength="10" placeholder="Teléfono" class="form-control" required>
+                        </div>                       
+                        <div class="form-group">
+                            <input type="text" id="txtdireccion" placeholder="Dirección" class="form-control" required>
+                        </div>
+                       <button type="submit" class="btn btn-primary btn-block">Registrar</button>                   
+                    </div>
+                </div>
+                
+            </form>   
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+</div>
+<link rel="stylesheet" href="../modular/estilos/registro.css">
+<script src="../modular/codigo/users.js"></script>
+

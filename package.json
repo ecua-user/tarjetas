@@ -1,22 +1,14 @@
 {
   "name": "tarjetas",
   "version": "1.0.0",
-  "description": "Software de venta de tarjetas",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/juanmanuelco/Tarjetas.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/juanmanuelco/Tarjetas/issues"
-  },
-  "homepage": "https://github.com/juanmanuelco/Tarjetas#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",

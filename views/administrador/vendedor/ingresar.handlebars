@@ -1,0 +1,122 @@
+<script src="../modular/codigo/admin.js"></script>
+<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/slider">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+    </li>
+</ul>
+<div id="opciones"></div>
+<br>
+
+<div class="alert alert-primary margen-row" role="alert">
+    <h3 class="centrado ">Registro de vendedores</h3>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 fondo-blanco borde-redondo">
+        <div id="centralMensajes">
+            {{#if success_msg}}<div class="alert alert-success">{{success_msg}}</div>{{/if}} 
+            {{#if error_msg}}<div class="alert alert-danger">{{error_msg}}</div>{{/if}} 
+            {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
+        </div>
+        <form class="form-signin" action="/admin/ingresar-vendedor" method="post">
+            <div class="row">
+                <div class="col-lg-6 col-6">
+                    <div class="form-group">
+                        <input type="text" title="No se incluyen números" pattern="^[a-zA-ZñÑ\s\W]*" name="nombre" autofocus placeholder="Nombre"
+                            class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Edad</span>
+                            <input type="number" step="1" value="18" min="18" max="150" name="edad" id="txtedad" placeholder="Edad" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="sector" placeholder="Sector" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="username" placeholder="Correo" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
+                            minlength="8" name="password" placeholder="Contraseña" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-6">
+                    <div class="form-group">
+                        <input minlength="10" maxlength="10" type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
+                            id="txtcedula" name="cedula" placeholder="Cédula" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Género</span>
+                            <select name="genero" id="generoSelector" class="form-control">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="N">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" pattern="^(09)[0-9]*" title="Ingreser un número de celular válido" name="telefono" id="txttelefono" minlength="10" maxlength="10"
+                            placeholder="Teléfono" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="direccion" placeholder="Dirección" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
+                            type="password" minlength="8" name="rpassword" placeholder="Repetir contraseña" class="form-control"
+                            required>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </form>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-12"></div>
+</div>
+<link rel="stylesheet" href="../modular/estilos/admin.css">
+<script src="../modular/codigo/users.js"></script>
+<script>
+    window.addEventListener('load',opciones)
+</script>

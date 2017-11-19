@@ -4,6 +4,7 @@ imgSchema=new mongoose.Schema({
     imagen:String,
     locales:Array,
     inicial:Date,
-    final:Date
+    final:Date,
+    titulo:String
 }) 
 var img=module.exports=mongoose.model('img',imgSchema);

@@ -1,0 +1,221 @@
+<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/slider">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+    </li>
+</ul>
+<div id="opciones"></div>
+<br>
+
+<script src="../modular/codigo/admin.js"></script>
+<div class="alert alert-primary  margen-row" role="alert">
+    <h3 class="centrado ">Modificar o eliminar tarjetas</h3>
+</div>
+<div class="margen-row">
+
+    <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
+    <div id="centralMensajes">
+        {{#if success_msg}}
+        <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
+        <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>{{/if}}
+    </div>
+    <div class="fondo-blanco">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a id="link-indiv" class="nav-link active" href="javascript:tarjeta_individual()">Individual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="link-grup" class="nav-link" href="javascript:tarjeta_grupal()">En masa</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="alert alert-danger" id="control_error" style="display:none"></div>
+            </div>
+            <div class="card-body">
+                <div id="individual">
+                    <h4 class="card-title">Edición individual</h4>
+                    <div id="consulta_edicion" class="margen-row">
+                        <div class="input-group" style="margin-bottom:12px">
+                            <span class="input-group-addon" id="basic-addon1">Tarjeta número: </span>
+                            <input type="number" min="0" onkeypress="return solonumeros(event)" value="0" name="" id="numero_consulta" class="form-control">
+                        </div>
+                        <button class="btn btn-dark" onclick="consultar_trj()">Consultar</button>
+                        <button class="btn btn-danger" onclick="eliminar_trj()">Eliminar</button>
+                    </div>
+                    <div id="edicion_individual" style="display:none" class="margen-row">
+                        <div class="alert alert-danger" id="error_trj" style="display:none"></div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Tarjeta número:</label>
+                                    <input type="text" readonly name="numero" id="mod_tar_num" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Fecha inicial</label>
+                                    <input type="date" placeholder="AAAA-MM-DD" name="inicial" id="mod_tar_inic" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Fecha de caducidad</label>
+                                    <input type="date" placeholder="AAAA-MM-DD" name="final" id="mod_tar_fin" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <button class="btn btn-dark" onclick="actualiza_trj_indivdidual()">Actualizar</button>
+                                    <button class="btn btn-info" onclick="tarjeta_individual()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Estado</label>
+                            <div id="loc_mod_tar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="grupal" style="display:none" class="margen-row">
+                    <h4 class="card-title">Edición en masa</h4>
+                    <div class="table">
+                        <table class="table">
+                            {{#if tarjetas}} {{#each tarjetas}}
+                            <tr>
+                                <td>De la tarjeta número: {{this.inicial}} a la tarjeta número: {{this.final}}</td>
+                                <td>
+                                    <button onclick="modificar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-dark" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button onclick="eliminar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-danger" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}} {{/if}}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="../modular/estilos/admin.css">
+<script>
+    window.addEventListener('load', opciones)
+</script>
+
+<div class="modal bd-example-modal-lg" id="modal_edit_tarj" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tit_mod_mas_loc">Modificar tarjeta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/modificar-masa" id="form-masa" method="post" onsubmit="validaciones(event)" enctype="multipart/form-data">
+                    <div class="margen-row">
+                        <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
+                        <div class="fondo-blanco">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4">
+                                    <h3 class="centrado">Datos</h3>
+                                    <div class="form-group">
+                                        <label for="">Código interno del sistema</label>
+                                        <input type="text" id="codInteSiste" name="codigo" placeholder="Código de la tarjeta" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Título</label>
+                                        <input type="text" id="tit_tar_mas" name="titulo" placeholder="Título de la tarjeta" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Fecha Inicial</label>
+                                        <input type="date" id="fecha-inicial" placeholder="MM/DD/AAAA" class="form-control" name="fini" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Fecha de caducidad</label>
+                                        <input type="date" id="fecha-final" placeholder="MM/DD/AAAA" class="form-control" name="ffin" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3">
+                                    <h4 class="centrado">Imágen</h4>
+                                    <div class="form-group">
+                                        <div id="poder form-signin ">
+                                            <img src="../modular/imagenes/local.png" class="img-responsive " id="img_destino">
+                                        </div>
+                                        <br>
+                                        <div class=" btn btn-info" style="width:100%">
+                                            Escoger 800 x 500
+                                            <input type="file" class="btn_enviar" id="file_url" accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)"
+                                                />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5">
+                                    <h4 class="centrado">Locales</h4>
+                                    <p class="centrado">CTRL para seleccionar mas</p>
+                                    <select name="locales" size="10" id="mod_masa_loc" required multiple class="form-control">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="form-masa" class="btn btn-dark">Actualizar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>

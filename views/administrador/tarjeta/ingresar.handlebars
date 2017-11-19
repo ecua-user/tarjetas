@@ -1,0 +1,121 @@
+<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/slider">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+    </li>
+</ul>
+<div id="opciones"></div>
+<br>
+
+<script src="../modular/codigo/admin.js"></script>
+<div class="alert alert-primary  margen-row" role="alert">
+    <h3 class="centrado ">Registrar tarjetas</h3>
+</div>
+<form action="/admin/ing-tarjeta" method="post" onsubmit="validaciones(event)" enctype="multipart/form-data">
+    <div class="margen-row">
+
+        <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
+        <div id="centralMensajes">
+            {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>{{/if}}
+        </div>
+        <div class="fondo-blanco">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <h3 class="centrado">Datos</h3>
+                    <div class="form-group">
+                        <label for="">Título</label>
+                        <input type="text" name="titulo" placeholder="Título de la tarjeta" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">De la tarjeta número:</label>
+                        <input type="number" name="inicial" min="1" value="1" id="tarjeta-inicial" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">A la tarjeta número:</label>
+                        <input type="number" min="0" name="final" value="0" id="tarjeta-final" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Fecha Inicial</label>
+                        <input type="date" id="fecha-inicial" placeholder="MM/DD/AAAA" class="form-control" name="fini" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Fecha de caducidad</label>
+                        <input type="date" id="fecha-final" placeholder="MM/DD/AAAA" class="form-control" name="ffin" required>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <h4 class="centrado">Imágen</h4>
+                    <div class="form-group">
+                        <div id="poder form-signin ">
+                            <img src="../modular/imagenes/local.png" class="img-responsive " id="img_destino">
+                        </div><br>
+                        <div class=" btn btn-info" style="width:100%">
+                            Escoger  800 x 500
+                            <input type="file" class="btn_enviar" id="file_url" accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)"
+                                required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5">
+                    <h4 class="centrado">Locales</h4>
+                    <p class="centrado">CTRL para seleccionar mas</p>
+                    <select name="locales" size="10" id="" required multiple class="form-control">
+                        {{#if locales}} {{#each locales}}
+                        <option value="{{this.codigo}}">{{this.nombre}}</option>
+                        {{/each}} {{/if}}
+
+                    </select>
+                    <br>
+                    <div class="form-group ">
+                        <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                    </div>
+                </div>
+            </div>           
+            <br>
+        </div>
+
+    </div>
+</form>
+<link rel="stylesheet" href="../modular/estilos/admin.css">
+<script>
+    window.addEventListener('load', opciones)
+</script>

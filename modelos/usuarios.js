@@ -4,25 +4,36 @@ bcrypt = require('bcryptjs');
 
 //Se crea el esquema necesario_______________________________________________________________________________________________________________
 var usuariosSchema = mongoose.Schema({
-	codigo:String,
-	nombre: String,
-	cedula:String,
-    telefono:String,
-    sector:String,
-    direccion:String,
-    edad:Number,
-    genero: String,
-    username:String,
-    password: String,
-    eslocal:Boolean,
-	esadministrador:Boolean,
-	token:String,
-	activo:Boolean,
-	logotipo:String,
-	beneficio:String,
-	beneficio_img:String,
-	adicional:String,
-	esvendedor:Boolean
+	/*Datos generales*/
+		codigo:String,
+		nombre: String,
+		cedula:String,
+		telefono:String,
+		sector:String,
+		direccion:String,
+		edad:Number,
+		genero: String,
+		username:String,
+		password: String,
+		token:String,
+		token:String,
+		activo:Boolean,
+	/*Datos administrador*/
+		esadministrador:Boolean,
+	/*Datos  local*/
+    	eslocal:Boolean,	
+		logotipo:String,
+		beneficio:Array,
+		facebook:String,
+		instagram:String,
+		apertura: String,
+		cierre: String,
+		web:String,
+	/*Vendedor*/
+		esvendedor:Boolean,
+	/*CLiente*/
+		escliente:Boolean,
+		referido:String
 });
 
 //Exporta el esquema para poder ser usado en cada ruta que sea  necesario____________________________________________________________________

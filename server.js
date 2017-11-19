@@ -22,12 +22,13 @@ mongoose.connect('mongodb://Admin:abc123.....@ds117625.mlab.com:17625/ventatarje
 
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
-admin = require('./rutas/admin')
-rutaLocal=require('./rutas/local')
 rutaUsuario=require('./rutas/users')
-rutaCliente=require('./rutas/cliente')
+admin = require('./rutas/admin')
 rutaVendedor=require('./rutas/vendedor')
-
+rutaLocal=require('./rutas/local')
+/*
+rutaCliente=require('./rutas/cliente')
+*/
 //Definimos que se usará tecnología hbs para modificar la vista de una página
 servidor.set('views', path.join(__dirname, 'views'));
 
@@ -71,23 +72,24 @@ servidor.use((req, res, next)=>{
 
 //usamos las rutas creadas anteriormente
 servidor.use('/', routes)
+servidor.use('/users',rutaUsuario)
+servidor.use('/vendedor',rutaVendedor)
 servidor.use('/admin', admin)
 servidor.use('/local', rutaLocal)
-servidor.use('/users',rutaUsuario)
+/*
 servidor.use('/cliente',rutaCliente)
-servidor.use('/vendedor',rutaVendedor)
-
+*/
 
 //Controlamos el error de página no encontrada
 servidor.use((req, res)=>{
     res.status('404')
-    res.render('404')
+    res.render('errores/400')
 });
 
 //Controlamos el error de fallos en el servidor
 servidor.use((err, req, res, next)=>{
     res.status(500);
-    res.render('500', { error: err })
+    res.render('errores/500', { error: err })
 });
 
 //Inicializamos el servidor

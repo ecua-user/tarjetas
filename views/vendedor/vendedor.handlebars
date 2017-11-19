@@ -1,0 +1,53 @@
+<div class="comprado">
+    <ul class=" fondo-nav nav nav-tabs ">
+        <li class="nav-item">
+            <a class="nav-link active" href="/vendedor/vender">Vender tarjetas</a>
+        </li>
+        <li class="nav-item">
+            <a href="/vendedor/ventas" class="nav-link">Reporte de ventas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/users/password">Cambiar contraseña</a>
+        </li>
+    </ul>
+</div>
+<br>
+<div class="comprado margen-row">
+    <div class="alert alert-primary  " role="alert">
+        <h2 class="centrado">Venta de tarjetas</h2>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-4 col-md-4"></div>
+        <div class="col-lg-4 col-md-4">
+            <h3 class="centrado">Vender</h3>
+            <div id="centralMensajes">
+                <div class="alert alert-success" id="div-correcto" style="display:none"></div>
+                <div class="alert alert-danger" id="div-error" style="display:none"></div>
+            </div>
+            <div class="fondo-blanco">
+                <form class="form-signin" action="" method="post" onsubmit="venderTarjeta(event)">
+                    <div class="form-group">
+                        <label for="">Código</label>
+                        <select required class="form-control" name="num_tarj" id="numero_tarjeta">
+                            {{#if tarjetas}} {{#each tarjetas}}
+                            <option value="{{this.numero}}">Tarjeta N° {{this.numero}}</option>
+                            {{/each}} {{/if}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="email" required name="correo" list="correos" id="correo_tarjetas" class="form-control">
+                        <datalist id="correos">
+                            {{#if clientes}} {{#each clientes}}
+                            <option value="{{this.username}}">{{this.username}}</option>
+                            {{/each}} {{/if}}
+                        </datalist>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Vender</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../modular/codigo/vendedor.js"></script>
