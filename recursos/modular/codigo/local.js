@@ -48,7 +48,7 @@ function activar_desc(event){
 
 function usar_beneficio(codigo){
     try {
-        var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date()}
+        var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date(), cliente: obtenerTexto('cliente-compra')}
         cargando()
         $.ajax({
             method: "POST",

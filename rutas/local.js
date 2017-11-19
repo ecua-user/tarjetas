@@ -75,7 +75,17 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                                 if(tarjeta.locales[i].beneficio[j].activo==true){
                                     tarjeta.locales[i].beneficio[j].activo=false
                                     Tarjeta.findOneAndUpdate({numero: req.body.numero},{locales:tarjeta.locales},(error, respuesta)=>{
-                                        res.send('Beneficio aplicado con éxito')
+                                        var notifica=new Notificacion({
+                                            fecha: new Date(req.body.fecha),
+                                            cliente:req.body.cliente,
+                                            local:req.user.codigo,
+                                            local_nombre:req.user.nombre,
+                                            numero: req.body.numero, 
+                                            beneficio: tarjeta.locales[i].beneficio[j].beneficio
+                                        })
+                                        notifica.save((error, respuesta)=>{
+                                            res.send('Beneficio aplicado con éxito')
+                                        })
                                     }) 
                                 }else{
                                     res.send('No puede activarse, Ya se ha ocupado ese beneficio')

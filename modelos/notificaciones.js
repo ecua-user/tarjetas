@@ -4,6 +4,7 @@ notificacionesSchema=new mongoose.Schema({
     cliente:String,
     local:String,
     local_nombre:String,
-    numero: Number
+    numero: Number,
+     beneficio:String
 }) 
 var Notificacion=module.exports=mongoose.model('Notificacion',notificacionesSchema);

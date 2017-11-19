@@ -37,7 +37,7 @@ router.get('/perfil',ensureAuthenticated,(req,res)=>{
 					res.render('errores/500',{error:error})
 				else{
 					var activas=new Array()
-					var finalizadas=new Array()
+					var finalizadas=new Array() 
 					if(tarjetas!=null){
 						for(var i=0;i<tarjetas.length;i++){
 							if(tarjetas[i].activo)
@@ -64,7 +64,8 @@ function extraerdDatos(notificaciones){
 			fecha: nFecha,
 			hora: hora,
 			numero: notificaciones[i].numero,
-			local:notificaciones[i].local_nombre
+			local:notificaciones[i].local_nombre,
+			beneficio: notificaciones[i].beneficio
 		})
 	}
 	return notific
@@ -125,6 +126,32 @@ router.post('/finalizar-activacion', ensureAuthenticated, (req,res)=>{
 	})
 })
 
+
+
+router.post('/detallar_mas',ensureAuthenticated ,(req,res)=>{
+	Tarjeta.findOne().where({$and:[
+		{numero:req.body.numero}
+	]}).exec((error, tarjeta)=>{
+		var respuesta= new Array()
+		if(error)
+			res.send('Error')
+		else{
+			var locales= new Array()
+			for(var i=0; i< tarjeta.locales.length;i++){
+				locales.push({codigo: tarjeta.locales[i].local})
+			}
+			User.find().where({$and:[{eslocal:true}, {$or:locales}]}).select('nombre logotipo').exec((error, loc)=>{
+				if(error)
+					res.send('Error')
+				else{
+					respuesta.push(tarjeta)
+					respuesta.push(loc)
+					res.send(respuesta)
+				}
+			})
+		}
+	})
+})
 
 
 //Permite el enrutamiento______________________________________________________________________________
