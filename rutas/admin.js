@@ -400,6 +400,8 @@
                                             locales: elegidos,
                                             inicial: new Date(req.body.fini),
                                             final: new Date(req.body.ffin),
+                                            linkface:req.body.linkface,
+                                            linkInst:req.body.linkInst,
                                             titulo: req.body.titulo
                                         })
                                         newImagen.save((err, guardado) => {
@@ -570,6 +572,8 @@
                                 locales: elegidos,
                                 inicial: new Date(req.body.fini),
                                 final: new Date(req.body.ffin),
+                                linkface:req.body.linkface,
+                                linkInst:req.body.linkInst,
                                 titulo: req.body.titulo
                             }
                             ImgTarjeta.findOneAndUpdate({codigo:req.body.codigo},query,(error, respuesta)=>{

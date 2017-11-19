@@ -12,7 +12,6 @@ TarjetaSchema=new mongoose.Schema({
     fechaventa: Date,
     vendida:Boolean,
     cliente:String,
-    linkface:String,
-    linkInst:String
+    
 }) 
 var Tarjetas=module.exports=mongoose.model('Tarjetas',TarjetaSchema);

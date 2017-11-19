@@ -26,9 +26,8 @@ rutaUsuario=require('./rutas/users')
 admin = require('./rutas/admin')
 rutaVendedor=require('./rutas/vendedor')
 rutaLocal=require('./rutas/local')
-/*
 rutaCliente=require('./rutas/cliente')
-*/
+
 //Definimos que se usará tecnología hbs para modificar la vista de una página
 servidor.set('views', path.join(__dirname, 'views'));
 
@@ -76,9 +75,8 @@ servidor.use('/users',rutaUsuario)
 servidor.use('/vendedor',rutaVendedor)
 servidor.use('/admin', admin)
 servidor.use('/local', rutaLocal)
-/*
 servidor.use('/cliente',rutaCliente)
-*/
+
 
 //Controlamos el error de página no encontrada
 servidor.use((req, res)=>{

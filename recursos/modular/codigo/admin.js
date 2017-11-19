@@ -497,10 +497,13 @@ function modificar_grupo_trj(identificador){
 		data: envio
 	}).done(( respuesta )=>{
 		try {
+			console.log(respuesta[0])
 			asignar('codInteSiste', respuesta[0].codigo)
 			asignar('tit_tar_mas', respuesta[0].titulo)
 			asignar('fecha-inicial',  ordenarFechas(respuesta[0].inicial))
 			asignar('fecha-final',ordenarFechas(respuesta[0].final))
+			asignar('linkfacebook', respuesta[0].linkface)
+			asignar('linkinstagram', respuesta[0].linkInst)
 			document.getElementById('img_destino').setAttribute('src', respuesta[0].imagen)
 			var opciones=``	
 			for(var i=0;i< respuesta[1].length;i++){
@@ -516,7 +519,6 @@ function modificar_grupo_trj(identificador){
 			no_cargando()
 			$('#modal_edit_tarj').modal()			
 		} catch (error) {
-			console.log(error)
 			no_cargando()
 			swal('Ha ocurrido un error', 'No existe respuesta del servidor', 'error')
 		}
