@@ -29,7 +29,7 @@ router.get('/',ensureAuthenticated,(req,res)=>{
 })
 
 router.post('/vender',ensureAuthenticated,(req,res)=>{
-	Tarjeta.findOneAndUpdate({numero: req.body.numero},{fechaventa: new Date(req.body.fecha), vendida:true,cliente:req.body.correo}, (error,respuesta)=>{
+	Tarjeta.findOneAndUpdate({numero: req.body.numero},{fechaventa: new Date(req.body.fecha), vendida:true, cliente:req.body.correo}, (error,respuesta)=>{
 		if(error)
 			res.send('Error')
 		else

@@ -1,12 +1,13 @@
 function activar_desc(event){
     event.preventDefault()
+    cargando()
     envio={numero: valor('numero_act')}
     $.ajax({
 		method: "POST",
 		url: "/local/activar",
 		data: envio
 	}).done(( respuesta )=>{
-        cargando()
+        
         if(respuesta=='Error'){
             no_cargando()
             swal('Error', 'Ha ocurrido un error', 'error')

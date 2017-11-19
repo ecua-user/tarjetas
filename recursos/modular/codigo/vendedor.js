@@ -1,7 +1,7 @@
 function venderTarjeta(event){
     cargando()
     event.preventDefault()
-    envio={numero:valor('numero_tarjeta'), username: valor('correo_tarjetas'), fecha: new Date()}
+    envio={numero:valor('numero_tarjeta'), correo: valor('correo_tarjetas'), fecha: new Date()}
     $.ajax({
 		method: "POST",
 		url: "/vendedor/vender",
@@ -9,7 +9,7 @@ function venderTarjeta(event){
 	}).done(( respuesta )=>{
         if(respuesta!='Error'){
             emailjs.send("default_service","template_KK3G9LwJ",{
-                to_destinatario: envio.username,
+                to_destinatario: envio.correo,
                 mensaje: `Para poder activar la tarjeta use el siguiente código:  ${respuesta}`
             }
             ).then(
