@@ -585,4 +585,19 @@ function sinSeleccion(elemento){
 	document.getElementsByName(nombre)[0].removeAttribute('checked')
 	document.getElementsByName(nombre)[1].setAttribute('checked','')
 }
-
+function eliminarVideo(identificador){
+	var envio={codigo:identificador}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/eliminar-video",
+		data: envio
+	}).done(( respuesta )=>{
+		no_cargando()
+		if(respuesta=='Error')
+			swal('Error', 'No se ha podido eliminar', 'error')
+		else
+			swal('Listo', respuesta, 'success')
+		location.reload()
+	})
+}

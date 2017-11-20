@@ -52,10 +52,10 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1">Referido</span>
                                 <select name="referido" class="form-control" id="">
-                                    <option value="0000000000">Ninguno</option>
+                                    <option value="Ninguno">Ninguno</option>
                                     {{#if referido}}
                                         {{#each referido}}
-                                            <option value="{{this.codigo}}">{{this.nombre}}</option>
+                                            <option value="{{this.nombre}}">{{this.nombre}}</option>
                                         {{/each}}
                                     {{/if}}
                                 </select>

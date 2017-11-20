@@ -5,6 +5,7 @@ router = express.Router()
 User = require('../modelos/usuarios')
 Tarjeta = require('../modelos/tarjetas')
 Notificacion = require('../modelos/notificaciones')
+Repolocal= require('../modelos/reporte-usuario')
 
 //Confirma la autenticación del usuario________________________________________________________________
 function ensureAuthenticated(req, res, next) { 
@@ -74,6 +75,7 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                             if(req.body.codigo== tarjeta.locales[i].beneficio[j].codigo){
                                 if(tarjeta.locales[i].beneficio[j].activo==true){
                                     tarjeta.locales[i].beneficio[j].activo=false
+                                    var benfff=tarjeta.locales[i].beneficio[j].beneficio
                                     Tarjeta.findOneAndUpdate({numero: req.body.numero},{locales:tarjeta.locales},(error, respuesta)=>{
                                         var notifica=new Notificacion({
                                             fecha: new Date(req.body.fecha),
@@ -81,10 +83,19 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                                             local:req.user.codigo,
                                             local_nombre:req.user.nombre,
                                             numero: req.body.numero, 
-                                            beneficio: tarjeta.locales[i].beneficio[j].beneficio
+                                            beneficio: benfff
+                                        })
+                                        var reporte_usuario=new Repolocal({
+                                            codigo: Date.now(),
+                                            usuario: req.body.cliente,
+                                            local: req.user.nombre,
+                                            fecha: new Date(),
+                                            beneficio: benfff
                                         })
                                         notifica.save((error, respuesta)=>{
-                                            res.send('Beneficio aplicado con éxito')
+                                            reporte_usuario.save((error, respuesta)=>{
+                                                res.send('Beneficio aplicado con éxito')
+                                            })                                           
                                         })
                                     }) 
                                 }else{

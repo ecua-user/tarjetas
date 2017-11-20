@@ -607,5 +607,62 @@
             })
         })
     })
+
+//Home_________________________________________________
+    router.get('/slider', ensureAuthenticated, (req, res) => { 
+        Configuracion.findOne().where({codigo:1}).exec((error,respuesta)=>{
+            cheked='';
+            if(respuesta.slider==true)
+                cheked='checked'
+            Video.find().exec((error, videos)=>{                  
+                res.render('administrador/home/home',{chek:cheked, texto:'Video', videos:videos})  
+            })             
+        })   
+    })
+    router.post('/home',ensureAuthenticated,(req,res)=>{
+        if(req.body.decision=='slider'){
+            Configuracion.findOneAndUpdate({codigo:1},{slider:true,video:false},(error,respuesta)=>{
+                if(error)
+                    res.send('error')
+                else
+                    res.send('ok')
+            })
+        }else{
+            Configuracion.findOneAndUpdate({codigo:1},{slider:false,video:true},(error,respuesta)=>{
+                if(error)
+                    res.send('error')
+                else
+                    res.send('ok')
+            })
+        }
+    })
+    router.post('/home-video',ensureAuthenticated,(req,res)=>{
+        var nuevoVideo= new Video({
+            codigo: Date.now(),
+            titulo:req.body.titulo,
+            url:req.body.link
+        })
+        nuevoVideo.save((error,respuesta)=>{
+            if(error)
+                res.render('errores/500',{error:error})
+            else
+                res.redirect('/admin/slider')
+        })
+    })
+
+    router.post('/eliminar-video', ensureAuthenticated, (req,res)=>{
+        Video.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
+            if(error)
+                res.send('Error')
+            else{
+                res.send('Elimiando con éxito')
+            }
+        })
+    })
+
+//Reportes______________________________________________
+    router.get('/reporte-local', ensureAuthenticated, (req,res)=>{
+        
+    })
 //Permite el enrutamiento
 module.exports = router;

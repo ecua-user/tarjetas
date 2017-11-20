@@ -30,17 +30,18 @@
 <!--Videos-->
 {{#if video}}
 <div class="slider-principal">
-  <iframe width="100%" id="espacio_video" class="video-youtube" src="https://www.youtube.com/embed/i8q8fFs3kTM?rel=0&amp;controls=0&amp;showinfo=0"
+  <iframe width="100%" id="espacio_video" class="video-youtube" src="{{video.url}}"
     frameborder="0" allowfullscreen></iframe>
 </div>
+
 {{/if}}
 <div class="centrado">
   {{#if videos}} {{#each videos}}
-  <button style="margin-bottom:4px" class="btn btn-primary" onclick="cargar_video('{{this.url}}')">{{this.titulo}}</button>
+  <button style="margin-bottom:2px" class="btn btn-primary" onclick="cargar_video('{{this.url}}')">{{this.titulo}}</button>
   {{/each}} {{/if}}
 </div>
 
-<h1 class="centrado titulo" style="margin-top:20px;margin-bottom:22px">Escoge tu sector</h1>
+<h1 class="centrado titulo" style="margin-top:4px;margin-bottom:22px">Escoge tu sector</h1>
 <!--Todas las tarjetas-->
 <div style="margin:0 auto;padding-left:18px;padding-right:18px" class="centrado">
   <div class="row" style="margin-bottom:20px">
