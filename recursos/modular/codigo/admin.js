@@ -673,3 +673,14 @@ function generar_reporte_cliente(){
 		innerTexto('datos_reporte', cadena)
 	})
 }
+
+function eliminar_grupo_trj(valor){
+	var envio={codigo: valor}
+	$.ajax({
+		method: "POST",
+		url: "/admin/eliminar-tarjetas",
+		data: envio
+	}).done(( respuesta )=>{
+		swal(respuesta)
+	})
+}

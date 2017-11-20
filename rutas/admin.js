@@ -601,9 +601,9 @@
         ImgTarjeta.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
             Tarjeta.remove({imagen:req.body.codigo},(error, resultado)=>{
                 if(error)
-                    res.render('errores/500',{error:error})
+                    res.send('Error')
                 else{
-                    res.redirect('/admin/mod-tarj')
+                    res.send('Listo')
                 }
             })
         })
