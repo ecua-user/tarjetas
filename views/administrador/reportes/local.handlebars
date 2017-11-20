@@ -50,6 +50,32 @@
 <div class="alert alert-primary margen-row" role="alert">
     <h3 class="centrado ">Reporte por  local</h3>
 </div>
+<div class="margen-row">
+    <div class="fondo-blanco" style="min-height:400px">
+        <div class="form-group margen-row">
+            <label for="">Seleccione local</label>
+            <div class="input-group">
+                <select name="" id="todos_locales" class="form-control">
+                    {{#if locales}}
+                        {{#each locales}}
+                            <option value="{{this.nombre}}">{{this.nombre}}</option>
+                        {{/each}}
+                    {{/if}}
+                </select>
+                <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="generar_reporte_local()">Consultar</span>
+                <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
+                <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+            </div>
+        </div>
+        <div class="table" >
+            <div id="vista_impresion">
+                <table class="table" id="datos_reporte">
+                
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <link rel="stylesheet" href="../modular/estilos/admin.css">
 

@@ -601,3 +601,75 @@ function eliminarVideo(identificador){
 		location.reload()
 	})
 }
+
+function generar_reporte_local(){
+	var envio={nombre:valor('todos_locales')}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/ver-reporte-locales",
+		data: envio
+	}).done(( respuesta )=>{
+		var cadena=`<tr>
+						<th>Código</th>
+						<th>Local</th>
+						<th>Cliente</th>
+						<th>Tarjeta</th>
+						<th>Fecha</th>
+						<th>Hora</th>
+						<th>Beneficio</th>
+					</tr>`
+		for(var i=0; i< respuesta.length; i++){
+			cadena+=`<tr>
+						<td>${respuesta[i].codigo}</td>
+						<td>${respuesta[i].local}</td>
+						<td>${respuesta[i].usuario}</td>
+						<td>${respuesta[i].tarjeta}</td>
+						<td>${obtenerFecha(respuesta[i].fecha)}</td>
+						<td>${obetenerHora(respuesta[i].fecha)}</td>
+						<td>${respuesta[i].beneficio}</td>
+					</tr>`
+		}
+		no_cargando()
+		innerTexto('datos_reporte', cadena)
+	})
+}
+
+function obetenerHora(fecha){
+	var nfecha=new Date(fecha)
+	return nfecha.getHours()+':'+ nfecha.getMinutes()
+}
+
+
+function generar_reporte_cliente(){
+	var envio={nombre:valor('todos_usuarios')}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/ver-reporte-usuario",
+		data: envio
+	}).done(( respuesta )=>{
+		var cadena=`<tr>
+						<th>Código</th>
+						<th>Local</th>
+						<th>Cliente</th>
+						<th>Tarjeta</th>
+						<th>Fecha</th>
+						<th>Hora</th>
+						<th>Beneficio</th>
+					</tr>`
+		for(var i=0; i< respuesta.length; i++){
+			cadena+=`<tr>
+						<td>${respuesta[i].codigo}</td>
+						<td>${respuesta[i].local}</td>
+						<td>${respuesta[i].usuario}</td>
+						<td>${respuesta[i].tarjeta}</td>
+						<td>${obtenerFecha(respuesta[i].fecha)}</td>
+						<td>${obetenerHora(respuesta[i].fecha)}</td>
+						<td>${respuesta[i].beneficio}</td>
+					</tr>`
+		}
+		no_cargando()
+		innerTexto('datos_reporte', cadena)
+	})
+}

@@ -63,3 +63,55 @@ function solonumeros(e){
 	for (var i in especiales) {if (key==especiales[i]) {teclado_especial=true;break;}}
 	if (letras.indexOf(teclado)==-1 && !teclado_especial) {return false;}
 }
+
+function descargarExcel(tabla){
+    //$('#descarga').css('display:block');
+     var navegador = navigator.userAgent;
+        if (navigator.userAgent.indexOf('MSIE') !=-1) {
+            alert('Está usando Internet Explorer, no hay compatibilidad');
+        } else if (navigator.userAgent.indexOf('Firefox') !=-1) {
+            ExportToExcel(tabla);
+        } else if (navigator.userAgent.indexOf('Chrome') !=-1) {
+            excel(tabla);
+        } else if (navigator.userAgent.indexOf('Opera') !=-1) {
+            alert('Está usando Opera, no hay compatibilidad');
+        } else {
+            alert('Está usando un navegador no identificado no hay compatibilidad');
+        }
+    }
+function excel(tabla){
+    var fecha=new Date();
+        var tmpElemento = document.createElement('a');
+        var data_type = 'data:application/vnd.ms-excel';
+        var tabla_div = tabla;
+        var tabla_html = tabla_div.outerHTML.replace(/ /g, '%20');
+        tmpElemento.href = data_type + ', ' + tabla_html;
+        tmpElemento.download = 'Consulta-'+fecha+'.xls';
+        tmpElemento.click();
+    }
+function ExportToExcel(tabla){
+    var htmltable= tabla
+    var html = htmltable.outerHTML;
+    window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+}
+
+function exportar(elemento){
+    var tabla=document.getElementById(elemento);
+    descargarExcel(tabla);
+}
+function imprimir(muestra){ 
+	var ficha=document.getElementById(muestra);
+	var ventimp=window.open(' ','popimpr');
+	ventimp.document.write(ficha.innerHTML);
+	var estiloFactura=ventimp.document.createElement("link");
+	estiloFactura.setAttribute("href","https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")// Aqui va el archivo css que se desee mostrar en impresora
+	estiloFactura.setAttribute("rel", "stylesheet");
+    estiloFactura.setAttribute("type", "text/css");
+    estiloFactura.setAttribute("integrity","sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u");
+	estiloFactura.setAttribute('crossorigin',"anonymous");
+	ventimp.document.head.appendChild(estiloFactura);
+	ventimp.document.close();
+	ventimp.print();
+    ventimp.close();	
+
+}

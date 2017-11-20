@@ -13,6 +13,7 @@
     ImgTarjeta = require('../modelos/img_tarjetas')
     Configuracion = require('../modelos/configuracion')
     Video = require('../modelos/videos')
+    Repolocal= require('../modelos/reporte-usuario')
 
 //Confirma la autenticación del usuario________________
     function ensureAuthenticated(req, res, next) {
@@ -662,7 +663,30 @@
 
 //Reportes______________________________________________
     router.get('/reporte-local', ensureAuthenticated, (req,res)=>{
-        
+        User.find().where({eslocal:true}).exec((error, locales)=>{
+            if(error)
+                res.render('errores/500')
+            else    
+                res.render('administrador/reportes/local',{locales:locales})
+        })
+    })
+    router.post('/ver-reporte-locales', ensureAuthenticated, (req,res)=>{
+        Repolocal.find().where({local: req.body.nombre}).exec((error, respuesta)=>{
+            res.send(respuesta)
+        })
+    })
+    router.get('/reporte-usuario', ensureAuthenticated, (req,res)=>{
+        User.find().where({escliente:true}).exec((error, clientes)=>{
+            if(error)
+                res.render('errores/500')
+            else    
+                res.render('administrador/reportes/usuario',{clientes:clientes})
+        })
+    })
+    router.post('/ver-reporte-usuario', ensureAuthenticated, (req,res)=>{
+        Repolocal.find().where({usuario: req.body.nombre}).exec((error, respuesta)=>{
+            res.send(respuesta)
+        })
     })
 //Permite el enrutamiento
 module.exports = router;

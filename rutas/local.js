@@ -90,7 +90,8 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                                             usuario: req.body.cliente,
                                             local: req.user.nombre,
                                             fecha: new Date(),
-                                            beneficio: benfff
+                                            beneficio: benfff,
+                                            tarjeta: req.body.numero
                                         })
                                         notifica.save((error, respuesta)=>{
                                             reporte_usuario.save((error, respuesta)=>{

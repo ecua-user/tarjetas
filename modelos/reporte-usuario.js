@@ -4,6 +4,7 @@ repousuarioSchema=new mongoose.Schema({
     usuario: String,
     local: String,
     fecha: Date,
-    beneficio: String
+    beneficio: String,
+    tarjeta: Number
 }) 
 var Repousuario=module.exports=mongoose.model('Repousuario',repousuarioSchema);
