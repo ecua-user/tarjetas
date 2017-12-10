@@ -6,8 +6,7 @@ function activar_desc(event){
 		method: "POST",
 		url: "/local/activar",
 		data: envio
-	}).done(( respuesta )=>{
-        
+	}).done(( respuesta )=>{        
         if(respuesta=='Error'){
             no_cargando()
             swal('Error', 'Ha ocurrido un error', 'error')
@@ -23,32 +22,17 @@ function activar_desc(event){
             swal('Error',respuesta,'error')
             return
         }
-        var div=12/(respuesta[1].beneficio.length)
-        var porcentaje='100%'
-        if(div>10)
-            porcentaje='40%'
-        var cadena=''
-        innerTexto('cliente-compra', respuesta[0].cliente)
-        for(var i=0;i< respuesta[1].beneficio.length;i++){
-            cadena+=`<div class="col-lg-${div} centrado fondo-blanco">
-                        <img width="${porcentaje}" src="${respuesta[1].beneficio[i].imagen}"/><br>
-                        <strong class="centrado pinfor">Beneficio</strong>
-                        <p class="centrado">${respuesta[1].beneficio[i].beneficio}</p><br>
-                        <strong class="centrado pinfor">Restricciones</strong>
-                        <p class="centrado">${respuesta[1].beneficio[i].restriccion}</p>
-                        <button class="btn btn-dark" onclick="usar_beneficio('${respuesta[1].beneficio[i].codigo}')">Usar beneficio</button>
-                    </div>`
-        }
-        innerTexto('beneficios', cadena)
-        no_cargando()
-         $('#modal_ventas').modal()
+        var elemento_activo=document.getElementsByClassName('active')[0]
+        codigo_beneficio=elemento_activo.getElementsByClassName('benef_cod')[0].innerHTML
+        no_cargando()     
+        usar_beneficio(codigo_beneficio, respuesta[0].cliente)
     })
 }
 
 
-function usar_beneficio(codigo){
+function usar_beneficio(codigo, cliente){
     try {
-        var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date(), cliente: obtenerTexto('cliente-compra')}
+        var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date(), cliente: cliente}
         cargando()
         $.ajax({
             method: "POST",
@@ -61,4 +45,27 @@ function usar_beneficio(codigo){
     } catch (error) {
         alert(error)
     }
+}
+
+
+function mostrar_beneficios(activo, elementos){
+    var k= elementos
+    return `<div id="${elementos.codigo}" class="carousel-item ${activo}" style="padding-left:2%; padding-right:2%">
+                    <div class="row" style="padding:12px">
+                        <div class="col-lg-1 col-md-1"></div>
+                        <div class="col-lg-5 col-md-5">  
+                                <p style="display:none" class="benef_cod">${elementos.codigo}</p>
+                                <img class="img-slider d-block w-100" src="${elementos.imagen}"
+                                    alt="">                                       
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <h4 class="centrado">Términos y condiciones</h4>
+                            <div style="padding-left:5%; padding-right:5%">
+                            <textarea class="area-beneficios" readonly name="" id="" cols="30" rows="10" style="width:100% ; height:100%">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+    
 }

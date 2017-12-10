@@ -11,9 +11,31 @@
     User = require('../modelos/usuarios')
     Tarjeta = require('../modelos/tarjetas')
     ImgTarjeta = require('../modelos/img_tarjetas')
-    Configuracion = require('../modelos/configuracion')
+    Imagen_ben= require('../modelos/imagenes')
     Video = require('../modelos/videos')
     Repolocal= require('../modelos/reporte-usuario')
+    RepoTarjeta= require('../modelos/reporte-tarjeta')
+
+//Codifica los textos formateados
+    function texto_ascii(texto) {
+        var cadena=''
+        for(var i=0;i< texto.length;i++){
+            var codigo=texto.charCodeAt(i);
+            if(codigo<100)
+                codigo='0'+codigo+' '         
+            else
+                codigo=codigo+' '  
+            cadena+=codigo
+        }
+        return cadena.substr(0, cadena.length-1) 
+    }
+    function ascii_texto(ascii){
+        codigos=ascii.split(' '), cadena=''
+        for(var i=0; i< (codigos.length-1);i++){
+            cadena+=String.fromCharCode(codigos[i])
+        }
+        return cadena
+    }
 
 //Confirma la autenticación del usuario________________
     function ensureAuthenticated(req, res, next) {
@@ -45,174 +67,16 @@
 //Vista principal______________________________________
     router.get('/', ensureAuthenticated, (req, res) => { res.render('administrador/inicio') })
 
-//Locales comerciales__________________________________
-    router.get('/ingresar-local', ensureAuthenticated, (req, res) => {
-        res.render('administrador/local/ingresar')
-    })
-
-    var upload = multer({ dest: 'recursos/modular/imagenes/locales' })
-    var cpUpload = upload.fields([{ name: 'logotipo', maxCount: 1 }, { name: 'beneficios', maxCount: 3 }])
-
-    router.post('/ingresar-local', ensureAuthenticated, cpUpload, (req, res) => {
-        destino = 'recursos/modular/imagenes/locales/'
-        img_bene_rest = new Array()
-        var imagenes = new Array()
-        logotipo = req.files.logotipo[0].filename
-        imagenes.push({ logo: logotipo })
-        var imgben = new Array()
-        carga_img(destino, req.files.logotipo[0].filename, 'logo', 'locales')
-        for (var i = 0; i < req.files.beneficios.length; i++) {
-            imgben.push(req.files.beneficios[i].filename)
-            carga_img(destino, req.files.beneficios[i].filename, 'bene', 'locales')
-            if (Array.isArray(req.body.beneficio) || Array.isArray(req.body.restricciones)) {
-                img_bene_rest.push({
-                    codigo: Date.now(),
-                    activo: true,
-                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
-                    beneficio: req.body.beneficio[i],
-                    restriccion: req.body.restricciones[i]
-                })
-            } else {
-                img_bene_rest.push({
-                    codigo: Date.now(),
-                    activo: true,
-                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
-                    beneficio: req.body.beneficio,
-                    restriccion: req.body.restricciones
-                })
-            }
-        }
-        imagenes.push({ benefic: imgben })
-        nuevoLocal = new User({
-            codigo: Date.now(),
-            nombre: req.body.nombre,
-            username: req.body.username,
-            password: req.body.password,
-            esadministrador: false,
-            token: cadenaAleatoria(),
-            escliente: false,
-            activo: true,
-            esvendedor: false,
-            eslocal: true,
-            direccion: req.body.direccion,
-            telefono: req.body.telefono,
-            logotipo: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/logo' + logotipo,
-            beneficio: img_bene_rest,
-            facebook: req.body.linkface,
-            instagram: req.body.linkInst,
-            apertura: req.body.abierto,
-            cierre: req.body.cierre,
-            web: req.body.website
-        })
-        User.createUser(nuevoLocal, (e, user) => {
-            if (e)
-                res.render('errores/500', { error: e })
-            else
-                res.render('administrador/local/ingresar', { success_msg: 'Local ingresado con éxito' })
-        })
-    })
-
-    router.get('/modificar-local', ensureAuthenticated, (req, res) => {
-        User.find().where({ eslocal: true }).exec((err, local) => {
-            res.render('administrador/local/modificar-eliminar', { local: local });
-        })
-    })
-
-    router.post('/obtener-local', ensureAuthenticated, (req, res) => {
-        User.findOne().where({ codigo: req.body.codigo }).exec((error, local) => {
-            if (error)
-                res.send('Error: ' + error)
-            else
-                res.send(local)
-        })
-    })
-
-    cpUpload = upload.fields([{ name: 'logotipo', maxCount: 1 }, { name: 'beneficios', maxCount: 3 }])
-    router.post('/modificar-local', ensureAuthenticated, cpUpload, (req, res) => {
-        destino = 'recursos/modular/imagenes/locales/'
-        var logo = '', benef = new Array()
-        User.findOne().where({ codigo: req.body.codigo }).exec((error, local) => {
-            if (error)
-                res.render('errores/500')
-            else {
-                try {
-                    carga_img(destino, req.files.logotipo[0].filename, 'logo', 'locales')
-                    logo = 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/logo' + req.files.logotipo[0].filename
-                }
-                catch (error) {
-                    logo = local.logotipo
-                }
-                try {
-                    for (var i = 0; i < req.files.beneficios.length; i++) {
-                        carga_img(destino, req.files.beneficios[i].filename, 'bene', 'locales')
-                        if (Array.isArray(req.body.beneficio) || Array.isArray(req.body.restricciones)) {
-                            benef.push({
-                                codigo: Date.now(),
-                                activo: true,
-                                imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
-                                beneficio: req.body.beneficio[i],
-                                restriccion: req.body.restricciones[i]
-                            })
-                        } else {
-                            benef.push({
-                                codigo: Date.now(),
-                                activo: true,
-                                imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
-                                beneficio: req.body.beneficio,
-                                restriccion: req.body.restricciones
-                            })
-                        }
-                    }
-                } catch (error) {
-                    benef = local.beneficio
-                    for (var i = 0; i < benef.length; i++) {
-                        if (Array.isArray(req.body.restricciones) || Array.isArray(req.body.beneficio)) {
-                            benef[i].restriccion = req.body.restricciones[i]
-                            benef[i].beneficio = req.body.beneficio[i]
-                        } else {
-                            benef[i].restriccion = req.body.restricciones
-                            benef[i].beneficio = req.body.beneficio
-                        }
-                    }
-                }
-                var query = {
-                    nombre: req.body.nombre,
-                    direccion: req.body.direccion,
-                    telefono: req.body.telefono,
-                    logotipo: logo,
-                    beneficio: benef,
-                    facebook: req.body.linkface,
-                    instagram: req.body.linkInst,
-                    apertura: req.body.abierto,
-                    cierre: req.body.cierre,
-                    web: req.body.website
-                }
-                User.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {
-                    if (error)
-                        res.render('errores/500', { error: error })
-                    else {
-                        User.find().where({ eslocal: true }).exec((err, local) => {
-                            res.render('administrador/local/modificar-eliminar', { local: local, success_msg: 'Actualizado con éxito' });
-                        })
-                    }
-                })
-            }
-        })
-    })
-
-    router.post('/eliminar-local', ensureAuthenticated, (req, res) => {
-        User.findOneAndRemove({ codigo: req.body.codigo }, (error, respuesta) => {
-            if (error)
-                res.send('Error: ' + error)
-            else
-                res.send('Elimiando con éxito')
-        })
-    })
-
 //Vendedor_____________________________________________
-    router.get('/ingresar-vendedor', ensureAuthenticated, (req, res) => { res.render('administrador/vendedor/ingresar') })
-
-    router.post('/ingresar-vendedor', ensureAuthenticated, (req, res) => {
+    router.get('/ingresar-vendedor',ensureAuthenticated, (req, res) => { 
+        User.find().where({esvendedor:true}).exec((err,vendedores)=>{
+            if(err)
+                res.render('errores/500',{error:err})
+            else
+            res.render('administrador/vendedor/ingresar') 
+        })
+    })
+    router.post('/ingresar-vendedor', ensureAuthenticated,(req, res) => {
         if (req.body.password != req.body.rpassword) {
             res.render('administrador/vendedor/ingresar', { error: 'Contraseñas no coinciden' })
             return
@@ -241,7 +105,8 @@
                     token: req.body.token,
                     activo: true,
                     esvendedor: true,
-                    imagen: ""
+                    imagen: "",
+                    referido: req.body.superior
                 })
                 User.createUser(newUser, (e, user) => {
                     if (e)
@@ -277,7 +142,8 @@
             sector: req.body.sector,
             genero: req.body.genero,
             telefono: req.body.telefono,
-            direccion: req.body.direccion
+            direccion: req.body.direccion,
+            referido:req.body.superior
         }, (err) => {
             if (err)
                 res.render('errores/500', { error: err })
@@ -285,7 +151,6 @@
                 res.redirect('/admin/modificar-vendedor')
         })
     })
-    /*Elimina al vendedor */
     router.post('/eliminar-vendedor', ensureAuthenticated, (req, res) => {
         User.findOneAndRemove({ codigo: req.body.codigo }, (error, respuesta) => {
             if (error)
@@ -294,7 +159,6 @@
                 res.send('Elimiando con éxito')
         })
     })
-
     router.get('/asignar-vendedor', ensureAuthenticated, (req, res) => {
         User.find().where({esvendedor: true}).exec((err,vendedores)=>{
             if(err)
@@ -325,7 +189,162 @@
         }                 
     })
 
-//Tarjeta______________________________________________
+//Local___________________________________________________________________
+
+    router.get('/ingresar-local', ensureAuthenticated, (req, res) => {
+        res.render('administrador/local/ingresar')
+    })
+    var upload = multer({ dest: 'recursos/modular/imagenes/locales' })
+    var cpUpload = upload.fields([{ name: 'logotipo', maxCount: 1 }, { name: 'beneficios', maxCount: 3 }])
+
+    router.post('/ingresar-local', ensureAuthenticated, cpUpload, (req, res) => {
+        destino = 'recursos/modular/imagenes/locales/'
+        img_bene_rest = new Array()
+        var imagenes = new Array()
+        logotipo = req.files.logotipo[0].filename
+        imagenes.push({ logo: logotipo })
+        var imgben = new Array()
+        carga_img(destino, req.files.logotipo[0].filename, 'logo', 'locales')
+        for (var i = 0; i < req.files.beneficios.length; i++) {
+            imgben.push(req.files.beneficios[i].filename)
+            carga_img(destino, req.files.beneficios[i].filename, 'bene', 'locales')
+            if (Array.isArray(req.body.beneficio) || Array.isArray(req.body.restricciones)) {
+                img_bene_rest.push({
+                    codigo: Date.now(),
+                    activo: true,
+                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
+                    beneficio: texto_ascii(req.body.beneficio[i]),
+                    restriccion: texto_ascii(req.body.restricciones[i])
+                })
+            } else {
+                img_bene_rest.push({
+                    codigo: Date.now(),
+                    activo: true,
+                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
+                    beneficio: texto_ascii(req.body.beneficio),
+                    restriccion: texto_ascii(req.body.restricciones)
+                })
+            }
+        }
+        imagenes.push({ benefic: imgben })
+        nuevoLocal = new User({
+            codigo: Date.now(),
+            nombre: req.body.nombre,
+            username: req.body.username,
+            password: req.body.password,
+            esadministrador: false,
+            token: cadenaAleatoria(),
+            escliente: false,
+            activo: true,
+            esvendedor: false,
+            eslocal: true,
+            direccion: req.body.direccion,
+            telefono: req.body.telefono,
+            logotipo: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/logo' + logotipo,
+            beneficio: img_bene_rest,
+            facebook: req.body.linkface,
+            instagram: req.body.linkInst,
+            horario:req.body.horario,
+            web: req.body.website,
+            mapa: req.body.mapa
+        })
+        User.createUser(nuevoLocal, (e, user) => {
+                if (e)
+                    res.render('errores/500', { error: e })
+                else
+                    res.render('administrador/local/ingresar', { success_msg: 'Local ingresado con éxito' })
+            })
+        })
+
+        router.get('/modificar-local', ensureAuthenticated, (req, res) => {
+            User.find().where({ eslocal: true }).exec((err, local) => {
+                res.render('administrador/local/modificar-eliminar', { local: local });
+            })
+        })
+
+        router.post('/obtener-local', ensureAuthenticated, (req, res) => {
+            User.findOne().where({ codigo: req.body.codigo }).exec((error, local) => {
+                if (error)
+                    res.send('Error: ' + error)
+                else
+                    res.send(local)
+            })
+        })
+        cpUpload = upload.fields([{ name: 'logotipo', maxCount: 1 }, { name: 'beneficios', maxCount: 3 }])
+        router.post('/modificar-local', ensureAuthenticated, cpUpload, (req, res) => {
+            destino = 'recursos/modular/imagenes/locales/'
+            var logo = '', benef = new Array()
+            User.findOne().where({ codigo: req.body.codigo }).exec((error, local) => {
+                if (error)
+                    res.render('errores/500')
+                else {
+                    try {
+                        carga_img(destino, req.files.logotipo[0].filename, 'logo', 'locales')
+                        logo = 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/logo' + req.files.logotipo[0].filename
+                    }
+                    catch (error) {
+                        logo = local.logotipo
+                    }
+                    try {
+                        for (var i = 0; i < req.files.beneficios.length; i++) {
+                            carga_img(destino, req.files.beneficios[i].filename, 'bene', 'locales')
+                            if (Array.isArray(req.body.beneficio) || Array.isArray(req.body.restricciones)) {
+                                benef.push({
+                                    codigo: Date.now(),
+                                    activo: true,
+                                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
+                                    beneficio: texto_ascii(req.body.beneficio[i]),
+                                    restriccion: texto_ascii(req.body.restricciones[i])
+                                })
+                            } else {
+                                benef.push({
+                                    codigo: Date.now(),
+                                    activo: true,
+                                    imagen: 'http://res.cloudinary.com/tarjetas/image/upload/v1/locales/bene' + req.files.beneficios[i].filename,
+                                    beneficio: texto_ascii(req.body.beneficio),
+                                    restriccion: texto_ascii(req.body.restricciones)
+                                })
+                            }
+                        }
+                    } catch (error) {
+                        benef = local.beneficio
+                        for (var i = 0; i < benef.length; i++) {
+                            if (Array.isArray(req.body.restricciones) || Array.isArray(req.body.beneficio)) {
+                                benef[i].restriccion = texto_ascii(req.body.restricciones[i])
+                                benef[i].beneficio = texto_ascii(req.body.beneficio[i])
+                            } else {
+                                benef[i].restriccion = texto_ascii(req.body.restricciones)
+                                benef[i].beneficio = texto_ascii(req.body.beneficio)
+                            }
+                        }
+                    }
+                    var query = {
+                        nombre: req.body.nombre,
+                        direccion: req.body.direccion,
+                        telefono: req.body.telefono,
+                        logotipo: logo,
+                        beneficio: benef,
+                        facebook: req.body.linkface,
+                        instagram: req.body.linkInst,
+                        apertura: req.body.abierto,
+                        cierre: req.body.cierre,
+                        web: req.body.website,
+                        mapa: req.body.mapa
+                    }
+                    User.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {
+                        if (error)
+                            res.render('errores/500', { error: error })
+                        else {
+                            User.find().where({ eslocal: true }).exec((err, local) => {
+                                res.render('administrador/local/modificar-eliminar', { local: local, success_msg: 'Actualizado con éxito' });
+                            })
+                        }
+                    })
+                }
+            })
+        })
+//Tarjeta__________________________________________________________________________
+
     router.get('/reg-tarj', ensureAuthenticated, (req, res) => {
         User.find().where({ eslocal: true }).exec((error, locales) => {
             res.render('administrador/tarjeta/ingresar', { locales: locales })
@@ -386,6 +405,7 @@
                                             activo: false,
                                             vendedor: "",
                                             vendida: false,
+                                            confirmar:false,
                                             activacion: cadenaAleatoria(),
                                             cliente: ""
                                         })
@@ -423,7 +443,7 @@
     router.get('/mod-tarj', ensureAuthenticated, (req, res) => {
         var todasTarjetas=new Array()
         ImgTarjeta.find().exec((error,imgs)=>{
-            Tarjeta.find().exec((error, tarjetas)=>{
+            try{Tarjeta.find().exec((error, tarjetas)=>{
                 for(var i=0;i<imgs.length;i++){
                     var tarjeta_por_grupo=new Array()
                     for(var j=0;j<tarjetas.length;j++){
@@ -436,6 +456,7 @@
                 }
                 res.render('administrador/tarjeta/modificar-eliminar',{tarjetas:todasTarjetas})
             })
+        }catch(error){console.log(error)}
         })   
     })
     router.post('/consultar-numero',ensureAuthenticated,(req,res)=>{
@@ -609,59 +630,34 @@
         })
     })
 
-//Home_________________________________________________
-    router.get('/slider', ensureAuthenticated, (req, res) => { 
-        Configuracion.findOne().where({codigo:1}).exec((error,respuesta)=>{
-            cheked='';
-            if(respuesta.slider==true)
-                cheked='checked'
-            Video.find().exec((error, videos)=>{                  
-                res.render('administrador/home/home',{chek:cheked, texto:'Video', videos:videos})  
-            })             
-        })   
-    })
-    router.post('/home',ensureAuthenticated,(req,res)=>{
-        if(req.body.decision=='slider'){
-            Configuracion.findOneAndUpdate({codigo:1},{slider:true,video:false},(error,respuesta)=>{
-                if(error)
-                    res.send('error')
-                else
-                    res.send('ok')
-            })
-        }else{
-            Configuracion.findOneAndUpdate({codigo:1},{slider:false,video:true},(error,respuesta)=>{
-                if(error)
-                    res.send('error')
-                else
-                    res.send('ok')
-            })
-        }
-    })
-    router.post('/home-video',ensureAuthenticated,(req,res)=>{
-        var nuevoVideo= new Video({
-            codigo: Date.now(),
-            titulo:req.body.titulo,
-            url:req.body.link
-        })
-        nuevoVideo.save((error,respuesta)=>{
+//Listar
+    router.get('/eliminar-usuario', ensureAuthenticated, (req, res)=>{
+        User.find().where({escliente:true}).exec((error, usuarios)=>{
             if(error)
-                res.render('errores/500',{error:error})
-            else
-                res.redirect('/admin/slider')
+                res.render('errores/500' , {error: error})
+            else    
+                res.render('administrador/cliente/eliminar',{usuarios:usuarios})
+        })
+    })
+    router.post('/eliminar-cliente', ensureAuthenticated, (req,res)=>{
+        User.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
+            if(error)
+                res.send('Error al eliminar el cliente')
+            else    
+                res.send('Cliente eliminado con éxito')
         })
     })
 
-    router.post('/eliminar-video', ensureAuthenticated, (req,res)=>{
-        Video.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
+    router.get('/vendedores', ensureAuthenticated, (req,res)=>{
+        User.find().where({esvendedor:true}).exec((error, vendedores)=>{
             if(error)
-                res.send('Error')
-            else{
-                res.send('Elimiando con éxito')
-            }
+                res.render('errores/500', {error:error})
+            else    
+                res.render('administrador/cliente/vendedores',{vendedores, vendedores})
         })
     })
 
-//Reportes______________________________________________
+//Reportes
     router.get('/reporte-local', ensureAuthenticated, (req,res)=>{
         User.find().where({eslocal:true}).exec((error, locales)=>{
             if(error)
@@ -686,6 +682,101 @@
     router.post('/ver-reporte-usuario', ensureAuthenticated, (req,res)=>{
         Repolocal.find().where({usuario: req.body.nombre}).exec((error, respuesta)=>{
             res.send(respuesta)
+        })
+    })
+
+    router.get('/reporte-vendedor', ensureAuthenticated, (req,res)=>{
+        User.find().where({esvendedor:true}).exec((error, vendedores)=>{
+            res.render('administrador/reportes/vendedor',{vendedores:vendedores})
+        })
+    })
+
+    router.post('/ver-reporte-vendedor', ensureAuthenticated, (req,res)=>{
+        RepoTarjeta.find().where({vendedor:req.body.nombre}).exec((error, respuesta)=>{
+            res.send(respuesta)
+        })
+    })
+    router.get('/slider', ensureAuthenticated, (req,res)=>{
+        Video.find().exec((err, videos)=>{
+            Imagen_ben.find().exec((err,imagenes)=>{
+                res.render('administrador/home/slider',{videos:videos, imagenes: imagenes})
+            })           
+        })
+    })
+
+    router.post('/home-video',ensureAuthenticated,(req,res)=>{
+        var nuevoVideo= new Video({
+            codigo: Date.now(),
+            titulo:req.body.titulo,
+            url:req.body.link
+        })
+        nuevoVideo.save((error,respuesta)=>{
+            if(error)
+                res.render('errores/500',{error:error})
+            else
+                res.redirect('/admin/slider')
+        })
+    })
+    router.post('/eliminar-video', ensureAuthenticated, (req,res)=>{
+        Video.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
+            if(error)
+                res.send('Error')
+            else{
+                res.send('Elimiando con éxito')
+            }
+        })
+    })
+    router.post('/home-imagenes',(req,res)=>{
+        codigoIM=Date.now()
+        codigoIMG=codigoIM+'.png'
+        storage = multer.diskStorage({
+            destination: (req, file, cb)=> {cb(null, 'recursos/modular/imagenes/beneficios')},
+            filename: (req, file, cb) =>{cb(null,codigoIMG)}
+        });
+        upload = multer({ storage: storage,fileFilter:(req,file,cb)=>{
+            if(file.mimetype=='image/png'|| file.mimetype=='image/gif' || file.mimetype=='image/jpg' || file.mimetype=='image/jpeg'){cb(null, true);}else{cb(null, false);}
+        }}).single('imagen_bene');
+        upload(req, res, (err)=> {
+            if(err)
+                res.render('errores/500',{error:err})
+            else{
+                cloudinary.uploader.upload("recursos/modular/imagenes/beneficios/"+codigoIMG,(result)=>{
+                    if(!result.url){
+                        res.render('errores/500',{error:result.error})
+                    }else{
+                        var nuevoSlider=new Imagen_ben({
+                            codigo:'IMG'+codigoIM,
+                            imagen:result.url
+                        })
+                        nuevoSlider.save((e,resp)=>{
+                            if(e)
+                                res.render('errores/500',{error:e})
+                            else{
+                                res.redirect('/admin/slider')
+                            }                       
+                        })
+                    }                   
+                },{public_id: 'slider/'+codigoIM})	
+            }
+        })
+    })
+    router.post('/beneficios_por_local',(req,res)=>{
+        User.findOne().where({codigo:req.body.codigo}).select('beneficio').exec((error, beneficios)=>{
+            var respuesta=new Array()
+            if(!Array.isArray(beneficios))
+                respuesta.push(beneficios)
+            else
+                respuesta=beneficios
+            res.send(respuesta)
+        })
+    })
+
+    router.post('/eliminar-imagen', ensureAuthenticated, (req,res)=>{
+        Imagen_ben.findOneAndRemove({codigo:req.body.codigo},(error, respuesta)=>{
+            if(error)
+                res.send('Error')
+            else
+                res.send('OK')
         })
     })
 //Permite el enrutamiento

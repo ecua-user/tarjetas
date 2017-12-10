@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="centrado contenedor-bordes">
+            <h1 class="blanco">Reporte de ventas</h1>
+            <div class="table">
+                <table class="table">
+                    <tr>
+                        <th>Vendedor</th>
+                        <th>Email</th>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Fecha</th>
+                        <th>Tarjeta</th>
+                        <th>Número</th>
+                    </tr>
+                    {{#if ventas}}
+                        {{#each ventas}}
+                            <tr>
+                                <td>{{this.vendedor}}</td>
+                                <td>{{this.cliente}}</td>
+                                <td>{{this.nombre}}</td>
+                                <td>{{this.cedula}}</td>
+                                <td class="fechas">{{this.fecha}}</td>
+                                <td ><img src="{{this.tarjeta}}" width="60px" alt=""></td>
+                                <td>{{this.numero}}</td>
+                            </tr>
+                        {{/each}}
+                    {{/if}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener('load', ()=>{
+        var fechas= document.getElementsByClassName('fechas')
+        for(var i=0; i< fechas.length; i++){
+            fechas[i].innerHTML=transfor_fechas(fechas[i].innerHTML)
+        }
+        function transfor_fechas(fecha){
+            fecha = new Date(fecha);
+            dia = fecha.getDate();
+            if (dia < 10)
+                dia = '0' + dia
+            mes = fecha.getMonth() + 1
+            if (mes < 10)
+                mes = '0' + mes
+            hora = fecha.getHours()
+            if (hora < 10)
+                hora = '0' + hora
+            minuto = fecha.getMinutes()
+            if (minuto < 10)
+                minuto = '0' + minuto
+             return dia+' / '+mes+' / '+ fecha.getFullYear()+' '+ hora+' : '+minuto
+        }
+    })
+</script>

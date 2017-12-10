@@ -26,3 +26,7 @@
     padding: 15px;
     margin: 0 auto;
 }
+.fondo-registro{
+    background-color:rgba(114, 112, 108, 0.5);
+    padding:24px
+}

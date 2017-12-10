@@ -1,53 +1,63 @@
-<div class="comprado">
-    <ul class=" fondo-nav nav nav-tabs ">
-        <li class="nav-item">
-            <a class="nav-link active" href="/vendedor/vender">Vender tarjetas</a>
-        </li>
-        <li class="nav-item">
-            <a href="/vendedor/ventas" class="nav-link">Reporte de ventas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/users/password">Cambiar contraseña</a>
-        </li>
-    </ul>
-</div>
-<br>
-<div class="comprado margen-row">
-    <div class="alert alert-primary  " role="alert">
-        <h2 class="centrado">Venta de tarjetas</h2>
-    </div>
-    <br>
-    <div class="row ">
-        <div class="col-lg-4 col-md-4"></div>
-        <div class="col-lg-4 col-md-4">
-            <h3 class="centrado">Vender</h3>
-            <div id="centralMensajes">
-                <div class="alert alert-success" id="div-correcto" style="display:none"></div>
-                <div class="alert alert-danger" id="div-error" style="display:none"></div>
-            </div>
-            <div class="fondo-blanco">
-                <form class="form-signin" action="" method="post" onsubmit="venderTarjeta(event)">
-                    <div class="form-group">
-                        <label for="">Código</label>
+<h1 class="centrado titulo blanco" style="margin-top:6%">Realizar venta</h1>
+<div class="row">
+    <div class="col-lg-3 col-md-3"></div>
+    <div class="col-lg-6 col-md-6">
+        <form class="form-signin" action="" method="post" onsubmit="venderTarjeta(event)">
+            <div class="contenedor-bordes blanco centrado">
+                <div id="central-mensajes">
+                    {{#if success_msg}}
+                    <div class="centrado blanco mensaje-bien-sistema animated flash">
+                        <h3>{{success_msg}}</h3>
+                    </div>
+                    {{/if}} {{#if error}}
+                    <div class="centrado blanco mensaje-error-sistema animated flash">
+                        <h3>{{error}}</h3>
+                    </div>
+                    {{/if}}
+                    <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                    </div>
+                    <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <img style="border:solid 1px white" src="../modular/imagenes/local.png" id="img_trj" width="100%" alt="">
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        <div class="form-group">
+                            <select required name="tarjeta" onchange="actualizar_img(this.value)" id="elecc_trj" class="form-control " aria-placeholder="Tipo de tarjeta">
+                                <option value="NA" >Tipo de tarjeta</option>
+                                {{#if id_trj}} {{#each id_trj}}
+                                    <option value="{{this.imagen}}">{{this.titulo}}</option>
+                                {{/each}} {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:12px">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Seleccione código de tarjeta</span>
                         <select required class="form-control" name="num_tarj" id="numero_tarjeta">
                             {{#if tarjetas}} {{#each tarjetas}}
                             <option value="{{this.numero}}">Tarjeta N° {{this.numero}}</option>
                             {{/each}} {{/if}}
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="email" required name="correo" list="correos" id="correo_tarjetas" class="form-control">
-                        <datalist id="correos">
-                            {{#if clientes}} {{#each clientes}}
-                            <option value="{{this.username}}">{{this.username}}</option>
-                            {{/each}} {{/if}}
-                        </datalist>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Vender</button>
-                </form>
+                </div>
+                <div class="form-group">
+                    <input type="email" required name="correo" placeholder="Mail" list="correos" id="correo_tarjetas" class="form-control">
+                    <datalist id="correos">
+                        {{#if clientes}} {{#each clientes}}
+                        <option value="{{this.username}}">{{this.username}}</option>
+                        {{/each}} {{/if}}
+                    </datalist>
+                </div>
+                <button type="submit" class="btn btn-warning">Vender</button>
             </div>
-        </div>
+        </form>
     </div>
+</div>
+<div class="">
+
 </div>
 <script src="../modular/codigo/vendedor.js"></script>

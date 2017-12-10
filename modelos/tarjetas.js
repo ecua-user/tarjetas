@@ -10,6 +10,7 @@ TarjetaSchema=new mongoose.Schema({
     vendedor:String,
     fechaasignacion:Date,
     fechaventa: Date,
+    confirmar:Boolean,
     vendida:Boolean,
     cliente:String,
     

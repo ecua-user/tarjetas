@@ -14,7 +14,8 @@ function registro(event) {
         username: valor('txtcorreo'),
         password: valor('txtpassword'),
         rpassword: valor('txtRpassword'),
-        token: cadenaAleatoria()
+        token: cadenaAleatoria(),
+        referido: valor('idreferido')
     }
     $.ajax({
         type: "POST",
@@ -54,10 +55,10 @@ function validar() {
     var sumatotal=0
     ultimo=Number(vector[9])
     if(vector.length==10){
-        if(cedula=='0000000000'){
+        //if(cedula=='0000000000'){
             document.getElementById("txtcedula").setCustomValidity('Esta cédula no es real')
             retornar=false;
-        }else{
+        //}else{
             for(var i=0;i<vector.length-1;i++){
                 var numero=Number(vector[i])
                 if((i+1)%2==1){
@@ -84,7 +85,7 @@ function validar() {
                 else
                     document.getElementById("txtcedula").setCustomValidity('')
             }
-        }
+        //}
         return retornar
     }
     
@@ -101,7 +102,11 @@ function olvido(event){
         contentType: "application/json",
         data: JSON.stringify(envio)
     }).done((resp) => {
-        try {
+        if(resp=='Error: No existe este usuario'){
+            $('#div-error').html('Este usuario no existe en el sistema')
+            document.getElementById('div-error').style.display = 'block'
+            no_cargando()
+        }else{
             emailjs.send("default_service","template_KK3G9LwJ",{
                 to_destinatario: envio.username, 
                 to_name:resp[1],
@@ -117,10 +122,6 @@ function olvido(event){
                     no_cargando()
                 }
             );
-        } catch (error) {
-            $('#div-error').html('Este usuario no existe en el sistema')
-            document.getElementById('div-error').style.display = 'block'
-            no_cargando()
         }
     })
 }

@@ -26,9 +26,9 @@ var usuariosSchema = mongoose.Schema({
 		beneficio:Array,
 		facebook:String,
 		instagram:String,
-		apertura: String,
-		cierre: String,
+		horario: String,
 		web:String,
+		mapa: String,
 	/*Vendedor*/
 		esvendedor:Boolean,
 	/*CLiente*/

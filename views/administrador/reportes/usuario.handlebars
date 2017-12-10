@@ -1,8 +1,4 @@
-<script src="../modular/codigo/admin.js"></script>
-<script>
-    window.addEventListener('load',opciones)
-</script>
-<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+<ul class="nav nav-tabs  fondo-nav">
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
@@ -22,61 +18,71 @@
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
-    </li>
     <li class="nav-item dropdown">
-        <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
             <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
             <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
-            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
         </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/admin/slider">Home</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
-    </li>
 </ul>
-<div id="opciones"></div>
-<br>
 
-<div class="alert alert-primary margen-row" role="alert">
-    <h3 class="centrado ">Reporte por  usuario</h3>
-</div>
-<div class="margen-row">
-    <div class="fondo-blanco" style="min-height:400px">
-        <div class="form-group margen-row">
-            <label for="">Seleccione local</label>
-            <div class="input-group">
-                <select name="" id="todos_usuarios" class="form-control">
-                    {{#if clientes}}
-                        {{#each clientes}}
-                            <option value="{{this.username}}">{{this.nombre}}</option>
-                        {{/each}}
-                    {{/if}}
-                </select>
-                <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="generar_reporte_cliente()">Consultar</span>
-                <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
-                <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="contenedor-bordes">
+            <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
-        </div>
-        <div class="table" >
-            <div id="vista_impresion">
-                <table class="table" id="datos_reporte">
-                
-                </table>
+            <h3 class="centrado blanco">Reporte por usuario</h3>
+            <div class="form-group margen-row">
+                <label for="" class="blanco">Seleccione Cliente</label>
+                <div class="input-group">
+                    <select name="" id="todos_usuarios" class="form-control">
+                        {{#if clientes}} {{#each clientes}}
+                        <option value="{{this.username}}">{{this.nombre}}</option>
+                        {{/each}} {{/if}}
+                    </select>
+                    <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="generar_reporte_cliente()">Consultar</span>
+                    <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
+                    <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+                </div>
+            </div>
+            <div class="table">
+                <div id="vista_impresion">
+                    <table class="table" id="datos_reporte">
+
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" href="../modular/estilos/admin.css">
-
- 
+<script src="../modular/codigo/admin.js"></script>

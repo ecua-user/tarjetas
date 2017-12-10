@@ -1,8 +1,15 @@
 
 html, body {
-    height: 100%; 
+    height: 99%; 
     margin: 0; 
+}
+
+#contendedor-general{
+    background-color:rgba(000, 000, 000, 0.2);
     font-family:'Bebas Neue';
+    margin-bottom: -1px; 
+    min-height:100%; 
+    min-width:100%
 }
 body{
     min-width: 100%;
@@ -21,35 +28,14 @@ body{
 }
 
 footer{
-	
-	min-height: 1px;
+	min-height: 30px;
 }
 .footer-bs {
-    background-color: #3c3d41;
-	padding: 40px 20px;
+    background-color: #000000;
+	padding: 5px 5px;
 	color: rgba(255,255,255,1.00);
-	border-bottom-right-radius: 6px;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 6px;
-}
-.footer-bs .footer-nav ul.pages li { padding:5px 0px;}
-.footer-bs .footer-nav ul.pages a { color:rgba(255,255,255,1.00); font-weight:bold;  }
-.footer-bs .footer-nav ul.pages { list-style:none; padding:0px; }
-.footer-bs .footer-nav ul.pages a:hover { color:rgba(255,255,255,0.80); text-decoration:none; }
-.footer-bs .footer-nav h4 .footer-social {
-	font-size: 11px;
-	text-transform: uppercase;
-	letter-spacing: 3px;
-	margin-bottom:10px;
-}
-.footer-bs .footer-social ul { list-style:none; padding:0px; }
-.footer-bs .footer-social li { padding:5px 4px;}
-.footer-bs .footer-social a { color:rgba(255,255,255,1.00);}
-.footer-bs .footer-social a:hover { color:rgba(255,255,255,0.80); text-decoration:none; }
-@media (min-width: 768px) {
-	.footer-bs .footer-nav, .footer-bs .footer-social, .footer-bs .footer-ns { border-left:solid 1px rgba(255,255,255,0.10); }
-}
 
+}
 .slider{
 	opacity: 0.85;
     filter: alpha(opacity=85);
@@ -58,7 +44,6 @@ footer{
     -webkit-border-radius: 15px 15px;  /* Safari  */
     -moz-border-radius: 15px 15px;  
 }
-
 .fondo-blanco{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -68,70 +53,15 @@ footer{
     padding: 15px;
 }
 
-.fondo-nav{
-    background-color: white;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.nav-negro .navbar-toggler {
+    color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
 }
-
-.div_file{
-	position:relative;
-    margin-top: 10px;
-	padding:10px;
-	width:100%;
-	-webkit-border-radius:5px;
-
+  
+.nav-negro .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
-.btn_enviar{
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	bottom:0px;
-	width:100%;
-	opacity: 0;
-}
-
-.zoomIt{
-    display:block!important;
-    -webkit-border-radius: 5px 10px;  /* Safari  */
-    -moz-border-radius: 5px 10px;  
-    -webkit-transition:-webkit-transform 1s ease-out;
-    -moz-transition:-moz-transform 1s ease-out;
-    -o-transition:-o-transform 1s ease-out;
-    -ms-transition:-ms-transform 1s ease-out;
-    transition:transform 1s ease-out;
-	opacity: 1;
-}
-.zoomIt:hover{
-    -moz-transform: scale(1.1);
-    -webkit-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    transform: scale(1.1);
-	opacity: 0.95;
-}
-
-.pinfor{
-    font-size: 120%;
-}
-
-.separador_bene{
-    padding-bottom:7px;
-    padding-top:7px;
-    border-style: solid;
-    border-top:none;
-    border-right:none;
-    border-left:none;
-    margin-left:4px;
-    margin-right:4px;
-}
-
-
-
-
-.fullscreen-bg {
+  .fullscreen-bg {
     position: fixed;
     top: 0;
     right: 0;
@@ -155,12 +85,139 @@ footer{
 	    transform: translate(-50%, -50%);
 }
 
+
 @media (max-width: 767px) {
     .fullscreen-bg {
         background: url('../imagenes/fondo.png') center center / cover no-repeat;
+    }
+    .centrado-sel{
+        margin-top: 10px;
     }
 
     .fullscreen-bg__video {
         display: none;
     }
+}
+.contenedor-bordes{
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:2%;
+    border:solid 1px;
+    border-color:white; 
+    padding:3%;
+    background-color: rgba(000, 000, 000, 0.7);
+}
+.carousel-titulo {
+    position: absolute;
+    width: 100%;
+    bottom: -1px; 
+    z-index: 10;
+    padding-top:10px;
+    padding-bottom: 40px;
+    background-color: rgba(000, 000, 000, 0.7);
+    color: #ffffff;
+    text-align: center;
+  }
+
+.mensaje-error-sistema{
+     
+    background-color:rgba(180, 000, 000, 0.9);
+    padding-top:20px; 
+    margin-bottom:12px; 
+    margin-top:12px;
+    padding-bottom:12px
+}
+.mensaje-bien-sistema{
+    
+    background-color:rgba(39, 91, 233, 0.952);
+    padding-top:20px; 
+    padding-bottom:20px; 
+    margin-bottom:12px; 
+    margin-top:12px
+}
+
+.animated {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+   }
+   @-webkit-keyframes flash {
+    0%, 50%, 100% {
+    opacity: 1;
+    }
+   25%, 75% {
+    opacity: 0;
+    }
+   }
+   @keyframes flash {
+    0%, 50%, 100% {
+    opacity: 1;
+    }
+   25%, 75% {
+    opacity: 0;
+    }
+   }
+   .flash {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+   }
+
+   .area_descriptiva{
+    min-height: 80%;
+    margin-bottom: 12px;
+    resize: none;
+    min-width: 100%;
+    color: white;
+    background-color: rgba(000, 000, 000, 0)
+}
+.area-beneficios{
+    resize: none;
+    min-width: 100%;
+    text-align: justify;
+    border: solid 1px rgba(000, 000, 000, 0);
+    background-color: white;
+    color: black
+}
+
+.form-signin
+{
+    padding: 15px;
+    margin: 0 auto;
+}
+.profile-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.fondo-nav{
+    background-color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.div_file{
+	position:relative;
+    margin-top: 10px;
+	padding:10px;
+	width:100%;
+	-webkit-border-radius:5px;
+
+}
+.btn_enviar{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	width:100%;
+	opacity: 0;
+}
+.bordes-blanco{
+    border:solid 1px;border-color:white; padding:5px;
 }

@@ -1,0 +1,112 @@
+<div class="row margen">
+    <div class="col-lg-6 col-md-6 ">
+        <div class="centrado contenedor-bordes blanco">
+            <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+            </div>
+            <h3 class="centrado ">Registro de sub vendedores</h3>
+            <form class="form-signin" action="/vendedor/asociar-vendedor" method="post">
+                <div class="row">
+                    <div class="col-lg-6 col-6">
+                        <div class="form-group">
+                            <input type="text" title="No se incluyen números" pattern="^[a-zA-ZñÑ\s\W]*" name="nombre" autofocus placeholder="Nombre"
+                                class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Edad</span>
+                                <input type="number" step="1" value="18" min="18" max="150" name="edad" id="txtedad" placeholder="Edad" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="sector" placeholder="Sector" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="username" placeholder="Correo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
+                                minlength="8" name="password" placeholder="Contraseña" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
+                                type="password" minlength="8" name="rpassword" placeholder="Repetir contraseña" class="form-control"
+                                required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-6">
+                        <div class="form-group">
+                            <input minlength="10" maxlength="10" type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
+                                id="txtcedula" name="cedula" placeholder="Cédula" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Género</span>
+                                <select name="genero" id="generoSelector" class="form-control">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="N">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" pattern="^(09)[0-9]*" title="Ingreser un número de celular válido" name="telefono" id="txttelefono" minlength="10"
+                                maxlength="10" placeholder="Teléfono" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="direccion" placeholder="Dirección" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Superior</span>
+                                <select class="form-control" name="superior" id="">
+                                    <option value="{{user.nombre}}">{{user.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-block">Registrar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 " style="font: 10px arial, sans-serif;">
+        <div class="centrado contenedor-bordes blanco">
+            <form action="/vendedor/reasignar" method="post">
+                <h3>Asignación de tarjetas</h3>
+                <h4 for="">Seleccionar tarjetas a asignar</h4>
+                <h5>Código de {{user.nombre}}, es: {{user.codigo}}</h5>
+                <select title="Seleccione uno o mas elementos" required name="todas_tarjetas" multiple size="7" class="form-control" id="">
+                    {{#if tarjetas}} {{#each tarjetas}}
+                    <option title="{{this.numero}}" value="{{this.numero}}">{{this.vendedor}}---Tarjeta N°: {{this.numero}}</option>
+                    {{/each}} {{/if}}
+                </select>
+                <h5 for="">Seleccionar sub vendedor a asignar</h6>
+                    <select title="Selecciones un sub-vendedor" required name="todos_vendedores" class="form-control" id="">
+                        <option value="{{user.codigo}}">{{user.nombre}}</option>
+                        {{#if vendedores}} {{#each vendedores}}
+                        <option title="{{this.nombre}}" value="{{this.codigo}}">{{this.codigo}}----{{this.nombre}}</option>
+                        {{/each}} {{/if}}
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-warning">Asignar tarjetas</button>
+            </form>
+
+        </div>
+    </div>
+</div>

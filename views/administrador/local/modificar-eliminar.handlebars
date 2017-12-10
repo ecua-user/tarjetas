@@ -1,4 +1,4 @@
-<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+<ul class="fondo-nav nav nav-tabs">
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
@@ -18,11 +18,15 @@
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+        </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
@@ -30,73 +34,66 @@
             <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
             <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
             <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
-            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
+
         </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/admin/slider">Home</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
-    </li>
 </ul>
-<div id="opciones"></div>
-<br>
+<div class="row margen">
+    <div class="col-lg-1 col-md-1"></div>
+    <div class="col-lg-10 col-md-10">
+        <div class="contenedor-bordes blanco">
+            <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
 
-<script src="../modular/codigo/admin.js"></script>
-<script>
-    window.addEventListener('load', opciones)
-</script>
-<div class="alert alert-primary margen-row" role="alert">
-    <h3 class="centrado ">Modificar local</h3>
-</div>
-<div class="alert margen-row">
-    <div class="form-group ">
-        <div class="row">
-            <div class="col-lg-8 col-md-7"></div>
-            <div class="col-lg-4 col-md-5 fondo-blanco">
-                <div class="input-group">
-                    <input id="filtro-buscar" type="text" onkeyup="filtro_locales()" class="form-control" placeholder="Buscar...">
-                    <button type="button" class="btn btn-default" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+            </div>
+            <h3 class="centrado ">Modificar local</h3>
+            <div class="input-group" style="margin-bottom:12px">
+                <input id="filtro-buscar" type="text" onkeyup="filtro_locales()" class="form-control" placeholder="Buscar...">
+                <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </div>
+            {{#if local}} {{#each local}}
+            <div class="row locales-buscar" role="alert" style="border: solid 1px white; padding:12px; margin:12px">
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8 centrado">
+                    <img src="{{this.logotipo}}" style="border:solid 1px white" height="60px" alt="{{this.nombre}}">
+                    <h4 class="busqueda">{{this.nombre}}</h4>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" style="text-align:right">
+                    <button id="{{this.codigo}}" onclick="modificar_local(this.id)" type="button" class="btn btn-primary" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    <button id="{{this.codigo}}" onclick="eliminar_local(this.id)" type="button" class="btn btn-danger" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
-        </div>       
-    </div>
-    <div id="centralMensajes">
-        {{#if success_msg}}<div class="alert alert-success">{{success_msg}}</div>{{/if}} 
-        {{#if error_msg}}<div class="alert alert-danger">{{error_msg}}</div>{{/if}} 
-        {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
-    </div>
-    {{#if local}} {{#each local}}
-    <div class="alert alert-secondary row locales-buscar" role="alert">
-        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4">
-            <img src="{{this.logotipo}}" height="40px" alt="">
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-6 col-xs-4">
-            <h4 class="busqueda">{{this.nombre}}</h4>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="text-align:right">
-            <button id="{{this.codigo}}" onclick="modificar_local(this.id)" type="button" class="btn btn-primary" aria-label="Left Align">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button id="{{this.codigo}}" onclick="eliminar_local(this.id)" type="button" class="btn btn-danger" aria-label="Left Align">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </button>
+            {{/each}} {{/if}}
         </div>
     </div>
-    {{/each}} {{/if}}
-</div>
 </div>
 <div class="modal fade bd-example-modal-lg" id="modal-modificar-local" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content blanco centrado" style="background-color:rgba(000, 000, 000, 0.9); border:solid 1px white">
             <div class="modal-header">
                 <h5 class="modal-title centrado">Modificar local</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true" class="blanco">&times;</span>
                 </button>
             </div>
             
@@ -106,7 +103,7 @@
                     <div class="col-lg-3 col-sm-6">
                         <h4 class="centrado">Logotipo</h4>
                         <div id="poder form-signin">
-                            <img src="../modular/imagenes/local.png" class="img-responsive" id="img_destino">
+                            <img src="../modular/imagenes/local.png" style="border:1px white solid" class="img-responsive" id="img_destino">
                         </div>
                         <div class="form-group">
                             <div class="div_file btn btn-info ">
@@ -172,7 +169,15 @@
                                 <input type="tel" id="modificar_telefono_local" placeholder="Teléfono" name="telefono" class="form-control" required>
                             </div>
                         </div>
-                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">
+                                    <i class="zmdi zmdi-gps-dot"></i>
+                                </span>
+                                <input type="url" id="mapa_local" placeholder="Mapa de google" title="Ingrese http://" name="mapa" class="form-control"> 
+                            </div>
+                            <a href="/modular/imagenes/mapa.pdf">Instrucciones del mapa</a>
+                        </div>
                     </div>
                     <div class="col-lg-3  col-sm-6">
                         <div class="form-group" title="Ingrese http://">
@@ -183,20 +188,12 @@
                                 <input title="Ingrese http://" id="modificar_website_local" type="url" placeholder="Sitio web" name="website" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group" title="Hora de apertura">
+                        <div class="form-group" title="Horario">
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1">
                                     <i class="zmdi zmdi-lock-open"></i>
                                 </span>
-                                <input type="time" id="modificar_apertura_local" placeholder="Hora de apertura" name="abierto" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group" title="Hora de Cierre">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">
-                                    <i class="zmdi zmdi-lock"></i>
-                                </span>
-                                <input type="time"  id="modificar_cierre_local" placeholder="Hora de cierre" name="cierre" class="form-control" required>
+                                <input type="text" id="modificar_horario_local" placeholder="Horario" name="horario" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -208,7 +205,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" style="width:100%">
+                            <button type="submit" class="btn btn-warning" style="width:100%">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aceptar
                             </button>
                         </div>
@@ -218,4 +215,5 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="../modular/estilos/admin.css">
+
+<script src="../modular/codigo/admin.js"></script>

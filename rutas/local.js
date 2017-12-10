@@ -58,8 +58,8 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                 }
             }
         }
-        if(sumatoria==comprobante){
-            Tarjeta.findOneAndUpdate({numero: req.body.numero},{activo:false},(error, respuesta)=>{
+        if(sumatoria==comprobante){           
+            Tarjeta.findOneAndUpdate({numero: req.body.numero},{confirmar:true},(error, respuesta)=>{
 
             })
         }
@@ -79,7 +79,6 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                                     Tarjeta.findOneAndUpdate({numero: req.body.numero},{locales:tarjeta.locales},(error, respuesta)=>{
                                         var notifica=new Notificacion({
                                             fecha: new Date(req.body.fecha),
-                                            cliente:req.body.cliente,
                                             local:req.user.codigo,
                                             local_nombre:req.user.nombre,
                                             numero: req.body.numero, 
@@ -107,7 +106,7 @@ router.post('/usar-beneficio', ensureAuthenticated, (req,res)=>{
                     }
                 }
             }else{
-                Tarjeta.findOneAndUpdate({numero: req.body.numero},{activo:false},(error, respuesta)=>{
+                Tarjeta.findOneAndUpdate({numero: req.body.numero},{confirmar:true},(error, respuesta)=>{
                     res.send('Tarjeta caducada')
                 })               
             }

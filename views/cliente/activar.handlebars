@@ -1,76 +1,69 @@
-<br>
-<script src="../modular/codigo/cliente.js"></script> 
-<div class="fondo-blanco">
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a id="link-indiv" class="nav-link" href="/cliente/perfil">Perfil</a>
-                </li>
-                <li class="nav-item">
-                    <a id="link-grup" class="nav-link active" href="/cliente/comprado">Activar tarjeta</a>
-                </li>
-                <li class="nav-item">
-                    <a id="link-grup" class="nav-link" href="/users/password">Cambiar contraseña</a>
-                </li>
-            </ul>
+<div class="row">
+    <div class="col-lg-6 col-md-6 centrado">
+        <div class="centrado contenedor-bordes" style="background-color:#000000">
+            <h1 class="blanco">Video promocionales</h1>
+            {{#if video}}
+            <iframe width="100%" id="espacio_video" height="315" src="{{video.url}}" frameborder="0" gesture="media" allow="encrypted-media"
+                allowfullscreen></iframe>
+            {{/if}}
+            <div class="centrado">
+                {{#if videos}} {{#each videos}}
+                <button style="margin-bottom:4px" class="btn btn-outline-warning" onclick="cargar_video('{{this.url}}')">{{this.titulo}}</button>
+                {{/each}} {{/if}}
+            </div>
         </div>
-        <div>
-            <div class="alert alert-danger" id="control_error" style="display:none"></div>
+        <div class="form-group">
+            <br>
+            <a href="/contactos"><button class="btn btn-warning">Quiero solicitar una tarjeta</button></a>
         </div>
-        <div class="card-body">
-            <div class="row comprado">
-                <div class="col-lg-3 col-md-2 "></div>
-                <div class="col-lg-6 col-md-8 ">
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div style="height:30px" class="hidden-xs hidden-sm"></div>
+        <h1 class="centrado blanco titulo">Activación de tarjeta</h1>
+        <div class="centrado contenedor-bordes">
+            <form class="form-signin" method="post" onsubmit="activar_tarjeta(event)">
+                <div id="central-mensajes">
                     {{#if success_msg}}
-                    <div class="alert alert-success">{{success_msg}}</div>{{/if}}
-                    <div id="centralMensajes">
-                        <div class="alert alert-success" id="div-correcto" style="display:none"></div>
-                        <div class="alert alert-danger" id="div-error" style="display:none"></div>
+                    <div class="centrado blanco mensaje-bien-sistema animated flash">
+                        <h3>{{success_msg}}</h3>
                     </div>
-                    <h2 class="centrado">Activación de tarjeta</h2>
-                    <br>
-                    <form class="form-signin" method="post" onsubmit="activar_tarjeta(event)">
-                        <div class="form-group">
-                            <label for="">Número</label>
-                            <input step="1" onkeypress="return solonumeros(event)" id="txt_numero" type="number" class="form-control" min="0" required value="1">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Código de activación
-                                <span style="color:blue"> (Código enviado a su email al realizar la compra) </span>
-                            </label>
-                            <input minlength="16" maxlength="16" id="txt_codigo" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Activar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    {{/if}} {{#if error}}
+                    <div class="centrado blanco mensaje-error-sistema animated flash">
+                        <h3>{{error}}</h3>
+                    </div>
+                    {{/if}}
+                    <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
 
-<div class="modal" id="modal_tarjeta" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Activar la tarjeta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h1 class="centrado">Tarjeta Número: <b id="num_trj"></b></h1>
-               <div id="detalles_beneficios" style="max-height:400px; overflow-y: scroll;">
-                   
-                </div>  
-                 <div class="modal-footer">
-                     <button class="btn btn-dark" onclick="finalizar_activacion()">Activar</button>      
-                <button class="btn btn-info">Cancelar</button>   
-                 </div>
-                  
-            </div>
+                    </div>
+                    <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <img style="border:solid 1px white" src="../modular/imagenes/local.png" id="img_trj" width="100%" alt="">
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        <div class="form-group">
+                            <select required name="tarjeta" onchange="actualizar_img(this.value)" id="elecc_trj" class="form-control " aria-placeholder="Tipo de tarjeta">
+                                <option value="NA">Tipo de tarjeta</option>
+                                {{#if id_trj}} {{#each id_trj}}
+                                <option value="{{this.imagen}}">{{this.titulo}}</option>
+                                {{/each}} {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:12px">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Ingrese número de tarjeta</span>
+                        <input step="1" onkeypress="return solonumeros(event)" id="num_trj" type="number" class="form-control" min="1" required >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input  placeholder="Código de activación enviado a {{user.username}}"  id="txt_codigo" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-warning">Validar tarjeta</button>
+            </form>
         </div>
     </div>
 </div>
+<script src="../modular/codigo/cliente.js"></script>

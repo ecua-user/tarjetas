@@ -1,4 +1,4 @@
-<ul class="fondo-nav nav nav-tabs hidden-sm hidden-xs">
+<ul class="fondo-nav nav nav-tabs ">
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
@@ -18,11 +18,15 @@
         <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/eliminar-usuario">Eliminar usuario</a>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+        </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
@@ -30,139 +34,136 @@
             <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
             <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
             <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
-            <a class="dropdown-item" href="/admin/reporte-tarjeta">Por tarjeta</a>
         </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/admin/slider">Home</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/users/password">Cambiar contraseña</a>
-    </li>
 </ul>
-<div id="opciones"></div>
-<br>
 
 <script src="../modular/codigo/admin.js"></script>
-<div class="alert alert-primary  margen-row" role="alert">
-    <h3 class="centrado ">Modificar o eliminar tarjetas</h3>
-</div>
-<div class="margen-row">
-
-    <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
-    <div id="centralMensajes">
-        {{#if success_msg}}
-        <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
-        <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
-        <div class="alert alert-danger">{{error}}</div>{{/if}}
-    </div>
-    <div class="fondo-blanco">
-        <div class="card text-center">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a id="link-indiv" class="nav-link active" href="javascript:tarjeta_individual()">Individual</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="link-grup" class="nav-link" href="javascript:tarjeta_grupal()">En masa</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <div class="alert alert-danger" id="control_error" style="display:none"></div>
-            </div>
-            <div class="card-body">
-                <div id="individual">
-                    <h4 class="card-title">Edición individual</h4>
-                    <div id="consulta_edicion" class="margen-row">
-                        <div class="input-group" style="margin-bottom:12px">
-                            <span class="input-group-addon" id="basic-addon1">Tarjeta número: </span>
-                            <input type="number" min="0" onkeypress="return solonumeros(event)" value="0" name="" id="numero_consulta" class="form-control">
-                        </div>
-                        <button class="btn btn-dark" onclick="consultar_trj()">Consultar</button>
-                        <button class="btn btn-danger" onclick="eliminar_trj()">Eliminar</button>
-                    </div>
-                    <div id="edicion_individual" style="display:none" class="margen-row">
-                        <div class="alert alert-danger" id="error_trj" style="display:none"></div>
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Tarjeta número:</label>
-                                    <input type="text" readonly name="numero" id="mod_tar_num" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Fecha inicial</label>
-                                    <input type="date" placeholder="AAAA-MM-DD" name="inicial" id="mod_tar_inic" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Fecha de caducidad</label>
-                                    <input type="date" placeholder="AAAA-MM-DD" name="final" id="mod_tar_fin" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for=""></label>
-                                    <button class="btn btn-dark" onclick="actualiza_trj_indivdidual()">Actualizar</button>
-                                    <button class="btn btn-info" onclick="tarjeta_individual()">Cancelar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Estado</label>
-                            <div id="loc_mod_tar"></div>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="contenedor-bordes ">
+            <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
                 </div>
-                <div id="grupal" style="display:none" class="margen-row">
-                    <h4 class="card-title">Edición en masa</h4>
-                    <div class="table">
-                        <table class="table">
-                            {{#if tarjetas}} {{#each tarjetas}}
-                            <tr>
-                                <td>De la tarjeta número: {{this.inicial}} a la tarjeta número: {{this.final}}</td>
-                                <td>
-                                    <button onclick="modificar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-dark" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button onclick="eliminar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-danger" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            {{/each}} {{/if}}
-                        </table>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+            </div>
+            <h3 class="centrado blanco ">Modificar o eliminar tarjetas</h3>
+            <div class="card text-center">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a id="link-indiv" class="nav-link active" href="javascript:tarjeta_individual()">Individual</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="link-grup" class="nav-link" href="javascript:tarjeta_grupal()">En masa</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div id="individual">
+                        <h4 class="card-title">Edición individual</h4>
+                        <div id="consulta_edicion" class="margen-row">
+                            <div class="input-group" style="margin-bottom:12px">
+                                <span class="input-group-addon" id="basic-addon1">Tarjeta número: </span>
+                                <input type="number" min="0" onkeypress="return solonumeros(event)" value="0" name="" id="numero_consulta" class="form-control">
+                            </div>
+                            <button class="btn btn-warning" onclick="consultar_trj()">Consultar</button>
+                            <button class="btn btn-info" onclick="eliminar_trj()">Eliminar</button>
+                        </div>
+                        <div id="edicion_individual" style="display:none" class="margen-row">
+                            <div class="alert alert-danger" id="error_trj" style="display:none"></div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Tarjeta número:</label>
+                                        <input type="text" readonly name="numero" id="mod_tar_num" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Fecha inicial</label>
+                                        <input type="date" placeholder="AAAA-MM-DD" name="inicial" id="mod_tar_inic" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Fecha de caducidad</label>
+                                        <input type="date" placeholder="AAAA-MM-DD" name="final" id="mod_tar_fin" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label for=""></label>
+                                        <button class="btn btn-warning" onclick="actualiza_trj_indivdidual()">Actualizar</button>
+                                        <button class="btn btn-info" onclick="tarjeta_individual()">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Estado</label>
+                                <div id="loc_mod_tar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="grupal" style="display:none" class="margen-row">
+                        <h4 class="card-title">Edición en masa</h4>
+                        <div class="table">
+                            <table class="table">
+                                {{#if tarjetas}} {{#each tarjetas}}
+                                <tr>
+                                    <td>De la tarjeta número: {{this.inicial}} a la tarjeta número: {{this.final}}</td>
+                                    <td>
+                                        <button onclick="modificar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-dark" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button onclick="eliminar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-danger" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{/each}} {{/if}}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <link rel="stylesheet" href="../modular/estilos/admin.css">
-<script>
-    window.addEventListener('load', opciones)
-</script>
+
 
 <div class="modal bd-example-modal-lg" id="modal_edit_tarj" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content  blanco" style="background-color:rgba(000,000,000,0.9)">
             <div class="modal-header">
                 <h5 class="modal-title" id="tit_mod_mas_loc">Modificar tarjeta</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" class="blanco">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="/admin/modificar-masa" id="form-masa" method="post" onsubmit="validaciones(event)" enctype="multipart/form-data">
                     <div class="margen-row">
                         <div id="div-peligro" style="display:none" class="alert alert-danger"></div>
-                        <div class="fondo-blanco">
+                        <div >
                             <div class="row">
                                 <div class="col-lg-4 col-md-4">
                                     <h3 class="centrado">Datos</h3>
@@ -182,16 +183,22 @@
                                         <label for="">Fecha de caducidad</label>
                                         <input type="date" id="fecha-final" placeholder="MM/DD/AAAA" class="form-control" name="ffin" required>
                                     </div>
-                                     <div class="form-group">
+                                    <div class="form-group">
                                         <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-facebook"></i></span>
-                                            <input type="url" id="linkfacebook" title="Ingrese http://" name="linkface" class="form-control" placeholder="Link de facebook" aria-describedby="basic-addon1">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                                <i class="zmdi zmdi-facebook"></i>
+                                            </span>
+                                            <input type="url" id="linkfacebook" title="Ingrese http://" name="linkface" class="form-control" placeholder="Link de facebook"
+                                                aria-describedby="basic-addon1">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-instagram"></i></span>
-                                            <input type="url" id="linkinstagram" title="Ingrese http://" name="linkInst" class="form-control" placeholder="Link de instagram" aria-describedby="basic-addon1">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                                <i class="zmdi zmdi-instagram"></i>
+                                            </span>
+                                            <input type="url" id="linkinstagram" title="Ingrese http://" name="linkInst" class="form-control" placeholder="Link de instagram"
+                                                aria-describedby="basic-addon1">
                                         </div>
                                     </div>
                                 </div>
@@ -205,7 +212,7 @@
                                         <div class=" btn btn-info" style="width:100%">
                                             Escoger 800 x 500
                                             <input type="file" class="btn_enviar" id="file_url" accept=".jpg,.png," name="image_producto" onchange="alertaOferta(this,this.files[0].size)"
-                                                />
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -224,9 +231,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" form="form-masa" class="btn btn-dark">Actualizar</button>
+                <button type="submit" form="form-masa" class="btn btn-warning">Actualizar</button>
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-                
+
             </div>
         </div>
     </div>

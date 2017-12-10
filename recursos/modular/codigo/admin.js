@@ -1,5 +1,109 @@
+function filtro_vendedores() {
+	filtro = (document.getElementById('filtro-buscar').value).toUpperCase()
+	elementos = document.getElementsByClassName('busqueda')
+	contenedores = document.getElementsByClassName('vendedores-buscar')
+	for (var i = 0; i < elementos.length; i++) {
+		if (elementos[i].innerHTML.toUpperCase().indexOf(filtro) > -1)
+			contenedores[i].style.display = ""
+		else
+			contenedores[i].style.display = "none"
+	}
+}
+function modificar_vendedor(identidad) {
+	envio = { codigo: identidad }
+	cargando();
+	$.ajax({
+		method: "POST",
+		url: "/admin/modificar-vendedor-obtener",
+		data: envio
+	}).done((datos) => {
+		asignar('modificar-nombre', datos.nombre)
+		asignar('modificar-edad', datos.edad)
+		asignar('modificar-cedula', datos.cedula)
+		asignar('modificar-email', datos.username)
+		asignar('modificar-sector', datos.sector)
+		asignar('modificar-direccion', datos.direccion)
+		asignar('modificar-telefono', datos.telefono)
+		genero = document.getElementsByClassName('genero')
+		for (var i = 0; i < genero.length; i++) {
+			if (datos.genero == genero[i].value)
+				genero[i].setAttribute('selected', '')
+		}
+		superior = document.getElementsByClassName('todos_superior')
+		for (var i = 0; i < superior.length; i++) {
+			if (datos.codigo == superior[i].value) {
+				superior[i].style.display = 'none'
+			}
+			if (datos.referido == superior[i].value)
+				superior[i].setAttribute('selected', '')
+		}
+		no_cargando()
+		$('#modal-modificar-vendedor').modal();
+	});
+}
+function eliminar_vendedor(identidad) {
+	swal({
+		title: "¿Está seguro?",
+		text: "Una vez eliminado no se podrá recuperar",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				cargando()
+				envio = { codigo: identidad }
+				$.ajax({
+					method: "POST",
+					url: "/admin/eliminar-vendedor",
+					data: envio
+				}).done((respuesta) => {
+					swal("Listo", respuesta)
+					location.reload()
+					no_cargando()
+				})
+			}
+		})
+}
+
+function comprobar_validez(event) {
+	document.getElementById('div-error').innerText = ''
+	document.getElementById('div-error').style.display = 'none'
+	event.preventDefault()
+	if (valor('tarj_ini') > valor('tarje_fin')) {
+		document.getElementById('div-error').innerText = 'Tarjeta final debe ser mayor a inicial'
+		document.getElementById('div-error').style.display = 'block'
+		return;
+	}
+	cargando()
+	var envio = { tarjeta_ini: valor('tarj_ini'), tarjeta_fin: valor('tarje_fin') }
+	$.ajax({
+		method: "POST",
+		url: "/admin/comprobacion",
+		data: envio
+	}).done((respuesta) => {
+		var resta = Number(envio.tarjeta_fin) - Number(envio.tarjeta_ini)
+		resta++
+		if (resta != respuesta) {
+			document.getElementById('div-error').innerText = 'No estan registradas algunas de esas tarjetas o ya han sido asignadas a un vendedor'
+			document.getElementById('div-error').style.display = 'block'
+		} else {
+			envio = { tarjeta_ini: valor('tarj_ini'), tarjeta_fin: valor('tarje_fin'), vendedor: valor('todos_vendedores'), fecha: valor('fechayhora') }
+			$.ajax({
+				method: "POST",
+				url: "/admin/asignar-vendedor",
+				data: envio
+			}).done((respuesta) => {
+				swal("Listo", respuesta)
+				location.reload();
+			})
+		}
+		no_cargando();
+	})
+}
+
+
 function alertaOferta(input, val) {
-	document.getElementById('centralMensajes').innerHTML = ''
 	var imagenAnterior = document.getElementById('img_destino').src;
 	if ((val / 1024) > 3000) {
 		document.getElementById('centralMensajes').innerHTML = '<div class="alert alert-danger">Esta imágen pesa mas de 3Mb</div>';
@@ -10,7 +114,7 @@ function alertaOferta(input, val) {
 		$('#esconder').css("display", "block")
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
-			reader.onload =  (e)=> {
+			reader.onload = (e) => {
 				$('#img_destino').attr('src', e.target.result);
 				document.getElementById('poder').style.display = 'block';
 			}
@@ -19,424 +123,255 @@ function alertaOferta(input, val) {
 	}
 }
 function alertaOferta1(input, val) {
-	document.getElementById('beneficios_desc').innerHTML='';
-	var cadena=``;
-	if (input.files){
-		for(var i=0;i<input.files.length;i++){
-			cadena+=`<div style="margin-bottom:4px"><label>Imagen: ${input.files[i].name}</label>
-					<div>
+	document.getElementById('beneficios_desc').innerHTML = '';
+	var cadena = ``;
+	if (input.files) {
+		for (var i = 0; i < input.files.length; i++) {
+			cadena += `<div style="margin-bottom:4px"><label>Imagen: ${input.files[i].name}</label>
+					<div class="form-group" >
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-assignment-check"></i></span>
-						<input name="beneficio" class="form-control" placeholder="Beneficio"/>
-					</div>
+						<textarea name="beneficio" class="form-control" placeholder="Beneficio"></textarea>
+					</div></div><div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-block"></i></span>
-						<input name="restricciones" class="form-control" placeholder="Restricciones"/>
+						<textarea name="restricciones" class="form-control" placeholder="Restricciones"></textarea>
 					</div></div></div>`
 		}
-		document.getElementById('beneficios_desc').innerHTML=cadena;
+		document.getElementById('beneficios_desc').innerHTML = cadena;
 	}
 }
 
-function modificar_vendedor(identidad){
-	envio={codigo:identidad}
+function modificar_local(identidad) {
 	cargando();
-	$.ajax({
-		method: "POST",
-		url: "/admin/modificar-vendedor-obtener",
-		data: envio
-	}).done(( datos )=>{
-		asignar('modificar-nombre', datos.nombre)
-		asignar('modificar-edad', datos.edad)
-		asignar('modificar-cedula', datos.cedula)
-		asignar('modificar-email', datos.username)
-		asignar('modificar-sector', datos.sector)
-		asignar('modificar-direccion', datos.direccion)
-		asignar('modificar-telefono',datos.telefono)
-		genero=document.getElementsByClassName('genero')
-		for(var i=0;i<genero.length;i++){
-			if(datos.genero==genero[i].value)
-				genero[i].setAttribute('selected','')
-		}
-		no_cargando()
-		$('#modal-modificar-vendedor').modal();
-	});
-}
-function eliminar_vendedor(identidad){
-	swal({
-		title: "¿Está seguro?",
-		text: "Una vez eliminado no se podrá recuperar",
-		icon: "warning",
-		buttons: true,
-		dangerMode: true,
-	  })
-	  .then((willDelete) => {
-		if (willDelete) {
-			cargando()
-			envio={codigo:identidad}
-			$.ajax({
-				method: "POST",
-				url: "/admin/eliminar-vendedor",
-				data: envio
-			}).done(( respuesta )=>{
-				no_cargando()
-				swal("Listo", respuesta)
-				location.reload()
-			})
-		}
-	})
-}
-function filtro_vendedores(){
-	filtro=(document.getElementById('filtro-buscar').value).toUpperCase()
-	elementos=document.getElementsByClassName('busqueda')
-	contenedores=document.getElementsByClassName('vendedores-buscar')
-	for(var i=0;i<elementos.length;i++){
-		if (elementos[i].innerHTML.toUpperCase().indexOf(filtro) > -1) 
-			contenedores[i].style.display = ""
-		else
-			contenedores[i].style.display = "none"
-	}
-}
-
-function modificar_local(identidad){
-	cargando();
-	envio={codigo:identidad}
+	envio = { codigo: identidad }
 	$.ajax({
 		method: "POST",
 		url: "/admin/obtener-local",
 		data: envio
-	}).done(( datos )=>{
+	}).done((datos) => {
 		//asignar('modificar-nombre',datos.nombre)
-		document.getElementById('img_destino').setAttribute('src',datos.logotipo)
+		document.getElementById('img_destino').setAttribute('src', datos.logotipo)
 		asignar('modificar_nombre_local', datos.nombre)
-		asignar('modificar_facebook_local',datos.facebook)
-		asignar('modificar_instagram_local',datos.instagram)
-		asignar('modificar_direccion_local',datos.direccion)
+		asignar('modificar_facebook_local', datos.facebook)
+		asignar('modificar_instagram_local', datos.instagram)
+		asignar('modificar_direccion_local', datos.direccion)
 		asignar('modificar_telefono_local', datos.telefono)
 		asignar('modificar_website_local', datos.web)
-		asignar('modificar_apertura_local', datos.apertura)
-		asignar('modificar_cierre_local', datos.cierre)
+		asignar('modificar_horario_local', datos.horario)
 		asignar('modificar_email_local', datos.username)
 		asignar('codigo_local', datos.codigo)
-		var cadena=''
-		for(var i=0; i< datos.beneficio.length;i++){
-			cadena+=`<div style="margin-bottom:8px"><img width="100%" src="${datos.beneficio[i].imagen}" /><div class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-assignment-check"></i></span>
-						<input name="beneficio" value="${datos.beneficio[i].beneficio}" class="form-control" placeholder="Beneficio"/>
-					</div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-block"></i></span>
-						<input name="restricciones" value="${datos.beneficio[i].restriccion}" class="form-control" placeholder="Restricciones"/>
-					</div></div>`
+		asignar('mapa_local', datos.mapa)
+
+		var cadena = ''
+		for (var i = 0; i < datos.beneficio.length; i++) {
+			cadena += `<div style="margin-bottom:8px">
+						<img width="100%" src="${datos.beneficio[i].imagen}" />
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-assignment-check"></i></span>
+								<textarea name="beneficio" class="form-control" placeholder="Beneficio">${ascii_texto(datos.beneficio[i].beneficio)}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-block"></i></span>
+								<textarea name="restricciones" class="form-control" placeholder="Restricciones">${ascii_texto(datos.beneficio[i].restriccion)}</textarea>
+							</div>
+						</div>
+					</div>`
 		}
-		document.getElementById('beneficios_desc').innerHTML=cadena
+		document.getElementById('beneficios_desc').innerHTML = cadena
 		no_cargando()
 		$('#modal-modificar-local').modal()
 	})
 }
 
-function eliminar_local(identidad){
+function eliminar_local(identidad) {
 	swal({
 		title: "¿Está seguro?",
 		text: "Una vez eliminado no se podrá recuperar",
 		icon: "warning",
 		buttons: true,
 		dangerMode: true,
-	  })
-	  .then((willDelete) => {
-		if (willDelete) {
-			cargando()
-			envio={codigo:identidad}
-			$.ajax({
-				method: "POST",
-				url: "/admin/eliminar-local",
-				data: envio
-			}).done(( respuesta )=>{
-				no_cargando()
-				swal("Listo", respuesta)
-				location.reload()
-			})
-		}
-	  });
-	
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				cargando()
+				envio = { codigo: identidad }
+				$.ajax({
+					method: "POST",
+					url: "/admin/eliminar-local",
+					data: envio
+				}).done((respuesta) => {
+					no_cargando()
+					swal("Listo", respuesta)
+					location.reload()
+				})
+			}
+		});
 }
-
-function filtro_locales(){
-	filtro=(document.getElementById('filtro-buscar').value).toUpperCase()
-	elementos=document.getElementsByClassName('busqueda')
-	contenedores=document.getElementsByClassName('locales-buscar')
-	for(var i=0;i<elementos.length;i++){
-		if (elementos[i].innerHTML.toUpperCase().indexOf(filtro) > -1) 
+function filtro_locales() {
+	filtro = (document.getElementById('filtro-buscar').value).toUpperCase()
+	elementos = document.getElementsByClassName('busqueda')
+	contenedores = document.getElementsByClassName('locales-buscar')
+	for (var i = 0; i < elementos.length; i++) {
+		if (elementos[i].innerHTML.toUpperCase().indexOf(filtro) > -1)
 			contenedores[i].style.display = ""
 		else
 			contenedores[i].style.display = "none"
 	}
 }
 
-function validaciones(event) {
-	cargando()
-	var fechaInicial = new Date(valor('fecha-inicial'))
-	var fechaFinal = new Date(valor('fecha-final'))
-	if (fechaInicial == 'Invalid Date' || fechaFinal == 'Invalid Date') {
-		presentarError('Son fechas inválidas, use el formato MM/DD/AAAA',event)
-		return
-	}
-	if ((fechaFinal - fechaInicial) <= 0) {
-		presentarError('La fecha de caducidad no puede ser menor que la inicial',event)
-		return
-	}
-	var numeroInicial=Number(valor('tarjeta-inicial'))
-	var numeroFinal=Number(valor('tarjeta-final'))
-	if(numeroFinal<=numeroInicial){
-		presentarError('El número final debe ser mayor que la inicial',event)
-		return
-	}
-	var opciones=document.getElementsByTagName('option')
-	contador=0;
-	for(var i=0;i<opciones.length;i++){
-		if(opciones[i].selected)
-			contador++
-	}
-	/*
-	if(contador<40 || contador>40){
-		presentarError('Deben elegirse 40 locales comerciales',event)
-		return
-	}
-	*/
-}
-function presentarError(mensaje,event) {
-	no_cargando()
-	event.preventDefault()
-	document.getElementById('div-peligro').innerText = mensaje
-	document.getElementById('div-peligro').style.display = 'block'
-}
-function switchSliderVideo(){
-	cargando()
-	if( $('#chek-video-slider').is(':checked') ){
-		document.getElementById('selecHome').innerText='Slider'
-		envio={decision:'slider'}
-	}	
-	else{
-		document.getElementById('selecHome').innerText='Video'
-		envio={decision:'video'}
-	}
-	$.ajax({
-		method: "POST",
-		url: "/admin/home",
-		data: envio
-	}).done(( respuesta )=>{
-		no_cargando()
-		swal("Listo", respuesta)
-	})
-}
-
-function comprobar_validez(event){	
-	document.getElementById('div-error').innerText=''
-	document.getElementById('div-error').style.display='none'
-	event.preventDefault()
-	if(valor('tarj_ini')>valor('tarje_fin')){
-		document.getElementById('div-error').innerText='Tarjeta final debe ser mayor a inicial'
-		document.getElementById('div-error').style.display='block'	
-		return;
-	}
-	cargando()
-	var envio={tarjeta_ini:valor('tarj_ini'), tarjeta_fin:valor('tarje_fin')}
-	$.ajax({
-		method: "POST",
-		url: "/admin/comprobacion",
-		data: envio
-	}).done(( respuesta )=>{
-		var resta=Number(envio.tarjeta_fin)-Number(envio.tarjeta_ini)
-		resta++
-		if(resta!=respuesta){
-			document.getElementById('div-error').innerText='No estan registradas algunas de esas tarjetas o ya han sido asignadas a un vendedor'
-			document.getElementById('div-error').style.display='block'			
-		}else{
-			envio={tarjeta_ini:valor('tarj_ini'), tarjeta_fin:valor('tarje_fin'), vendedor:valor('todos_vendedores'), fecha:valor('fechayhora')}
-			$.ajax({
-				method: "POST",
-				url: "/admin/asignar-vendedor",
-				data: envio
-			}).done(( respuesta )=>{
-				swal("Listo", respuesta)
-				location.reload();
-			})
-		}
-		no_cargando();
-	})
-}
-
-function validarURL(event){
-	entrada=document.getElementById('input_video').value
-	if(entrada.indexOf('embed')<0){
-		document.getElementById('input_video').setCustomValidity('Esta url no es válida, debe ser embebida')
-		event.preventDefault()
-	}		
-	else
-		document.getElementById('input_video').setCustomValidity('')
-}
-function quitarValidacion(){
-	document.getElementById('input_video').setCustomValidity('')
-}
-
-function opciones(){
-    document.getElementById('opciones').innerHTML=`
-    <div class="margen-admin hidden-lg hidden-md">
-        <ul class="nav justify-content-center">
-            <li class="nav-item" title="Ingresar vendedor">
-                <a class="nav-link  active" href="/admin/ingresar-vendedor">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Modificar vendedor">
-                <a class="nav-link " href="/admin/modificar-vendedor">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-gbp" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Asignación vendedor">
-                <a class="nav-link " href="/admin/asignar-vendedor">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Ingresar local">
-                <a class="nav-link " href="/admin/ingresar-local">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item " title="Modificar o eliminar local">
-                <a class="nav-link " href="/admin/modificar-local">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Registrar tarjeta">
-                <a class="nav-link " href="/admin/reg-tarj">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Modificar tarjeta">
-                <a class="nav-link " href="/admin/mod-tarj">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Eliminar usuario">
-                <a class="nav-link " href="/admin/eliminar-usuario">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Reportes por Vendedor">
-                <a class="nav-link " href="/admin/reporte-vendedor">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Reportes por usuario">
-                <a class="nav-link " href="/admin/reporte-usuario">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Reportes por local">
-                <a class="nav-link " href="/admin/reporte-local">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Reporte por tarjeta">
-                <a class="nav-link " href="/admin/reporte-tarjeta">
-                    <button type="button" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item " title="Gestionar Slider">
-                <a class="nav-link" href="/admin/slider">
-                    <button type="button" class="btn btn-info" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item" title="Cambiar contraseña">
-                <a class="nav-link " href="/admin/password">
-                    <button type="button" class="btn btn-warning" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                    </button>
-                </a>
-            </li>
-        </ul>
-    </div>`;
-}
-
-function tarjeta_individual(){
-	document.getElementById('individual').style.display='block'
-	document.getElementById('grupal').style.display='none'
+function tarjeta_individual() {
+	document.getElementById('individual').style.display = 'block'
+	document.getElementById('grupal').style.display = 'none'
 	$('#link-indiv').addClass('active');
 	$('#link-grup').removeClass('active')
-	document.getElementById('control_error').style.display='none'
-	document.getElementById('consulta_edicion').style.display='block'
-	document.getElementById('edicion_individual').style.display='none'
+	document.getElementById('control_error').style.display = 'none'
+	document.getElementById('consulta_edicion').style.display = 'block'
+	document.getElementById('edicion_individual').style.display = 'none'
 }
-function tarjeta_grupal(){
-	document.getElementById('individual').style.display='none'
-	document.getElementById('grupal').style.display='block'
+function tarjeta_grupal() {
+	document.getElementById('individual').style.display = 'none'
+	document.getElementById('grupal').style.display = 'block'
 	$('#link-indiv').removeClass('active');
 	$('#link-grup').addClass('active')
-	document.getElementById('control_error').style.display='none'
-	document.getElementById('edicion_individual').style.display='none'
+	document.getElementById('control_error').style.display = 'none'
+	document.getElementById('edicion_individual').style.display = 'none'
+}
+function eliminar_trj() {
+	var envio = { numero: valor('numero_consulta') }
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/eliminar-numero",
+		data: envio
+	}).done((respuesta) => {
+		swal(respuesta)
+	})
 }
 
-function consultar_trj(){
-	var envio={numero:valor('numero_consulta')}
+function modificar_grupo_trj(identificador) {
+	var envio = { codigo: identificador }
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/detalles-masa",
+		data: envio
+	}).done((respuesta) => {
+		try {
+			console.log(respuesta[0])
+			asignar('codInteSiste', respuesta[0].codigo)
+			asignar('tit_tar_mas', respuesta[0].titulo)
+			asignar('fecha-inicial', ordenarFechas(respuesta[0].inicial))
+			asignar('fecha-final', ordenarFechas(respuesta[0].final))
+			asignar('linkfacebook', respuesta[0].linkface)
+			asignar('linkinstagram', respuesta[0].linkInst)
+			document.getElementById('img_destino').setAttribute('src', respuesta[0].imagen)
+			var opciones = ``
+			for (var i = 0; i < respuesta[1].length; i++) {
+				var seleccion = ''
+				for (var j = 0; j < respuesta[0].locales.length; j++) {
+					if (respuesta[1][i].codigo == respuesta[0].locales[j].local) {
+						seleccion = 'selected'
+					}
+				}
+				opciones += `<option ${seleccion} value="${respuesta[1][i].codigo}">${respuesta[1][i].nombre}</option>`
+			}
+			innerTexto('mod_masa_loc', opciones)
+			no_cargando()
+			$('#modal_edit_tarj').modal()
+		} catch (error) {
+			no_cargando()
+			swal('Ha ocurrido un error', 'No existe respuesta del servidor', 'error')
+		}
+	})
+}
+
+function actualiza_trj_indivdidual() {
+	var a_enviar = new Array()
+	var locales = document.getElementsByClassName('este-es-local');
+	var inicial = new Date(valor('mod_tar_inic'))
+	var final = new Date(valor('mod_tar_fin'))
+	if (inicial >= final) {
+		error_msg('Fechas mal establecidas', 'error_trj')
+		return
+	} else {
+		document.getElementById('error_trj').style.display = 'none'
+	}
+	cargando()
+	for (var i = 0; i < locales.length; i++) {
+		codigo = locales[i].getAttribute('id')
+		opciones = locales[i].getElementsByClassName('benef_escog')
+		var beneficios_a_enviar = new Array()
+		for (var j = 0; j < opciones.length; j += 2) {
+			disp_o_no = opciones[j].getAttribute('name')
+			estado = $('input:radio[name=' + disp_o_no + ']:checked').val()
+			if (estado == 0)
+				estado = false
+			if (estado == 1)
+				estado = true
+			beneficios_a_enviar.push({ codigo: disp_o_no, estado: estado })
+		}
+		a_enviar.push({ codigo: codigo, beneficios: beneficios_a_enviar })
+	}
+
+	var envio = { numero: valor('mod_tar_num'), cambios: a_enviar, inicial: valor('mod_tar_inic'), final: valor('mod_tar_fin') }
+
+	$.ajax({
+		type: "POST",
+		url: "/admin/actualizar-numero",
+		dataType: "text",
+		async: false,
+		contentType: "application/json",
+		data: JSON.stringify(envio)
+	}).done(function (resp) {
+		no_cargando()
+		if (resp == 'ok')
+			swal({ title: "Listo", text: "Tarjeta actualizada, click afuera para cerrar", icon: "success", button: "Ok", });
+		else
+			swal({ title: "Error", text: "Tarjeta no actualizada, click afuera para cerrar", icon: "error", button: "Ok", });
+		location.reload()
+	})
+
+
+}
+function consultar_trj() {
+	var envio = { numero: valor('numero_consulta') }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/consultar-numero",
 		data: envio
-	}).done(( respuesta )=>{
+	}).done((respuesta) => {
 		try {
-			if(respuesta.length==0){
-				error_msg('Esta tarjeta no existe', 'control_error')
+			if (respuesta.length == 0) {
+				$('#div-error').html('Esta tarjeta no existe')
+				document.getElementById('div-error').style.display = 'block'
 				no_cargando()
 				return
-			}		
-			asignar('mod_tar_num', respuesta[0].numero)				
-			asignar('mod_tar_inic', ordenarFechas(respuesta[0].fechainicial))		
-			asignar('mod_tar_fin',ordenarFechas(respuesta[0].fechafinal))
-			var cadena='';
-			for(var i=0;i< respuesta[0].locales.length;i++){
-				cadena+=`<div class="row fondo-blanco este-es-local" style=" width:100%" id="${respuesta[1][i].codigo}">
+			}
+			document.getElementById('div-error').style.display = 'none'
+			asignar('mod_tar_num', respuesta[0].numero)
+			asignar('mod_tar_inic', ordenarFechas(respuesta[0].fechainicial))
+			asignar('mod_tar_fin', ordenarFechas(respuesta[0].fechafinal))
+			var cadena = '';
+			for (var i = 0; i < respuesta[0].locales.length; i++) {
+				cadena += `<div class="row fondo-blanco este-es-local" style=" width:100%" id="${respuesta[1][i].codigo}">
 							<div class="col-lg-3 col-md-4">
 							<label>Local</label>
 							<img width="100%" src="${respuesta[1][i].logotipo}"/>
 							<h5 class="centrado">${respuesta[1][i].nombre}</h5>
-						</div>
+						</div> 
 						<div class="col-lg-9 col-md-8">
 							<div class="table">
 								<table class="table  table-bordered"><tr> <th>Beneficio</th><th colspan="2">Estado</th></tr>`
-				for(var j=0;j<respuesta[0].locales[i].beneficio.length;j++){
-					var estado_benef=verificar_benef(respuesta[0].locales[i].beneficio[j].activo)
-					cadena+=`<tr>
-							<td>
-								${respuesta[0].locales[i].beneficio[j].beneficio}
-							</td>
+				for (var j = 0; j < respuesta[0].locales[i].beneficio.length; j++) {
+					var estado_benef = verificar_benef(respuesta[0].locales[i].beneficio[j].activo)
+					cadena += `<tr>
+							<td><textarea class="area-beneficios" readonly style="width:100%; height:140px; resizable="none">${ascii_texto(respuesta[0].locales[i].beneficio[j].beneficio)}
+							</textarea></td>
 							<td>
 							<label><input value="1" onchange="conSeleccion(this)" class="benef_escog" name="${respuesta[0].locales[i].beneficio[j].codigo}" ${estado_benef[0]}  type="radio"/>  Disponible.</label>
 							</td>	
@@ -444,136 +379,36 @@ function consultar_trj(){
 								<label><input value="0" onchange="sinSeleccion(this)" class="benef_escog" ${estado_benef[1]}  name="${respuesta[0].locales[i].beneficio[j].codigo}" type="radio"/>  No Disponible.</label>
 							</td>	</tr>						
 							`
-				}	
-				cadena+=`</table>
+				}
+				cadena += `</table>
 								</div>
 							</div>
-						</div>`			
+						</div>`
 			}
-			document.getElementById('loc_mod_tar').innerHTML=cadena
-			document.getElementById('control_error').style.display='none'	
-			document.getElementById('edicion_individual').style.display='block'
-			document.getElementById('consulta_edicion').style.display='none'
-			asignar('numero_consulta','')
+			document.getElementById('loc_mod_tar').innerHTML = cadena
+			document.getElementById('edicion_individual').style.display = 'block'
+			document.getElementById('consulta_edicion').style.display = 'none'
+			asignar('numero_consulta', '')
 		} catch (error) {
-			error_msg('No existe ese número', 'control_error')			
+			$('#div-error').html('Tarjeta no encontrada')
+            document.getElementById('div-error').style.display = 'block'
+            no_cargando()
 		}
 		no_cargando()
 	})
 }
 
-function verificar_benef(atributo){
-	var respuesta= new Array()
-	if(atributo){
+function verificar_benef(atributo) {
+	var respuesta = new Array()
+	if (atributo) {
 		respuesta.push('checked')
 		respuesta.push('')
-	}else{
+	} else {
 		respuesta.push('')
 		respuesta.push('checked')
 	}
 	return respuesta
 }
-
-
-
-function eliminar_trj(){
-	var envio={numero:valor('numero_consulta')}
-	cargando()
-	$.ajax({
-		method: "POST",
-		url: "/admin/eliminar-numero",
-		data: envio
-	}).done(( respuesta )=>{
-		swal( respuesta)
-	})
-}
-
-function modificar_grupo_trj(identificador){
-	var envio={codigo: identificador}
-	cargando()
-	$.ajax({
-		method: "POST",
-		url: "/admin/detalles-masa",
-		data: envio
-	}).done(( respuesta )=>{
-		try {
-			console.log(respuesta[0])
-			asignar('codInteSiste', respuesta[0].codigo)
-			asignar('tit_tar_mas', respuesta[0].titulo)
-			asignar('fecha-inicial',  ordenarFechas(respuesta[0].inicial))
-			asignar('fecha-final',ordenarFechas(respuesta[0].final))
-			asignar('linkfacebook', respuesta[0].linkface)
-			asignar('linkinstagram', respuesta[0].linkInst)
-			document.getElementById('img_destino').setAttribute('src', respuesta[0].imagen)
-			var opciones=``	
-			for(var i=0;i< respuesta[1].length;i++){
-				var seleccion=''
-				for(var j=0; j< respuesta[0].locales.length;j++){
-					if(respuesta[1][i].codigo==respuesta[0].locales[j].local){
-						seleccion='selected'
-					}				
-				}
-				opciones+=`<option ${seleccion} value="${respuesta[1][i].codigo}">${respuesta[1][i].nombre}</option>`
-			}
-			innerTexto('mod_masa_loc', opciones)
-			no_cargando()
-			$('#modal_edit_tarj').modal()			
-		} catch (error) {
-			no_cargando()
-			swal('Ha ocurrido un error', 'No existe respuesta del servidor', 'error')
-		}
-	})	
-}
-
-function actualiza_trj_indivdidual(){
-	var a_enviar=new Array()
-	var locales=document.getElementsByClassName('este-es-local');
-	var inicial=new Date(valor('mod_tar_inic'))
-	var final=new Date(valor('mod_tar_fin'))
-	if(inicial>=final){
-		error_msg('Fechas mal establecidas','error_trj')
-		return
-	}else{
-		document.getElementById('error_trj').style.display='none'
-	}
-	cargando()
-	for(var i=0;i < locales.length;i++){
-		codigo=locales[i].getAttribute('id')
-		opciones=locales[i].getElementsByClassName('benef_escog')
-		var beneficios_a_enviar=new Array()
-		for(var j=0;j<opciones.length;j+=2){
-			disp_o_no=opciones[j].getAttribute('name')
-			estado=$('input:radio[name='+disp_o_no+']:checked').val()
-			if(estado==0)
-				estado=false
-			if(estado==1)
-				estado=true
-			beneficios_a_enviar.push({codigo: disp_o_no, estado:estado})
-		}
-		a_enviar.push({codigo:codigo, beneficios: beneficios_a_enviar})
-	}
-
-	var envio={numero:valor('mod_tar_num'),cambios: a_enviar,inicial:  valor('mod_tar_inic'), final:valor('mod_tar_fin')}
-	
-	$.ajax({
-		type:"POST",
-		url:"/admin/actualizar-numero",
-		dataType:"text",
-		async:false,
-		contentType:"application/json",
-		data: JSON.stringify(envio)
-	}).done(function(resp){
-		no_cargando()
-		if(resp=='ok')
-			swal({title: "Listo", text: "Tarjeta actualizada, click afuera para cerrar",icon: "success", button: "Ok",});
-		else				
-			swal({title: "Error", text: "Tarjeta no actualizada, click afuera para cerrar",icon: "error", button: "Ok",});
-		location.reload()
-	})
-
-	
-}
-
 function conSeleccion(elemento){
 	var nombre=elemento.name
 	document.getElementsByName(nombre)[1].removeAttribute('checked')
@@ -585,23 +420,25 @@ function sinSeleccion(elemento){
 	document.getElementsByName(nombre)[0].removeAttribute('checked')
 	document.getElementsByName(nombre)[1].setAttribute('checked','')
 }
-function eliminarVideo(identificador){
-	var envio={codigo:identificador}
-	cargando()
+
+function eliminar_user(identidad){
+	envio={codigo:identidad}
+	cargando('Procesando...')
 	$.ajax({
 		method: "POST",
-		url: "/admin/eliminar-video",
+		url: "/admin/eliminar-cliente",
 		data: envio
-	}).done(( respuesta )=>{
-		no_cargando()
-		if(respuesta=='Error')
-			swal('Error', 'No se ha podido eliminar', 'error')
-		else
-			swal('Listo', respuesta, 'success')
-		location.reload()
+	}).done((respuesta) => {
+		if(respuesta=='Error al eliminar el cliente'){
+			$('#div-error').html('Tarjeta no encontrada')
+            document.getElementById('div-error').style.display = 'block'
+            no_cargando()
+		}else{
+			location.reload()
+			no_cargando()
+		}
 	})
 }
-
 function generar_reporte_local(){
 	var envio={nombre:valor('todos_locales')}
 	cargando()
@@ -627,7 +464,7 @@ function generar_reporte_local(){
 						<td>${respuesta[i].tarjeta}</td>
 						<td>${obtenerFecha(respuesta[i].fecha)}</td>
 						<td>${obetenerHora(respuesta[i].fecha)}</td>
-						<td>${respuesta[i].beneficio}</td>
+						<td>${ascii_texto(respuesta[i].beneficio)}</td>
 					</tr>`
 		}
 		no_cargando()
@@ -635,11 +472,17 @@ function generar_reporte_local(){
 	})
 }
 
-function obetenerHora(fecha){
-	var nfecha=new Date(fecha)
-	return nfecha.getHours()+':'+ nfecha.getMinutes()
+function generar_reporte_vendedor(){
+	var envio={nombre:valor('todos_vendedores')}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/ver-reporte-vendedor",
+		data: envio
+	}).done(( respuesta )=>{
+		
+	})
 }
-
 
 function generar_reporte_cliente(){
 	var envio={nombre:valor('todos_usuarios')}
@@ -666,7 +509,7 @@ function generar_reporte_cliente(){
 						<td>${respuesta[i].tarjeta}</td>
 						<td>${obtenerFecha(respuesta[i].fecha)}</td>
 						<td>${obetenerHora(respuesta[i].fecha)}</td>
-						<td>${respuesta[i].beneficio}</td>
+						<td>${ascii_texto(respuesta[i].beneficio)}</td>
 					</tr>`
 		}
 		no_cargando()
@@ -682,5 +525,92 @@ function eliminar_grupo_trj(valor){
 		data: envio
 	}).done(( respuesta )=>{
 		swal(respuesta)
+	})
+}
+function obetenerHora(fecha){
+	var nfecha=new Date(fecha)
+	return nfecha.getHours()+':'+ nfecha.getMinutes()
+}
+
+function eliminarVideo(identificador){
+	var envio={codigo:identificador}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/eliminar-video",
+		data: envio
+	}).done(( respuesta )=>{
+		no_cargando()
+		if(respuesta=='Error')
+			swal('Error', 'No se ha podido eliminar', 'error')
+		else
+			swal('Listo', respuesta, 'success')
+		location.reload()
+	})
+}
+function validarURL(event){
+	entrada=document.getElementById('input_video').value
+	if(entrada.indexOf('embed')<0){
+		document.getElementById('input_video').setCustomValidity('Esta url no es válida, debe ser embebida')
+		event.preventDefault()
+	}		
+	else
+		document.getElementById('input_video').setCustomValidity('')
+}
+function quitarValidacion(){
+	document.getElementById('input_video').setCustomValidity('')
+}
+
+function generar_reporte_vendedor(){
+	var envio={nombre:valor('todos_vendedores')}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/ver-reporte-vendedor",
+		data: envio
+	}).done(( respuesta )=>{
+		var cadena=`<tr>
+						<th>Codigo</th>
+						<th>Vendedor</th>
+						<th>Email Cliente</th>
+						<th>Cédula</th>
+						<th>Nombre</th>
+						<th>Fecha</th>
+						<th>Hora</th>
+						<th>Tarjeta</th>
+						<th>Número</th>
+					</tr>`
+		for(var i=0; i< respuesta.length; i++){
+			cadena+=`<tr>
+						<td>${respuesta[i].codigo}</td>
+						<td>${respuesta[i].vendedor}</td>
+						<td>${respuesta[i].cliente}</td>
+						<td>${respuesta[i].cedula || ''}</td>
+						<td>${respuesta[i].nombre || ''}</td>
+						<td>${obtenerFecha(respuesta[i].fecha)}</td>
+						<td>${obetenerHora(respuesta[i].fecha)}</td>
+						<td><img src="${respuesta[i].tarjeta}" width="60px"/></td>
+						<td>${respuesta[i].numero}</td>
+					</tr>`
+		}
+		no_cargando()
+		innerTexto('datos_reporte', cadena)
+	})
+}
+function eliminar_img(codigo){
+	envio={codigo:codigo}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/eliminar-imagen",
+		data: envio
+	}).done(( datos )=>{
+		no_cargando()
+		if(datos=='Error'){
+			swal('Error', 'Ha ocurrido un error inesperado', 'error')
+		}else{
+			swal('Listo', 'Eliminado con éxito', 'success')
+			location.reload()
+		}	
 	})
 }

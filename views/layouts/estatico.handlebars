@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-ES">
 
 <head>
     <!--Propiedades-->
@@ -31,7 +31,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
         crossorigin="anonymous"></script>
     <!--Scripts propios-->
-        <script src="../general/codigo.js"></script>
+    <script src="../general/codigo.js"></script>
     <!--SweetAlert-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.2/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
@@ -41,7 +41,7 @@
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">(function () { emailjs.init("user_cAAuKh7iKAYJ9IN6c9hs6"); })();</script>
     <!--Custom imput-->
-        <!--<script src="../general/custominputfile.min-es.js"></script> 
+    <!--<script src="../general/custominputfile.min-es.js"></script> 
         <link rel="stylesheet" href="../general/estilos/custominputfile.min.css"  type="text/css" />-->
     <!--Estilos propios-->
     <link rel="stylesheet" href="../general/estilos/iconos.css">
@@ -57,101 +57,128 @@
     <link rel="stylesheet" href="../general/estilos/estilos.css">
     <link rel="stylesheet" href="../general/estilos/responsivo.css">
 </head>
-
 <body>
-    <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Inicio</a>
+        <nav class="navbar navbar-fixed-top navbar-expand-lg nav-negro" style="background-color:black">
+        <a href="/"><img src="../general/imagenes/brand.png" alt="Brand" style="margin-top:-25px;" width="auto"></a>
+        <div class="" >
+            {{#if user}}
+            <div style="width:100%;" class="centrado">
+                <div style="margin:4px">
+                    <h5 class="blanco">BIENVENIDO</h5>
+                    <p class="blanco centrado">{{user.nombre}}</p>
+                    <p id="codigo-usuario" style="display:none">{{user.codigo}}</p>
+                </div>              
+            </div>               
+            {{else}}
+            <div class="centrado" style="width:140px;">
+                <h5 class="blanco">SIGUENOS EN</h5>
+                <div class="" style="border:solid 1px;border-color:white;margin-left:5%">
+                    <span >
+                        <a href="http://www.fb.com/RepublicaDeElSalvadorActiva" >
+                            <i class="zmdi zmdi-facebook-box blanco zmdi-hc-lg"></i>
+                        </a>
+                    </span>
+                    <span>
+                        <a href="https://www.instagram.com/republicadelsalvadoractiva/">
+                            <i class="zmdi zmdi-instagram blanco zmdi-hc-lg"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            {{/if}}
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
-            <div class="my-2 my-lg-0">
-                <ul class="nav navbar-nav navbar-right" >
-                    {{#if user}}
-                        <li><a class="nav-link" href="/users/logout">Cerrar sesión</a></li>
-                        {{else}}
-                            <li > <a class="nav-link" href="/users/login">Login</a></li>
-                            <li><a class="nav-link" href="/users/registro">Registrar</a></li>
-                    {{/if}} 
-
-                    {{#if user.esadministrador}}
-                        <li><a class="nav-link" href="/admin/">Administrar</a></li>
-                    {{/if}}
-
-                    {{#if user.eslocal}}
-                    <li><a class="nav-link" href="/local/">Vender</a></li>
-                    {{/if}} 
-
-                    {{#if user.esvendedor}}
-                    <li><a class="nav-link" href="/vendedor/">Vender</a></li>
-                    {{/if}}
+            <div style="padding-top:10px">
+                {{#if user}}
+                    
                     {{#if user.escliente}}
-                        <li><a class="nav-link" href="/cliente/perfil">{{user.nombre}}</a></li>
-                    {{/if}}                   
-                    <li><a class="nav-link" href="/index/acerca">¿Quienes somos?</a></li>
-                </ul>
+                    <a href="/cliente/activar"><button class="btn btn-outline-warning">Asociar nueva tarjeta</button></a>
+                        <a href="/neutral/"><button class="btn btn-outline-warning">Mi cuenta</button></a>
+                    {{else}}
+                        <a href="/neutral/"><button class="btn btn-outline-warning">Panel de control</button></a>
+                        {{#if user.esvendedor}}
+                            <p style="display:none" id="refer">{{user.referido}}</p>
+                            <a href="/vendedor/asociar/" id="asociar_id"><button class="btn btn-outline-warning">Asociar Vendedor</button></a>
+                            <a href="/vendedor/repo-ventas/"><button class="btn btn-outline-warning">Reporte de ventas</button></a>
+                        {{/if}}
+                    {{/if}}
+                    <a href="/users/password"><button class="btn btn-outline-primary">Cambiar contraseña</button></a>
+                    <a href="/users/logout"><button class="btn btn-outline-light">Cerrar sesión</button></a>
+                {{else}}
+                    <form class="navbar-form navbar-left" action="/users/login" method="post">
+                        <div class="row">
+                        <div class="col-lg-9 col-md-9">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 centrado" style="margin-bottom:4px">
+                                    <input type="email" name="username" class="form-control" placeholder="Correo electrónico" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6" style="margin-bottom:4px">
+                                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                                    <a class="blanco " href="/users/confirmar">¿Confirmar tu cuenta?</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3" style="margin-bottom:4px">
+                            <button type="submit" class="btn btn-primary" style="width:100%">INICIAR SESIÓN</button>
+                            <a href="/users/olvido" class="blanco">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        </div>
+                    </form>
+                {{/if}}
             </div>
         </div>
     </nav>
-    <div class="container" style="margin-bottom: -1px; min-height:100%; min-width:100%">
-        <div style="min-height:100%;">
+    <div id="contendedor-general" >
+        <div style="min-height:70%;">
             <div class="fullscreen-bg">
                 <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
                     <source src="../general/fondo.mp4" type='video/ogg; codecs="theora,vorbis"' />
                     <source src="../general/fondo.mp4" type='video/webm; codecs="vp8,vorbis"' />
                 </video>
             </div>
-            <div class="content" style="margin-bottom:12px" >
+            <div class="content"  >
                 {{{body}}}
             </div>
         </div>
     </div>
-    
-    <footer class="footer-bs">
+    <footer class="footer-bs centrado">
         <div class="row">
-            <div class="col-md-3 footer-brand animated fadeInLeft" style="margin-bottom:12px">
-                
-                <img width="100%" src="../general/imagenes/logotipo.png" alt="">
-                <h4 class="centrado">2017</h4>
+            <div class="col-lg-4">
+                {{#if user}}
+                Síguenos
+                    <span >
+                        <a href="http://www.fb.com/RepublicaDeElSalvadorActiva" >
+                            <i class="zmdi zmdi-facebook-box blanco zmdi-hc-lg"></i>
+                        </a>
+                    </span>
+                    <span>
+                        <a href="https://www.instagram.com/republicadelsalvadoractiva/">
+                            <i class="zmdi zmdi-instagram blanco zmdi-hc-lg"></i>
+                        </a>
+                    </span>
+                {{/if}}
             </div>
-            <div class="col-md-4 footer-nav animated fadeInUp">
-                <h4>Información —</h4>
-                <ul class="pages">
-                    <li><a href="tel://0998546758">Teléfono:   0998546758</a></li>
-                    <li><a href="mailto:ecuadoractiva@gmail.com">Email:   ecuadoractiva@gmail.com</a></li>
-                    <li><a href="" target="_blank">Acerca de</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 footer-social animated fadeInDown">
-                <h4>Síguenos</h4>
-                <ul>
-                    <li>
-                        <a target="_blank" href="http://www.fb.com/RepublicaDeElSalvadorActiva">Facebook</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="https://www.instagram.com/republicadelsalvadoractiva/">Instagram</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3 footer-ns animated fadeInRight">
-                <form action="">
-                    <h4>Contactos</h4>
-                    <p>Escribe tu mensaje</p>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="mensaje" class="form-control" id="" required cols="30" placeholder="Tu mensaje aquí" rows="4"></textarea>
-                    </div>
-                    <button type="submit" title="Enviar" class="btn btn-primary ">
-                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span> 
-                    </button>
-                </form>               
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-4"><a href="/contactos" class="blanco">Quiero registrar mi establecimiento</a></div>
+                    <div class="col-lg-4"><a href="/contactos" class="blanco">Contacto</a></div>
+                    <div class="col-lg-4"><a href="/nosotros" class="blanco">Nosotros</a></div>
+                </div>
             </div>
         </div>
     </footer>
-</body>
+    <script>
+    window.addEventListener('load', ()=>{
+        var ref=document.getElementById('refer').innerText;
+        if(ref!='Ninguno')
+            document.getElementById('asociar_id').style.display='none'
+    })
+</script>
 
+</body>
 </html>

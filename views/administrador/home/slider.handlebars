@@ -1,0 +1,149 @@
+<ul class="nav nav-tabs  fondo-nav">
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
+            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin/reporte-usuario">Por usuario</a>
+            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+        </div>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link active" href="/admin/slider">Home</a>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="background-color:rgba(000, 000, 000, 0.5)">
+            <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="contenedor-bordes ">
+            <h3 class="centrado blanco">Subir BENEFICIOS EXCLUSIVOS</h3>
+            <form action="/admin/home-imagenes" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div id="poder" class="centrado">
+                            <img src="../modular/imagenes/local.png" style="margin:0 auto;border: solid white 1px" class="img-responsive" id="img_destino">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="div_file btn btn-primary " style="margin-bottom:12px">
+                            <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                            Escoger imágen 500x100
+                            <input type="file" class="btn_enviar" id="file_url" accept="image/*" name="imagen_bene" onchange="alertaOferta(this,this.files[0].size)"
+                                required/>
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="width:100%; margin-bottom:12px">Subir</button>
+                        <button data-toggle="collapse" href="#todos-slider" aria-expanded="false" aria-controls="todos-slider" type="button" class="btn btn-dark"
+                            aria-label="Left Align" style="width:100%">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Mostrar todos
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="collapse multi-collapse" id="todos-slider" style="padding:12px">
+                {{#if imagenes}} {{#each imagenes}}
+                <div style="margin:12px; ">
+                    <div class="row" style="padding:12px; border:1px solid white">
+                        <div class="col-lg-8 col-md-8">
+                            <img src="{{this.imagen}}" width="100%" alt="{{this.codigo}}">
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <button type="button" style="width:100%" onclick="eliminar_img('{{this.codigo}}')" class="btn btn-danger" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}} {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="contenedor-bordes centrado">
+            <h3 class="centrado blanco">Subir videos de youtube</h3>
+            <form action="/admin/home-video" method="post" onsubmit="validarURL(event)">
+                <img src="/modular/imagenes/youtube.png" width="30%" style="margin:0 auto;border:1px solid white" alt="Youtube">
+                <div class="forrm-group" style="margin-top:12px">
+                    <input type="text" name="titulo" id="" class="form-control" placeholder="Titulo del video" required>
+                </div>
+                <div class="input-group" style="margin-top:12px">
+                    <span class="input-group-addon btn btn-dark" id="basic-addon1">
+                        <a target="_blank" href="/modular/imagenes/video.pdf">Instrucciones</a>
+                    </span>
+                    <input type="url" title="Introduzca url embebida, ver instrucciones" required placeholder="http://..." id="input_video" class="form-control"
+                        name="link">
+                    <button style="background-color:rgba(000, 000, 000, 0.1)" type="submit">
+                        <span class="input-group-addon btn btn-warning" id="basic-addon1">Guardar</span>
+                    </button>
+                    <span data-toggle="collapse" href="#todos-videos" aria-expanded="false" aria-controls="todos-videos" type="button" class="input-group-addon btn btn-primary"
+                        aria-label="Left Align" id="basic-addon1">Ver todos</span>
+                </div>
+            </form>
+            <div class="collapse multi-collapse" id="todos-videos">
+                <div class="alert">
+                    {{#if videos}} {{#each videos}}
+                    <div class="row" style="margin-bottom:12px">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-7">
+                            <iframe width="100%" height="100%" src="{{this.url}}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-5">
+                            <button id="{{this.codigo}}" onclick="eliminarVideo('{{this.codigo}}')" type="button" style="margin-top:6px" class="btn btn-danger"
+                                aria-label="Left Align">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                    {{/each}} {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../modular/codigo/admin.js"></script>
