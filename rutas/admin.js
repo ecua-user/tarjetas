@@ -839,7 +839,7 @@ router.post('/eliminar-imagen', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/integrar', (req,res)=>{
-    Tarjeta.find().where({$or:[{numero:2}, {numero:3}, {numero:4}]}).exec((error, tarjeta)=>{
+    Tarjeta.find().exec((error, tarjeta)=>{
         for(var k=0; k < tarjeta.length; k++){
             for(var i=0;i<tarjeta[k].locales.length; i++){
                 for(var j=0; j< tarjeta[k].locales[i].beneficio.length; j++){
