@@ -31,10 +31,6 @@ function detallar(codigo){
 function control_slider(){
 	cadena = ''
 	var imagenes_slider = document.getElementsByClassName('carro_trj')
-	for (var i = 0; i < imagenes_slider.length; i++) {
-		cadena += `<li class="indica" data-target="#carouselExampleIndicators" data-slide-to="${i}"></li>`
-	}
-	document.getElementById('indicadores').innerHTML = cadena;
 	document.getElementsByClassName('indica').className += 'active'
 	imagenes_slider[0].className += ' active'
 }

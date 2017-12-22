@@ -1,4 +1,4 @@
-var sesion_tarjeta=''
+var sesion_tarjeta='' 
 function activar_tarjeta(event){
     event.preventDefault()
     var envio={numero: valor('num_trj'), token: valor('txt_codigo')}
@@ -10,9 +10,9 @@ function activar_tarjeta(event){
 	}).done(( datos )=>{
         no_cargando()
         if(datos=='Ha ocurrido un error inesperado' || datos=='No existe esta tarjeta para este usuario')
-            swal('Error', datos,'error'+', o ya ha sido activada')
+            swal('Error', datos+', o ya ha sido activada','error')
         else{
-            swal('Listo', datos, 'success')
+            swal('Listo', 'TU TARJETA HA SIDO  ACTIVADA CON ÉXITO', 'success')
         }
         location.reload()
     })
@@ -22,7 +22,7 @@ function activar_tarjeta(event){
 function presentar_locales(identidad){
     estado_local.style.display='none'
     vencimiento.innerHTML=''
-    if(identidad=='Seleccionar'){
+    if(identidad=='Seleccionar tarjeta'){
         swal('Atención', 'Seleccione una tarjeta que haya comprado y activado', 'warning')
         document.getElementById('nada').style.display='block'
         document.getElementById('todos_locales').innerHTML=''
@@ -42,17 +42,24 @@ function presentar_locales(identidad){
         if(datos[0].confirmar){
             estado_local.style.color='red'
             estado_local.style.display='block'
+            estado_local1.style.color='red'
+            estado_local1.style.display='block'
         }else{
             estado_local.style.color='greenyellow';
             estado_local.style.display='block'
+            estado_local1.style.color='greenyellow';
+            estado_local1.style.display='block'
         }
         vencimiento.innerHTML= ordenarFechas(new Date(datos[0].fechafinal)) 
+        vencimiento1.innerHTML= ordenarFechas(new Date(datos[0].fechafinal)) 
+        document.getElementById('Rvencimiento1').style.display='block'
+        document.getElementById('Rvencimiento').style.display='block'
         for(var i=0;i< datos[1].length;i++){
-            cadena+=`<div class="col-lg-3 col-md-4 col-sm-2 col-xs-12">
-                        <div style="padding:4px ; margin:1px solid white">
-                            <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }"/>
-                        </div>
-                    </div>`       
+            cadena+=`<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:10px">
+                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }"/>
+                    </div> 
+                     `       
+                    
         }
         document.getElementById('todos_locales').innerHTML=cadena
     })
@@ -72,11 +79,15 @@ function detallarLoc(codigo){
 		var cadena=''
 		document.getElementById('img_local').setAttribute('src', datos[0].logotipo)
 		innerTexto('nom_loc', datos[0].nombre)
-		innerTexto('horario_loc', datos[0].horario)
+        innerTexto('horario_loc', datos[0].horario)
+        innerTexto('tel_loc', datos[0].telefono)
 		innerTexto('dir_loc', datos[0].direccion)
 		document.getElementById('mapa_loc', datos[0].mapa)
 		document.getElementById('face_local').setAttribute('href', datos[0].facebook)
-		document.getElementById('inst_local').setAttribute('href', datos[0].instagram)
+        document.getElementById('inst_local').setAttribute('href', datos[0].instagram)
+        document.getElementById('tel_local').setAttribute('href', 'tel://'+ datos[0].telefono)
+        document.getElementById('mail_local').setAttribute('href', 'mailto:'+ datos[0].username)
+        document.getElementById('web_local').setAttribute('href', datos[0].web)
 		document.getElementById('mapa_loc').setAttribute('src',datos[0].mapa)
 		for(var i=0; i< datos[0].beneficio.length; i++){
 			if(i!=0)
@@ -91,25 +102,27 @@ function detallarLoc(codigo){
 
 function mostrar_beneficiosLoc(activo, elementos){
     var color='white'
-    var texto=''
-    var transparente='rgba(000,000,000,0)'
+    var texto='<h1>Disponible</h1>'
+    var transparente='background:transparent;border: solid 0px white;'
     if(!elementos.activo){
-        color='rgba(111,000,000,0.7)'
-        texto='No'
+        texto=`<div class="blanco"><h3>UTILIZADO</h3>
+                En la fecha: ${obtenerFecha(elementos.fecha_activacion)}<br>
+                Hora: ${obtenerHora(elementos.fecha_activacion)}</div>`
+        color='#D75E5E'
     }
         
     return `<div id="${elementos.codigo}" class="carousel-item ${activo}" style="padding-left:2%; padding-right:2% ; background-color:${color}">
                     <div class="row" style="padding:12px">
                         <div class="col-lg-1 col-md-1"></div>
-                        <div class="col-lg-5 col-md-5">                                      
+                        <div class="col-lg-4 col-md-4">                                      
                                 <img class="img-slider d-block w-100" src="${elementos.imagen}"
                                     alt="">  
-                                <h2 class="centrado">${texto} Disponible</h2>                                     
+                                <div class="centrado">${texto}</div>                                     
                         </div>
-                        <div class="col-lg-5 col-md-5">
-                            <h4 class="centrado">Términos y condiciones</h4>
+                        <div class="col-lg-6 col-md-6" style="font-size:140%">
+                            <h3 class="centrado">Términos y condiciones</h3>
                             <div style="padding-left:5%; padding-right:5%">
-                            <textarea class="area-beneficios" readonly name="" id="" cols="30" rows="10" style="width:100% ; height:100%; background-color:${transparente}">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
+                            <textarea class="area-beneficios"  readonly name="" id="" rows="8" style="width:100% ; height:100%; ${transparente}">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
                             </textarea>
                             </div>
                         </div>

@@ -1,14 +1,15 @@
 <link rel="stylesheet" href="../modular/estilos/home.css">
 <div class="row">
     <div class="col-lg-2 col-md-2"></div>
-    <div class="col-lg-8 col-md-8">
-        <div class="contenedor-bordes blanco">
-            {{#if imagenes}}
+    <div class="col-lg-8 col-md-8" style="padding-left:8.4%; padding-right:8.4%">
+        <div class="contenedor-bordesI blanco">
+            {{#if video}}
             <div id="corousel-ben" class="carousel slide " data-ride="carousel">
                 <div class="carousel-inner">
-                    {{#each imagenes}}
-                    <div class="carousel-item carro_img" style="padding-left:2%; padding-right:2%">
-                        <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
+                    {{#each video}}
+                    <div class="carousel-item carro_img" style="padding-left:12%; padding-right:12%">
+                        <iframe width="100%" id="espacio_video" height="315" src="{{this.url}}" frameborder="0" gesture="media" allow="encrypted-media"
+                            allowfullscreen></iframe>
                     </div>
                     {{/each}}
                 </div>
@@ -22,32 +23,38 @@
                 </a>
             </div>
             {{/if}}
-
         </div>
-
     </div>
 </div>
 
 <div class="row blanco">
     <div class="col-lg-4 col-md-4 "></div>
     <div class="col-lg-4 col-md-4 ">
-        <div class="centrado">
-            <h2 class="centrado ">
-                <b>Confirma tu cuenta</b>
-            </h2>
-            <div id="centralMensajes">
+        <div class="centrado cordia">
+            <div id="central-mensajes" >
                 {{#if success_msg}}
-                <div class="alert alert-success">{{success_msg}}</div>{{/if}} {{#if error_msg}}
-                <div class="alert alert-danger">{{error_msg}}</div>{{/if}} {{#if error}}
-                <div class="alert alert-danger">{{error}}</div>{{/if}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
 
             <form class="form-signin" action="/users/confirmar" method="post">
                 <input type="email" id="usuario-mail" name="username" class="form-control" placeholder="Email" required autofocus>
                 <br>
-                <input type="text" id="token-mail" name="token" minlength="16" maxlength="16" class="form-control" placeholder="Token" required>
+                <input type="text" id="token-mail" name="token"  class="form-control" placeholder="Token" required>
                 <br>
-                <button type="submit" class="btn btn-warning ">Validar cuenta</button>
+                <button type="submit" style="font-size:120%" class="btn btn-warning nwarning">
+                    <b>Validar cuenta</b>
+                </button>
             </form>
         </div>
     </div>
@@ -57,7 +64,6 @@
     //fondo-registro
     document.getElementById('usuario-mail').value = localStorage.getItem('user')
     if (localStorage.getItem('user') != null) {
-        document.getElementById('usuario-mail').setAttribute('readonly', '')
         document.getElementById('token-mail').focus()
     }
 </script>
@@ -66,5 +72,27 @@
 <script>
     window.addEventListener('load', () => {
         control_slider_beneficios()
+        document.getElementById('banner-titulo').innerHTML = `<h5>VERIFICACIÓN DE MAIL</h5>`
     })
 </script>
+
+
+<!--
+     <div id="corousel-ben" class="carousel slide " data-ride="carousel">
+                <div class="carousel-inner">
+                    {{#each imagenes}}
+                    <div class="carousel-item carro_img" style="padding-left:12%; padding-right:12%">
+                        <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
+                    </div>
+                    {{/each}}
+                </div>
+                <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+    -->

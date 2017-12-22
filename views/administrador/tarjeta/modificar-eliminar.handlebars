@@ -91,14 +91,24 @@
                                         <label for="">Tarjeta número:</label>
                                         <input type="text" readonly name="numero" id="mod_tar_num" class="form-control">
                                     </div>
+                                    <div class="form-control">
+                                        <label for="">Asignado a</label>
+                                        <select name="asignado" id="listar_vend" class="form-control">
+                                            <option value="Ninguno" class="lista_vendedores">Ninguno</option>
+                                            {{#if vendedores}}
+                                            {{#each vendedores}}
+                                            <option value="{{this.codigo}}" class="lista_vendedores">{{this.nombre}}</option>
+                                            {{/each}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
                                 </div>
+                                
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="form-group">
                                         <label for="">Fecha inicial</label>
                                         <input type="date" placeholder="AAAA-MM-DD" name="inicial" id="mod_tar_inic" class="form-control">
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="form-group">
                                         <label for="">Fecha de caducidad</label>
                                         <input type="date" placeholder="AAAA-MM-DD" name="final" id="mod_tar_fin" class="form-control">
@@ -108,7 +118,7 @@
                                     <div class="form-group">
                                         <label for=""></label>
                                         <button class="btn btn-warning" onclick="actualiza_trj_indivdidual()">Actualizar</button>
-                                        <button class="btn btn-info" onclick="tarjeta_individual()">Cancelar</button>
+                                        <button class="btn btn-info" onclick="javascript: location.reload()">Cancelar</button>
                                     </div>
                                 </div>
                             </div>

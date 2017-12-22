@@ -18,12 +18,12 @@ function venderTarjeta(event){
             emailjs.send("default_service","template_KK3G9LwJ",{
                 to_name: respuesta[1],
                 to_destinatario: envio.correo,
-                mensaje: `Para poder activar la tarjeta use el siguiente código:  ${respuesta[0]}`
+                mensaje: `Para poder activar su tarjeta número ${envio.numero} de ECUADORACTIVA.COM es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
             }
             ).then(
                 (response)=> {
                     no_cargando()   
-                    swal("Listo", "Venta realizada con éxito")	
+                    swal("Listo", "Su asignación de tarjeta ha ido un éxito, buena venta continua vendiendo")	
                     history.back()
                     location.reload()
 

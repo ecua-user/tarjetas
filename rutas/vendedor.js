@@ -48,6 +48,7 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 
 				var nuevoReporte = new Repotarjeta({
 					codigo: Date.now(),
+					referido: req.user.referido,
 					vendedor: req.user.nombre,
 					cliente: req.body.correo,
 					nombre: nombre,
@@ -69,32 +70,28 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 
 router.get('/asociar', ensureAuthenticated, (req, res) => {
 	var codigos= new Array()
-	if (req.user.referido == 'Ninguno') {
 		User.find().where({$and:[{referido: req.user.nombre},{esvendedor:true}]}).exec((error, usuarios)=>{
 			if(error)
 				res.render('errores/500', {error:error})
 			else{
-				codigos.push({codigo:req.user.codigo})
+				codigos.push({vendedor:req.user.codigo})
 				for(var i=0;i < usuarios.length; i++){
-					codigos.push({codigo: usuarios.codigo})
+					codigos.push({vendedor: usuarios.codigo})
 				}
-				Tarjeta.find().where({$and:[{vendida:false},{$or:codigos}]}).exec((error, tarjetas)=>{
-					res.render('vendedor/asociar',{tarjetas: tarjetas.sort((a, b)=>{return a-b}), vendedores:usuarios})
+				Tarjeta.find().where({$and:[{vendida:false},{$or:codigos}]}).select('numero').exec((error, tarjetas)=>{
+					var todas_tarjetas= new Array()
+					for(var i=0; i< tarjetas.length; i++){
+						todas_tarjetas.push(tarjetas[i].numero)
+					}
+					res.render('vendedor/asociar',{tarjetas: todas_tarjetas.sort((a, b)=>{return a-b}), vendedores:usuarios})
 				})
 			}
 		})
 		//Tarjeta.find().where({$or:[{vendedor:req.user.codigo},{}]})
-		
-	}
-	else
-		res.render('errores/400')
 })
 
 
 router.post('/asociar-vendedor', ensureAuthenticated, (req, res) => {
-	if (req.user.referido != 'Ninguno') {
-		res.render('500', { error: 'No tiene permisos ' })
-	} else {
 		if (req.body.password != req.body.rpassword) {
 			res.render('vendedor/asociar', { error: 'Contraseñas no coinciden' })
 			return
@@ -134,8 +131,6 @@ router.post('/asociar-vendedor', ensureAuthenticated, (req, res) => {
 				})
 			}
 		})
-	}
-
 })
 
 router.post('/reasignar', ensureAuthenticated, (req,res)=>{
@@ -149,7 +144,24 @@ router.post('/reasignar', ensureAuthenticated, (req,res)=>{
 
 		})
 	}
-	res.redirect('/vendedor/asociar')
+	var codigos= new Array()
+	User.find().where({$and:[{referido: req.user.nombre},{esvendedor:true}]}).exec((error, usuarios)=>{
+		if(error)
+			res.render('errores/500', {error:error})
+		else{
+			codigos.push({vendedor:req.user.codigo})
+			for(var i=0;i < usuarios.length; i++){
+				codigos.push({vendedor: usuarios.codigo})
+			}
+			Tarjeta.find().where({$and:[{vendida:false},{$or:codigos}]}).select('numero').exec((error, tarjetas)=>{
+				var todas_tarjetas= new Array()
+				for(var i=0; i< tarjetas.length; i++){
+					todas_tarjetas.push(tarjetas[i].numero)
+				}
+				res.render('vendedor/asociar',{tarjetas: todas_tarjetas.sort((a, b)=>{return a-b}), vendedores:usuarios, success_msg: 'Su asignación de tarjeta ha ido un éxito, buena venta continua vendiendo'})
+			})
+		}
+	})
 })
 
 router.get('/repo-ventas', ensureAuthenticated, (req,res)=>{

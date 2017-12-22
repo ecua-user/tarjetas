@@ -25,14 +25,14 @@ router.get('/activar', ensureAuthenticated, (req,res)=>{
             if(videos.length==0){
                 res.render('cliente/activar',{id_trj: imgs })
             }else{
-                res.render('cliente/activar',{video: videos[0], videos: videos,id_trj: imgs })
+                res.render('cliente/activar',{video: videos,id_trj: imgs })
             }
         })
     })
     
 })
 router.post('/finalizar-activacion', ensureAuthenticated, (req,res)=>{
-	Tarjeta.findOne().where({$and:[{numero:req.body.numero},{cliente: req.user.username},{activo:false},{activacion: req.body.token}]}).exec((error, respuesta)=>{
+	Tarjeta.findOne().where({$and:[{numero:req.body.numero},{cliente: req.user.username},{activo:false},{activacion: (req.body.token).trim()}]}).exec((error, respuesta)=>{
 		if(error)
 			res.send('Ha ocurrido un error inesperado')
 		else{
@@ -53,6 +53,7 @@ router.post('/finalizar-activacion', ensureAuthenticated, (req,res)=>{
 router.get('/perfil', ensureAuthenticated,(req,res)=>{
     Imagen.find().exec((err, imagenes)=>{
         Tarjeta.find().where({$and:[{cliente: req.user.username},{vendida:true}, {activo:true}]}).exec((error, tarjetas)=>{
+            console.log(tarjetas)
             res.render('cliente/perfil',{imagenes:imagenes, tarjetas: tarjetas})
         })      
     })

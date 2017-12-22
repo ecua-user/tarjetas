@@ -261,7 +261,6 @@ function modificar_grupo_trj(identificador) {
 		data: envio
 	}).done((respuesta) => {
 		try {
-			console.log(respuesta[0])
 			asignar('codInteSiste', respuesta[0].codigo)
 			asignar('tit_tar_mas', respuesta[0].titulo)
 			asignar('fecha-inicial', ordenarFechas(respuesta[0].inicial))
@@ -317,7 +316,7 @@ function actualiza_trj_indivdidual() {
 		a_enviar.push({ codigo: codigo, beneficios: beneficios_a_enviar })
 	}
 
-	var envio = { numero: valor('mod_tar_num'), cambios: a_enviar, inicial: valor('mod_tar_inic'), final: valor('mod_tar_fin') }
+	var envio = { numero: valor('mod_tar_num'), cambios: a_enviar, inicial: valor('mod_tar_inic'), final: valor('mod_tar_fin'), vendedor:valor('listar_vend') }
 
 	$.ajax({
 		type: "POST",
@@ -338,6 +337,10 @@ function actualiza_trj_indivdidual() {
 
 }
 function consultar_trj() {
+	var opciones_vend=document.getElementsByClassName('lista_vendedores')
+	for(var i=0;i < opciones_vend.length;i++){
+		document.getElementsByClassName('lista_vendedores')[1].removeAttribute('selected', '')					
+	}
 	var envio = { numero: valor('numero_consulta') }
 	cargando()
 	$.ajax({
@@ -351,6 +354,12 @@ function consultar_trj() {
 				document.getElementById('div-error').style.display = 'block'
 				no_cargando()
 				return
+			}
+			var opciones_vend=document.getElementsByClassName('lista_vendedores')
+			for(var i=0;i < opciones_vend.length;i++){
+				if(opciones_vend[i].value==respuesta[0].vendedor){
+					opciones_vend[i].setAttribute('selected', '')					
+				}					
 			}
 			document.getElementById('div-error').style.display = 'none'
 			asignar('mod_tar_num', respuesta[0].numero)
@@ -370,7 +379,7 @@ function consultar_trj() {
 				for (var j = 0; j < respuesta[0].locales[i].beneficio.length; j++) {
 					var estado_benef = verificar_benef(respuesta[0].locales[i].beneficio[j].activo)
 					cadena += `<tr>
-							<td><textarea class="area-beneficios" readonly style="width:100%; height:140px; resizable="none">${ascii_texto(respuesta[0].locales[i].beneficio[j].beneficio)}
+							<td><textarea class="area-beneficios" readonly style="width:100%; height:140px; border: solid 0px white" resizable="none">${ascii_texto(respuesta[0].locales[i].beneficio[j].beneficio)}
 							</textarea></td>
 							<td>
 							<label><input value="1" onchange="conSeleccion(this)" class="benef_escog" name="${respuesta[0].locales[i].beneficio[j].codigo}" ${estado_benef[0]}  type="radio"/>  Disponible.</label>
@@ -448,9 +457,13 @@ function generar_reporte_local(){
 		data: envio
 	}).done(( respuesta )=>{
 		var cadena=`<tr>
-						<th>Código</th>
 						<th>Local</th>
-						<th>Cliente</th>
+						<th>Cédula Cliente</th>
+						<th>Mail Cliente</th>
+						<th>Nombre Cliente</th>
+						<th>Edad Cliente</th>
+						<th>Genero Cliente</th>
+						<th>Ref. Cliente</th>
 						<th>Tarjeta</th>
 						<th>Fecha</th>
 						<th>Hora</th>
@@ -458,9 +471,13 @@ function generar_reporte_local(){
 					</tr>`
 		for(var i=0; i< respuesta.length; i++){
 			cadena+=`<tr>
-						<td>${respuesta[i].codigo}</td>
 						<td>${respuesta[i].local}</td>
+						<td>${respuesta[i].cedula || ''}</td>
 						<td>${respuesta[i].usuario}</td>
+						<td>${respuesta[i].nombre || ''}</td>
+						<td>${respuesta[i].edad || ''}</td>
+						<td>${respuesta[i].genero || ''}</td>
+						<td>${respuesta[i].referido || ''}</td>
 						<td>${respuesta[i].tarjeta}</td>
 						<td>${obtenerFecha(respuesta[i].fecha)}</td>
 						<td>${obetenerHora(respuesta[i].fecha)}</td>
@@ -472,17 +489,7 @@ function generar_reporte_local(){
 	})
 }
 
-function generar_reporte_vendedor(){
-	var envio={nombre:valor('todos_vendedores')}
-	cargando()
-	$.ajax({
-		method: "POST",
-		url: "/admin/ver-reporte-vendedor",
-		data: envio
-	}).done(( respuesta )=>{
-		
-	})
-}
+
 
 function generar_reporte_cliente(){
 	var envio={nombre:valor('todos_usuarios')}
@@ -570,8 +577,9 @@ function generar_reporte_vendedor(){
 		data: envio
 	}).done(( respuesta )=>{
 		var cadena=`<tr>
-						<th>Codigo</th>
+						<th>Superior</th>
 						<th>Vendedor</th>
+						<th>Tipo</th>
 						<th>Email Cliente</th>
 						<th>Cédula</th>
 						<th>Nombre</th>
@@ -582,8 +590,9 @@ function generar_reporte_vendedor(){
 					</tr>`
 		for(var i=0; i< respuesta.length; i++){
 			cadena+=`<tr>
-						<td>${respuesta[i].codigo}</td>
+						<td>${respuesta[i].referido || '' }</td>
 						<td>${respuesta[i].vendedor}</td>
+						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
 						<td>${respuesta[i].cliente}</td>
 						<td>${respuesta[i].cedula || ''}</td>
 						<td>${respuesta[i].nombre || ''}</td>
@@ -597,6 +606,16 @@ function generar_reporte_vendedor(){
 		innerTexto('datos_reporte', cadena)
 	})
 }
+
+function tipo_vendedor(superior){
+	if (superior!=''){
+		if(superior=='Ninguno')
+			return 'Cabeza'
+		else
+			return 'Subvendedor'
+	}
+}
+
 function eliminar_img(codigo){
 	envio={codigo:codigo}
 	cargando()
@@ -612,5 +631,61 @@ function eliminar_img(codigo){
 			swal('Listo', 'Eliminado con éxito', 'success')
 			location.reload()
 		}	
+	})
+}
+function modificar_user(identidad){
+	cargando('Obteniedo información del usuario')
+	envio={codigo:identidad}
+	$.ajax({
+		method: "POST",
+		url: "/admin/editar-cliente",
+		data: envio
+	}).done(( datos )=>{
+		if(datos!='Error'){
+			no_cargando()
+			asignar('txtnombre', datos.nombre)
+			asignar('txtedad', datos.edad)
+			asignar('txtsector', datos.sector)
+			asignar('txtcedula', datos.cedula)
+			asignar('txttelefono', datos.telefono)
+			asignar('textdireccion', datos.direccion)
+			asignar('txtmail', datos.username)
+			var opciones=document.getElementsByClassName('listado_referidos')
+			for(var i=0;i< opciones.length;i++){
+				if(datos.referido==opciones[i].value)
+					opciones[i].setAttribute('selected', '')
+			}
+			$('#modal-modificar-user').modal()
+		}else{
+			no_cargando()
+			swal('Error', 'Ha ocurrido un error inesperado', 'error')
+		}
+	})
+	
+}
+function actualizar_cliente(event){
+	event.preventDefault()
+	envio={
+		nombre: valor('txtnombre'), 
+		edad: valor('txtedad'), 
+		sector: valor('txtsector'), 
+		cedula: valor('txtcedula'),
+		telefono: valor('txttelefono'),
+		direccion: valor('textdireccion'),
+		referido:valor('referidos_lista'),
+		username: valor('txtmail')
+	}
+	$.ajax({
+		method: "POST",
+		url: "/admin/actualizar-cliente",
+		data: envio
+	}).done(( datos )=>{
+		if(datos!='Error'){
+			swal('Listo', 'Actualizado con éxito', 'success')
+			location.reload()
+		}else{
+			swal('Error', 'Ha ocurrido un error inesperado', 'error')
+			location.reload()
+		}
 	})
 }

@@ -49,6 +49,7 @@ function registro(event) {
     })   
 }
 
+/*
 function validar() {
     cedula = document.getElementById("txtcedula").value
     vector=cedula.split('')
@@ -90,7 +91,7 @@ function validar() {
     }
     
 }
-
+*/
 
 function olvido(event){
     event.preventDefault()

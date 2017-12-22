@@ -1,29 +1,25 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="centrado contenedor-bordes">
-            <h1 class="blanco">Reporte de ventas</h1>
+            <h1 class="blanco">Reporte de uso de beneficios</h1>
             <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
             <div class="table" id="datos_reporte">
                 <table class="table">
                     <tr>
-                        <th>Vendedor</th>
                         <th>Email</th>
                         <th>Nombre</th>
                         <th>Cédula</th>
                         <th>Fecha</th>
-                        <th>Tarjeta</th>
-                        <th>Número</th>
+                        <th>Número de tarjeta</th>
                     </tr>
                     {{#if ventas}}
                         {{#each ventas}}
                             <tr>
-                                <td>{{this.vendedor}}</td>
-                                <td>{{this.cliente}}</td>
+                                <td>{{this.usuario}}</td>
                                 <td>{{this.nombre}}</td>
                                 <td>{{this.cedula}}</td>
                                 <td class="fechas">{{this.fecha}}</td>
-                                <td ><img src="{{this.tarjeta}}" width="60px" alt=""></td>
-                                <td>{{this.numero}}</td>
+                                <td>{{this.tarjeta}}</td>
                             </tr>
                         {{/each}}
                     {{/if}}

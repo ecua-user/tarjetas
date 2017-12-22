@@ -9,6 +9,7 @@ Imagen_ben= require('../modelos/imagenes')
 
 //Modelos de datos a usar____________________________________________
 User = require('../modelos/usuarios')
+Video= require('../modelos/videos')
 
 //Confirma la autenticación del usuario______________________________
 function ensureAuthenticated(req, res, next) {
@@ -16,7 +17,7 @@ function ensureAuthenticated(req, res, next) {
         return next();
     else
         res.redirect('/neutral');
-}
+} 
 //Genera los Token___________________________________________________
 function cadenaAleatoria() {
     longitud = 16
@@ -83,9 +84,9 @@ router.post('/registro', (req, res) => {
         return
     } 
     console.log(req.body.referido)
-    User.findOne().where({ $or: [{ cedula: req.body.cedula }, { username: req.body.username }] }).exec((e, resp) => {
+    User.findOne().where({ $or: [{ username: req.body.username }] }).exec((e, resp) => {
         if (resp != null)
-            res.send('Ya existe una cuenta con esta cédula o correo')
+            res.send('Ya existe una cuenta con este correo')
         else {
             newUser = new User({
                 codigo: Date.now(),
@@ -118,14 +119,13 @@ router.post('/registro', (req, res) => {
 
 //Confirmar la cuenta________________________________________________
 router.get('/confirmar', (req, res) => {
-    Imagen_ben.find().exec((error, imagenes)=>{
-        res.render('usuario/confirmar',{imagenes:imagenes})
+    Video.find().exec((error, videos)=>{
+        res.render('usuario/confirmar',{video: videos})
     })
-    
 })
 
 router.post('/confirmar', (req, res) => {
-    User.findOne().where({ $and: [{ username: req.body.username }, { activo: false }, { token: req.body.token }] }).exec((e, resp) => {
+    User.findOne().where({ $and: [{ username: req.body.username }, { activo: false }, { token: (req.body.token).trim() }] }).exec((e, resp) => {
         if (e)
             res.render(Error_500, { error: e })
         else {
@@ -134,16 +134,23 @@ router.post('/confirmar', (req, res) => {
                     if (e)
                         res.render(Error_500, { error: e })
                     else {
-                        ImgTarjeta.find((err, tarjetas) => {
-                            User.find().where({ esvendedor: true }).select('codigo nombre').exec((error, referido) => {
-                                res.render('home/index', { success_msg: 'Ahora ya puedes iniciar sesión', tarjetas: tarjetas, referido: referido })
-                            })
+                        ImgTarjeta.find((err,tarjetas)=>{     
+                            User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
+                                Imagen.find().exec((err, imagenes)=>{
+                                    Video.find().exec((error, videos)=>{
+                                        res.render('home/index',{success_msg:'Ahora ya puedes iniciar sesión',tarjetas:tarjetas,referido:referido, imagenes:imagenes,video: videos}) 
+                                    })               
+                                })                   
+                            })   
                         })
                     }
 
                 })
-            } else
-                res.render('usuario/confirmar', { error: 'Este usuario no existe, el token es incorrecto o su cuenta ya estaba confirmada' })
+            } else{
+                Video.find().exec((error, videos)=>{
+                    res.render('usuario/confirmar',{video: videos, error:'Este usuario no existe, el token es incorrecto o su cuenta ya estaba confirmada'})
+                })
+            }       
         }
     })
 })

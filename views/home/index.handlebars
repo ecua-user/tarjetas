@@ -1,53 +1,48 @@
 <div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="centrado contenedor-bordes">
+    <div class="col-lg-6 col-md-6" style="padding-left:2%; padding-right:2%">
+        <div class="centrado contenedor-bordesI">
             {{#if imagenes}}
             <div id="corousel-ben" class="carousel slide " data-ride="carousel">
                 <div class="carousel-inner">
                     {{#each imagenes}}
-                    <div class="carousel-item carro_img" style="padding-left:2%; padding-right:2%">
+                    <div class="carousel-item carro_img" style="padding-left:10%; padding-right:10%">
                         <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
                     </div>
                     {{/each}}
                 </div>
                 <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
                 <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
             {{/if}}
         </div>
-        <div class="centrado contenedor-bordes">
-            <div class="">
+        <div class="centrado contenedor-bordesI">
+            <div class="" style="padding-left:20%; padding-right:20%">
                 {{#if tarjetas}}
                 <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
-                    <ol class="carousel-indicators" id="indicadores">
-
-                    </ol>
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" >
                         {{#each tarjetas}}
-                        <div class="carousel-item carro_trj" style="padding-left:2%; padding-right:2%">
-                            <a href="/tarjetas:{{this.codigo}}">
-                                <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.titulo}}">
+                        <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
+                            <!--href="/tarjetas:{{this.codigo}}"-->
+                            <a  href="javascript:alert('Nunca me pasaron el diseño')" >
+                                <img class="img-slider d-block w-100 borde-redondo" src="{{this.imagen}}" alt="{{this.titulo}}">
                             </a>
-                            <div class="carousel-titulo ">
-                                {{this.titulo}}
-                            </div>
                         </div>
                         {{/each}}
                     </div>
-                    <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0.3)" href="#carouselExampleIndicators" role="button"
+                    <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
                         data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0.3)" href="#carouselExampleIndicators" role="button"
+                    <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
                         data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
@@ -72,23 +67,34 @@
             <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
         </div>
         {{#if user}}
-        <div class="contenedor-bordes">
-            <h1 class="blanco centrado">Video promocionales</h1>
+         <div class="contenedor-bordesI blanco">
+             <h1 class="blanco centrado">VIDEOS INFORMATIVOS</h1>
             {{#if video}}
-            <iframe width="100%" id="espacio_video" height="315" src="{{video.url}}" frameborder="0" gesture="media" allow="encrypted-media"
+            <div id="corousel-vid" class="carousel slide " data-ride="">
+                <div class="carousel-inner">
+                    {{#each video}}
+                    <div class="carousel-item carro_vid" style="padding-left:12%; padding-right:12%">
+                         <iframe width="100%" id="espacio_video" height="315" src="{{this.url}}" frameborder="0" gesture="media" allow="encrypted-media"
                 allowfullscreen></iframe>
-            {{/if}}
-            <div class="centrado">
-                {{#if videos}} {{#each videos}}
-                <button style="margin-bottom:4px" class="btn btn-outline-warning" onclick="cargar_video('{{this.url}}')">{{this.titulo}}</button>
-                {{/each}} {{/if}}
+                    </div>
+                    {{/each}}
+                </div>
+                <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-vid" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-vid" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
+            {{/if}}
         </div>
 
         {{else}}
         <div class="blanco" id="" style="background-color:rgba(000, 000, 000, 0.5);padding:24px">
-            <h1 class="centrado blanco">REGISTRARTE</h1>
-            <form class="form-signin" action="/users/registro" method="post" onsubmit="registro(event)">
+            <h1 class="centrado blanco calibri">REGISTRARTE</h1>
+            <form class="form-signin cordia" action="/users/registro" style="font-size:150%" method="post" onsubmit="registro(event)">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="form-group">
@@ -120,7 +126,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="form-group">
-                            <input minlength="10" maxlength="10" type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
+                            <input  type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
                                 id="txtcedula" placeholder="Cédula" class="form-control" required>
                         </div>
                         <div class="form-group">
@@ -151,7 +157,7 @@
                         <div class="form-group">
                             <input type="text" id="txtdireccion" placeholder="Dirección" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-warning btn-block">Registrar</button>
+                        <button type="submit" class="btn btn-warning nwarning btn-block"><b>REGISTRAR</b></button>
                     </div>
                 </div>
             </form>
@@ -162,8 +168,9 @@
 <script src="../modular/codigo/home.js"></script>
 <script>
     window.addEventListener('load', () => {
-        control_slider()
         control_slider_beneficios()
+        control_slider() 
+        control_slider_videos()          
     })
 </script>
 <link rel="stylesheet" href="../modular/estilos/registro.css">

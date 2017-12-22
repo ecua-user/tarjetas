@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es-ES">
+<html lang="es">
 
 <head>
     <!--Propiedades-->
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ecuador Actíva</title>
@@ -19,8 +19,6 @@
     <meta property="og:image:width" content="2128" />
     <meta property="og:image:height" content="1743" />
     <meta property="og:site_name" content="Republica del Salvador Activa, i.e. Moz" />
-    <meta property="article:published_time" content="2017-06-26T05:59:00+01:00" />
-    <meta property="article:modified_time" content="2017-06-26T05:59:00+01:00" />
     <meta property="article:tag" content="descuentos" />
     <!--Bootstraps-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
@@ -52,67 +50,165 @@
             font-weight: normal;
             src: local('Bebas Neue'), url('../general/fuentes/bebas.woff') format('woff');
         }
+
+        @font-face {
+            font-family: Cordia New;
+            font-style: normal;
+            font-weight: normal;
+            src: url(../general/fuentes/cordia_0.ttf);
+        }
+
+        @font-face {
+            font-family: Calibri cuerpo;
+            font-style: normal;
+            font-weight: normal;
+            src: url(../general/fuentes/Calibri.ttf);
+        }
     </style>
     <link rel="stylesheet" href="../general/estilos/bootstrap.css">
     <link rel="stylesheet" href="../general/estilos/estilos.css">
     <link rel="stylesheet" href="../general/estilos/responsivo.css">
+    <script src="../general/tableExport.js"></script>
+    <script src="../general/jquery.base64.js"></script>
 </head>
+
 <body>
-        <nav class="navbar navbar-fixed-top navbar-expand-lg nav-negro" style="background-color:black">
-        <a href="/"><img src="../general/imagenes/brand.png" alt="Brand" style="margin-top:-25px;" width="auto"></a>
-        <div class="" >
+    <nav class="navbar navbar-fixed-top navbar-expand-lg nav-negro" style="background-color:black">
+        <a href="/">
+            <img src="../general/imagenes/brand.png" alt="Brand" class="img-responsive" style="margin-top:-25px;" width="150px">
+        </a>
+        <div id="bienvenida0" class="blanco centrado">
             {{#if user}}
-            <div style="width:100%;" class="centrado">
-                <div style="margin:4px">
-                    <h5 class="blanco">BIENVENIDO</h5>
-                    <p class="blanco centrado">{{user.nombre}}</p>
-                    <p id="codigo-usuario" style="display:none">{{user.codigo}}</p>
-                </div>              
-            </div>               
-            {{else}}
-            <div class="centrado" style="width:140px;">
-                <h5 class="blanco">SIGUENOS EN</h5>
-                <div class="" style="border:solid 1px;border-color:white;margin-left:5%">
-                    <span >
-                        <a href="http://www.fb.com/RepublicaDeElSalvadorActiva" >
-                            <i class="zmdi zmdi-facebook-box blanco zmdi-hc-lg"></i>
+            <h6>BIENVENIDO</h6>
+            <h5>{{user.nombre}}</h5>
+            <p id="codigo-usuario" style="display:none">{{user.codigo}}</p>
+            {{/if}}
+        </div>
+        <div class="" id="redes_sociales">
+            <div class="centrado" style="width:100%;">
+                <h5 class="blanco cordia">Síguenos en</h5>
+                <div style="margin-left:5%; margin-top:-12px">
+                    <span>
+                        <a href="http://www.fb.com/RepublicaDeElSalvadorActiva">
+                            <i class="zmdi zmdi-facebook-box blanco zmdi-hc-2x"></i>
                         </a>
                     </span>
                     <span>
-                        <a href="https://www.instagram.com/republicadelsalvadoractiva/">
-                            <i class="zmdi zmdi-instagram blanco zmdi-hc-lg"></i>
+                        <a target="_blank" href="https://www.instagram.com/republicadeelsalvadoractiva/">
+                            <i class="zmdi zmdi-instagram blanco zmdi-hc-2x"></i>
                         </a>
                     </span>
                 </div>
             </div>
-            {{/if}}
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto"></ul>
-            <div style="padding-top:10px">
-                {{#if user}}
-                    
-                    {{#if user.escliente}}
-                    <a href="/cliente/activar"><button class="btn btn-outline-warning">Asociar nueva tarjeta</button></a>
-                        <a href="/neutral/"><button class="btn btn-outline-warning">Mi cuenta</button></a>
-                    {{else}}
-                        <a href="/neutral/"><button class="btn btn-outline-warning">Panel de control</button></a>
-                        {{#if user.esvendedor}}
-                            <p style="display:none" id="refer">{{user.referido}}</p>
-                            <a href="/vendedor/asociar/" id="asociar_id"><button class="btn btn-outline-warning">Asociar Vendedor</button></a>
-                            <a href="/vendedor/repo-ventas/"><button class="btn btn-outline-warning">Reporte de ventas</button></a>
-                        {{/if}}
-                    {{/if}}
-                    <a href="/users/password"><button class="btn btn-outline-primary">Cambiar contraseña</button></a>
-                    <a href="/users/logout"><button class="btn btn-outline-light">Cerrar sesión</button></a>
-                {{else}}
-                    <form class="navbar-form navbar-left" action="/users/login" method="post">
+        <div class="collapse navbar-collapse calibri" id="navbarSupportedContent">
+            <div class="navbar-nav mr-auto blanco" id="espaciado" style="margin:0 auto">
+                <div style="margin: 0 auto; text-align:center; width:100%" id="banner-titulo">
+                    <div id="tit_general">
+                        
+                    </div>
+                    <div id="cabecera_cliente">
                         <div class="row">
-                        <div class="col-lg-9 col-md-9">
+                            {{#if user.escliente}}
+                            <div class="col-lg-6 col-md-6 colsm-6 col-xs-6">   
+                                <div id="sel_trj0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <i class="zmdi zmdi-info " id="estado_local" style="display:none; position:absolute"></i>
+                                            <img src="" id="img_trj" width="100%" alt="" class="borde-redondo">
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" >
+                                            <select required name="tarjeta" onchange="actualizar_img(this.value);" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
+                                                {{#if tarjetas}} {{#each tarjetas}}
+                                                <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
+                                                {{/each}} {{/if}}
+                                            </select>
+                                            <p class="blanco" id="Rvencimiento" style="display:none">Esta tarjete vence en:
+                                                <b id="vencimiento"></b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 colsm-6 col-xs-6" id="bienvenida">
+                                <div id="bienvenida1" style="margin-top:20px">
+                                    {{#if user}}
+                                    <h6>BIENVENIDO</h6>
+                                    <h5>{{user.nombre}}</h5>
+                                    <p id="codigo-usuario" style="display:none">{{user.codigo}}</p>
+                                    {{/if}}
+                                </div>
+                                <div id="sel_trj1" style="padding-top:30px">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" >
+                                            <i class="zmdi zmdi-info zmdi-hc-2x" id="estado_local1" style="display:none; position:absolute"></i>
+                                            <img src="" id="img_trj1" width="100%" alt="" class="borde-redondo">
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-top:20px">
+                                            <select required name="tarjeta" onchange="actualizar_img(this.value);" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
+                                                {{#if tarjetas}} {{#each tarjetas}}
+                                                <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
+                                                {{/each}} {{/if}}
+                                            </select>
+                                            <p class="blanco" id="Rvencimiento1" style="display:none">Esta tarjete vence en:
+                                                <b id="vencimiento1"></b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/if}}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div style="padding-top:10px; text-align:center">
+                {{#if user}} {{#if user.escliente}}
+                <a href="/cliente/activar">
+                    <button class="btn btn-warning nwarning">Asociar nueva tarjeta</button>
+                </a>
+                <a href="/neutral/">
+                    <button class="btn btn-warning nwarning">Cuenta</button>
+                </a>
+                {{else}}
+                <a href="/neutral/">
+                    <button class="btn btn-warning nwarning">Panel</button>
+                </a>
+                {{#if user.eslocal}}
+                <a href="local/activaciones/">
+                    <button class="btn btn-warning nwarning">Reportes</button>
+                </a>
+                {{/if}}
+                {{#if user.esvendedor}}
+                <p style="display:none" id="refer">{{user.referido}}</p>
+                <a href="/vendedor/asociar/" id="asociar_id">
+                    <button class="btn btn-warning nwarning">Asociar Vendedor</button>
+                </a>
+                <a href="/vendedor/repo-ventas/">
+                    <button class="btn btn-warning nwarning">Reportes</button>
+                </a>
+                {{/if}} {{/if}}
+                <a href="/users/password" title="Cambiar contraseña">
+                    <button class="btn btn-primary nprimary">
+                        Contraseña
+                    </button>
+                </a>
+                <a href="/users/logout" class="blanco">
+                    <button class="btn btn-light">
+                        Cerrar
+                    </button>
+                </a>
+                {{else}}
+                <form class="navbar-form navbar-left cordia" action="/users/login" method="post">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 centrado" style="margin-bottom:4px">
                                     <input type="email" name="username" class="form-control" placeholder="Correo electrónico" required>
@@ -123,17 +219,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3" style="margin-bottom:4px">
-                            <button type="submit" class="btn btn-primary" style="width:100%">INICIAR SESIÓN</button>
+                        <div class="col-lg-4 col-md-4" style="margin-bottom:4px">
+                            <button type="submit" class="btn btn-primary nprimary" style="width:100%">INICIAR SESIÓN</button>
                             <a href="/users/olvido" class="blanco">¿Olvidaste tu contraseña?</a>
                         </div>
-                        </div>
-                    </form>
+                    </div>
+                </form>
                 {{/if}}
             </div>
         </div>
     </nav>
-    <div id="contendedor-general" >
+    <div id="contendedor-general">
         <div style="min-height:70%;">
             <div class="fullscreen-bg">
                 <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
@@ -141,7 +237,7 @@
                     <source src="../general/fondo.mp4" type='video/webm; codecs="vp8,vorbis"' />
                 </video>
             </div>
-            <div class="content"  >
+            <div class="content">
                 {{{body}}}
             </div>
         </div>
@@ -149,36 +245,46 @@
     <footer class="footer-bs centrado">
         <div class="row">
             <div class="col-lg-4">
-                {{#if user}}
-                Síguenos
-                    <span >
-                        <a href="http://www.fb.com/RepublicaDeElSalvadorActiva" >
-                            <i class="zmdi zmdi-facebook-box blanco zmdi-hc-lg"></i>
-                        </a>
-                    </span>
-                    <span>
-                        <a href="https://www.instagram.com/republicadelsalvadoractiva/">
-                            <i class="zmdi zmdi-instagram blanco zmdi-hc-lg"></i>
-                        </a>
-                    </span>
+                {{#if user}} Síguenos
+                <span>
+                    <a href="http://www.fb.com/RepublicaDeElSalvadorActiva">
+                        <i class="zmdi zmdi-facebook-box blanco zmdi-hc-lg"></i>
+                    </a>
+                </span>
+                <span>
+                    <a href="https://www.instagram.com/republicadelsalvadoractiva/">
+                        <i class="zmdi zmdi-instagram blanco zmdi-hc-lg"></i>
+                    </a>
+                </span>
                 {{/if}}
             </div>
             <div class="col-lg-8">
                 <div class="row">
-                    <div class="col-lg-4"><a href="/contactos" class="blanco">Quiero registrar mi establecimiento</a></div>
-                    <div class="col-lg-4"><a href="/contactos" class="blanco">Contacto</a></div>
-                    <div class="col-lg-4"><a href="/nosotros" class="blanco">Nosotros</a></div>
+                    <div class="col-lg-4">
+                        <a href="/contactos" class="blanco">Quiero registrar mi establecimiento</a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/contactos" class="blanco">Contacto</a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/nosotros" class="blanco">Nosotros</a>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
     <script>
-    window.addEventListener('load', ()=>{
-        var ref=document.getElementById('refer').innerText;
-        if(ref!='Ninguno')
-            document.getElementById('asociar_id').style.display='none'
-    })
-</script>
+        window.addEventListener('load', () => {
+            var direccion = window.location.pathname
+            if (direccion != '/cliente/perfil') {
+                document.getElementById('tit_general').style.display = 'none'
+                document.getElementById('bienvenida0').style.display='block'
+                document.getElementById('cabecera_cliente').style.display = 'none'
+            }
+            
+        })
+    </script>
 
 </body>
+
 </html>

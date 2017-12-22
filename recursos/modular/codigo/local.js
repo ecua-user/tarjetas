@@ -33,14 +33,17 @@ function activar_desc(event){
 function usar_beneficio(codigo, cliente){
     try {
         var envio={codigo:codigo, numero: valor('numero_act'), fecha: new Date(), cliente: cliente}
-        cargando()
+        cargando('Consultando disponibilidad..')
         $.ajax({
             method: "POST",
             url: "/local/usar-beneficio",
             data: envio
         }).done(( respuesta )=>{
             no_cargando()
-            swal(respuesta)
+            if(respuesta.substr(0,9)=='No puede ')
+                swal('Error', respuesta, 'error')
+            else
+                swal('Listo', respuesta, 'success')    
         }) 
     } catch (error) {
         alert(error)
@@ -61,7 +64,7 @@ function mostrar_beneficios(activo, elementos){
                         <div class="col-lg-5 col-md-5">
                             <h4 class="centrado">Términos y condiciones</h4>
                             <div style="padding-left:5%; padding-right:5%">
-                            <textarea class="area-beneficios" readonly name="" id="" cols="30" rows="10" style="width:100% ; height:100%">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
+                            <textarea class="area-beneficios" readonly name="" id="" cols="30" rows="10" style="width:100% ; height:100%; border: 0px solid white">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
                             </textarea>
                             </div>
                         </div>

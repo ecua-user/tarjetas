@@ -61,8 +61,9 @@
                 <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
             <h3 class="blanco centrado">Vendedores</h3>
+            <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
             <div class="table table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="datos_reporte" >
                     <tr class="alert-primary">
                         <th>Cédula</th>
                         <th>Nombre</th>

@@ -61,9 +61,10 @@
             <h3 class="centrado blanco">Reporte por local</h3>
             <div class="" style="min-height:400px">
                 <div class="form-group margen-row">
-                    <label for="" class="blanco" >Seleccione local</label>
+                    <label for="" class="blanco">Seleccione local</label>
                     <div class="input-group">
                         <select name="" id="todos_locales" class="form-control">
+                            <option value="Todos">Todos</option>
                             {{#if locales}} {{#each locales}}
                             <option value="{{this.nombre}}">{{this.nombre}}</option>
                             {{/each}} {{/if}}
@@ -73,8 +74,9 @@
                         <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
                     </div>
                 </div>
-                <div class="table">
-                    <div id="vista_impresion">
+                
+                    <div class="table-responsive" style="background-color:white">
+                        <div id="vista_impresion">
                         <table class="table" id="datos_reporte">
 
                         </table>

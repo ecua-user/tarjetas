@@ -1,6 +1,7 @@
 var mongoose =require('mongoose');
 reporteventasSchema=new mongoose.Schema({
     vendedor:String,
+    referido: String,
     cliente: String ,
     nombre: String,
     cedula:String,

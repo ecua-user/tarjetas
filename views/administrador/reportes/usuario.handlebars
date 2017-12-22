@@ -65,6 +65,7 @@
                 <label for="" class="blanco">Seleccione Cliente</label>
                 <div class="input-group">
                     <select name="" id="todos_usuarios" class="form-control">
+                        <option value="Todos">Todos</option>
                         {{#if clientes}} {{#each clientes}}
                         <option value="{{this.username}}">{{this.nombre}}</option>
                         {{/each}} {{/if}}
@@ -74,7 +75,7 @@
                     <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
                 </div>
             </div>
-            <div class="table">
+            <div class="table-responsive" style="background-color:white">
                 <div id="vista_impresion">
                     <table class="table" id="datos_reporte">
 

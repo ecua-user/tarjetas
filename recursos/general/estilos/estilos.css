@@ -5,11 +5,18 @@ html, body {
 }
 
 #contendedor-general{
-    background-color:rgba(000, 000, 000, 0.2);
+    background-color:rgba(000, 000, 000, 0.65);
     font-family:'Bebas Neue';
     margin-bottom: -1px; 
     min-height:100%; 
     min-width:100%
+}
+
+.cordia{
+    font-family:'Cordia New';
+}
+.calibri{
+    font-family:'Calibri cuerpo';
 }
 body{
     min-width: 100%;
@@ -85,7 +92,23 @@ footer{
 	    transform: translate(-50%, -50%);
 }
 
-
+@media (min-width: 767px) {
+    #bienvenida0{
+        display: none;
+    }
+    #sel_trj0{
+        display: block;
+    }
+    #bienvenida1{
+        display: block;
+    }
+    #sel_trj1{
+        display: none;
+    }
+    #espaciado{
+        width:50%;
+    }
+}
 @media (max-width: 767px) {
     .fullscreen-bg {
         background: url('../imagenes/fondo.png') center center / cover no-repeat;
@@ -93,10 +116,30 @@ footer{
     .centrado-sel{
         margin-top: 10px;
     }
-
+    #espaciado{
+        width:90%;
+    }
     .fullscreen-bg__video {
         display: none;
     }
+
+    #bienvenida0{
+        display: block;
+    }
+    #sel_trj0{
+        display: none;
+    }
+    #bienvenida1{
+        display: none;
+    }
+    #sel_trj1{
+        display: block;
+    }
+}
+.contenedor-bordesI{
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:2%;
 }
 .contenedor-bordes{
     margin-left:5%;
@@ -114,8 +157,6 @@ footer{
     z-index: 10;
     padding-top:10px;
     padding-bottom: 40px;
-    background-color: rgba(000, 000, 000, 0.7);
-    color: #ffffff;
     text-align: center;
   }
 
@@ -162,7 +203,7 @@ footer{
     -webkit-animation-name: flash;
     animation-name: flash;
    }
-
+/*
    .area_descriptiva{
     min-height: 80%;
     margin-bottom: 12px;
@@ -179,7 +220,7 @@ footer{
     background-color: white;
     color: black
 }
-
+*/
 .form-signin
 {
     padding: 15px;
@@ -220,4 +261,11 @@ footer{
 }
 .bordes-blanco{
     border:solid 1px;border-color:white; padding:5px;
+}
+
+.nprimary{
+    background-color:#0099FF;
+}
+.nwarning{
+    background-color:#FFCC66;
 }

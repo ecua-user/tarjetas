@@ -13,12 +13,7 @@ router.get('/',(req,res)=>{
         User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
             Imagen.find().exec((err, imagenes)=>{
                 Video.find().exec((error, videos)=>{
-                    if(videos.length==0){
-                        res.render('home/index',{tarjetas:tarjetas,referido:referido, imagenes:imagenes})
-                    }else{
-                        res.render('home/index',{tarjetas:tarjetas,referido:referido, imagenes:imagenes,video: videos[0], videos: videos })
-                    }
-                    
+                    res.render('home/index',{tarjetas:tarjetas,referido:referido, imagenes:imagenes,video: videos}) 
                 })               
             })                   
         })   

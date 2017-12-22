@@ -90,17 +90,15 @@
             <form action="/vendedor/reasignar" method="post">
                 <h3>Asignación de tarjetas</h3>
                 <h4 for="">Seleccionar tarjetas a asignar</h4>
-                <h5>Código de {{user.nombre}}, es: {{user.codigo}}</h5>
                 <select title="Seleccione uno o mas elementos" required name="todas_tarjetas" multiple size="7" class="form-control" id="">
                     {{#if tarjetas}} {{#each tarjetas}}
-                    <option title="{{this.numero}}" value="{{this.numero}}">{{this.vendedor}}---Tarjeta N°: {{this.numero}}</option>
+                    <option title="{{this}}" value="{{this}}">{{this}}</option>
                     {{/each}} {{/if}}
                 </select>
                 <h5 for="">Seleccionar sub vendedor a asignar</h6>
                     <select title="Selecciones un sub-vendedor" required name="todos_vendedores" class="form-control" id="">
-                        <option value="{{user.codigo}}">{{user.nombre}}</option>
                         {{#if vendedores}} {{#each vendedores}}
-                        <option title="{{this.nombre}}" value="{{this.codigo}}">{{this.codigo}}----{{this.nombre}}</option>
+                        <option title="{{this.nombre}}" value="{{this.codigo}}">{{this.nombre}}</option>
                         {{/each}} {{/if}}
                     </select>
                     <br>

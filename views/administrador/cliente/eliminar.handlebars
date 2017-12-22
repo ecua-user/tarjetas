@@ -1,10 +1,9 @@
-
 <ul class="nav nav-tabs  fondo-nav">
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
-            <a class="dropdown-item"  href="/admin/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
             <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
         </div>
     </li>
@@ -23,7 +22,7 @@
         </div>
     </li>
     <li class="nav-item dropdown active">
-         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
             <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
@@ -45,23 +44,10 @@
 <div class="row">
     <div class="col-lg-12">
         <div class=" contenedor-bordes ">
-            <div id="central-mensajes">
-                {{#if success_msg}}
-                <div class="centrado blanco mensaje-bien-sistema animated flash">
-                    <h3>{{success_msg}}</h3>
-                </div>
-                {{/if}} {{#if error}}
-                <div class="centrado blanco mensaje-error-sistema animated flash">
-                    <h3>{{error}}</h3>
-                </div>
-                {{/if}}
-                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
 
-                </div>
-                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
-            </div>
             <h3 class="blanco centrado">Clientes</h3>
-            <div class="table table-responsive">
+            <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
+            <div class="table table-responsive" id="datos_reporte">
                 <table class="table table-bordered">
                     <tr class="alert-primary">
                         <th>Cédula</th>
@@ -73,28 +59,32 @@
                         <th>Género</th>
                         <th>Email</th>
                         <th>Referido</th>
+                        <th>Modificar</th>
                         <th>Eliminar</th>
                     </tr>
-                    {{#if usuarios}}
-                        {{#each usuarios}}
-                            <tr>
-                                <td>{{this.cedula}}</td>
-                                <td>{{this.nombre}}</td>
-                                <td>{{this.telefono}}</td>
-                                <td>{{this.direccion}}</td>
-                                <td>{{this.sector}}</td>
-                                <td>{{this.edad}}</td>
-                                <td>{{this.genero}}</td>
-                                <td>{{this.username}}</td>
-                                <td>{{this.referido}}</td>
-                                <td>
-                                    <button type="button" onclick="eliminar_user(this.id)" class="btn btn-danger" id="{{this.codigo}}">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        {{/each}}
-                    {{/if}}
+                    {{#if usuarios}} {{#each usuarios}}
+                    <tr>
+                        <td>{{this.cedula}}</td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.telefono}}</td>
+                        <td>{{this.direccion}}</td>
+                        <td>{{this.sector}}</td>
+                        <td>{{this.edad}}</td>
+                        <td>{{this.genero}}</td>
+                        <td>{{this.username}}</td>
+                        <td>{{this.referido}}</td>
+                        <td>
+                            <button type="button" onclick="modificar_user(this.id)" class="btn btn-primary" id="{{this.codigo}}">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" onclick="eliminar_user(this.id)" class="btn btn-danger" id="{{this.codigo}}">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    {{/each}} {{/if}}
                 </table>
             </div>
         </div>
@@ -102,3 +92,97 @@
 </div>
 
 <script src="../modular/codigo/admin.js"></script>
+
+<div class="modal fade bd-example-modal-lg" id="modal-modificar-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="central-mensajes">
+                    {{#if success_msg}}
+                    <div class="centrado blanco mensaje-bien-sistema animated flash">
+                        <h3>{{success_msg}}</h3>
+                    </div>
+                    {{/if}} {{#if error}}
+                    <div class="centrado blanco mensaje-error-sistema animated flash">
+                        <h3>{{error}}</h3>
+                    </div>
+                    {{/if}}
+                    <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                    </div>
+                    <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+                </div>
+                <h5 class="modal-title">Modificar cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin" method="post" onsubmit="actualizar_cliente(event)" id="modificar_cliente">
+                    <div class="row">
+                        <div class="col-lg-6 col-6">
+                            <div class="form-group">
+                                <input type="text" id="txtnombre" title="No se incluyen números" pattern="^[a-zA-ZñÑ\s\W]*" name="nombre" autofocus placeholder="Nombre"
+                                    class="form-control" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">Edad</span>
+                                    <input type="number" step="1" value="18" min="18" max="150" name="edad" id="txtedad" placeholder="Edad" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="txtsector" name="sector" placeholder="Sector" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input minlength="10" maxlength="10" type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
+                                    id="txtcedula" name="cedula" placeholder="Cédula" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" readonly name="" id="txtmail" class="form-control" required placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">Género</span>
+                                    <select name="genero" id="generoSelector" class="form-control">
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                        <option value="N">Otro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" pattern="^(09)[0-9]*" title="Ingreser un número de celular válido" name="telefono" id="txttelefono" minlength="10"
+                                    maxlength="10" placeholder="Teléfono" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="textdireccion" name="direccion" placeholder="Dirección" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">Referido</span>
+                                    <select class="form-control" name="superior" id="referidos_lista">
+                                        <option value="Ninguno" class="listado_referidos">Ninguno</option>
+                                        {{#if vendedores}} {{#each vendedores}}
+                                        <option value="{{this.nombre}}" class="listado_referidos">{{this.nombre}}</option>
+                                        {{/each}} {{/if}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="modificar_cliente" class="btn btn-primary">Actualizar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

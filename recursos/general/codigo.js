@@ -4,6 +4,10 @@ function obtenerFecha(fecha){
     return fecha.getDate()+'/'+ fecha.getMonth()+'/'+ fecha.getFullYear()
 }
 
+function obtenerHora(fecha){
+    fecha=new Date(fecha)
+    return fecha.getHours()+' : '+fecha.getMinutes()
+}
 //Obtiene el valor de un input
 function valor(id){
     return document.getElementById(id).value
@@ -178,13 +182,39 @@ function cargar_video(link){
 }
 
 function actualizar_img(valor){
-    if(valor!='NA')
+    if(valor!='NA'){
         img_trj.setAttribute('src', valor)
-    else
+        img_trj1.setAttribute('src', valor)
+    }else{
         img_trj.setAttribute('src', '../modular/imagenes/local.png')
+        img_trj1.setAttribute('src', '../modular/imagenes/local.png')
+    }
+}
+function actualizar_img_act(valor){
+    if(valor!='NA')
+        img_trj_act.setAttribute('src', valor)
+    else
+        img_trj_act.setAttribute('src', '../modular/imagenes/local.png')
 }
 function control_slider_beneficios(){
 	cadena = ''
 	var imagenes_slider = document.getElementsByClassName('carro_img')
 	imagenes_slider[0].className += ' active'
 }
+function control_slider_videos(){
+	cadena = ''
+	var imagenes_slider = document.getElementsByClassName('carro_vid')
+	imagenes_slider[0].className += ' active'
+}
+
+var tableToExcel = (function() {
+    var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+      , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+      , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+    return function(table, name) {
+      if (!table.nodeType) table = document.getElementById(table)
+      var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+      window.location.href = uri + base64(format(template, ctx))
+    }
+  })()
