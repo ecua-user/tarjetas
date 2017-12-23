@@ -462,8 +462,6 @@ router.get('/mod-tarj', ensureAuthenticated, (req, res) => {
                     todasTarjetas.push({ identificador: imgs[i].codigo, inicial: tarjeta_por_grupo[0], final: tarjeta_por_grupo[tarjeta_por_grupo.length - 1] })
                 }
                 res.render('administrador/tarjeta/modificar-eliminar', { tarjetas: todasTarjetas })
-                
-                res.send('Listo')
             })
         } catch (error) { console.log(error) }
     })
