@@ -715,24 +715,9 @@ router.post('/ver-reporte-locales', ensureAuthenticated, (req, res) => {
         })
     }
 })
-router.get('/reporte-usuario', ensureAuthenticated, (req, res) => {
-    User.find().where({ escliente: true }).exec((error, clientes) => {
-        if (error)
-            res.render('errores/500')
-        else
-            res.render('administrador/reportes/usuario', { clientes: clientes })
-    })
-})
-router.post('/ver-reporte-usuario', ensureAuthenticated, (req, res) => {
-    if (req.body.nombre == 'Todos') {
-        Repolocal.find().exec((error, respuesta) => {
-            res.send(respuesta)
-        })
-    } else {
-        Repolocal.find().where({ usuario: req.body.nombre }).exec((error, respuesta) => {
-            res.send(respuesta)
-        })
-    }
+
+router.get('/reporte-referido', ensureAuthenticated, (req,res)=>{
+    res.render('administrador/reportes/usuario')
 })
 
 router.get('/reporte-vendedor', ensureAuthenticated, (req, res) => {

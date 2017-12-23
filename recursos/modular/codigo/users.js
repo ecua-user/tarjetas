@@ -1,7 +1,5 @@
 function registro(event) {
     event.preventDefault()
-    if(!validar())
-        return
     cargando()
     var envio = {
         nombre: valor('txtnombre'),

@@ -27,3 +27,25 @@ Quitoecuador1
 ecuadactiva@gmail.com
 Abc123.....
 Quitoecuador1
+
+
+
+router.get('/reporte-usuario', ensureAuthenticated, (req, res) => {
+    User.find().where({ escliente: true }).exec((error, clientes) => {
+        if (error)
+            res.render('errores/500')
+        else
+            res.render('administrador/reportes/usuario', { clientes: clientes })
+    })
+})
+router.post('/ver-reporte-usuario', ensureAuthenticated, (req, res) => {
+    if (req.body.nombre == 'Todos') {
+        Repolocal.find().exec((error, respuesta) => {
+            res.send(respuesta)
+        })
+    } else {
+        Repolocal.find().where({ usuario: req.body.nombre }).exec((error, respuesta) => {
+            res.send(respuesta)
+        })
+    }
+})
