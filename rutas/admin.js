@@ -839,24 +839,40 @@ router.post('/eliminar-imagen', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/integrar', (req,res)=>{
-    try {
-        Tarjeta.find().exec((error, tarjeta)=>{
+    User.find().select('codigo beneficio').where({eslocal:true}).exec((error,usuario)=>{
+        for(var i=0; i< usuario.length; i++){
+            for(var j=0; j<usuario[i].beneficio.length;j++){
+                usuario[i].beneficio[j]=extend({},usuario[i].beneficio[j], {fecha_activacion: ""} )
+            }
+            User.findOneAndUpdate({codigo: usuario[i].codigo},{beneficio:usuario[i].beneficio},(e, resp)=>{
+                console.log(resp.codigo)
+            })
+        }
+       res.send(usuario)
+    })
+})
+
+/*router.get('/integrar', (req,res)=>{
+    Tarjeta.find().where({numero:{$gte: 4999, $lt: 6000}}).exec((error, tarjeta)=>{
+        try {
             for(var k=0; k < tarjeta.length; k++){
+                
                 for(var i=0;i<tarjeta[k].locales.length; i++){
                     for(var j=0; j< tarjeta[k].locales[i].beneficio.length; j++){
                         tarjeta[k].locales[i].beneficio[j]=extend({}, tarjeta[k].locales[i].beneficio[j], {fecha_activacion: ""});
                     }
                 }
                 Tarjeta.findOneAndUpdate({numero: tarjeta[k].numero},{locales:tarjeta[k].locales}, (e, resp)=>{
-                    console.log(tarjeta[k].numero)
+                    console.log(resp.numero)
                 })
             }
             res.send(tarjeta)
-        })
-    } catch (error) {
-        res.send(error)
-    }
-    
+        } catch (error) {
+            res.send(error)
+        }
+        
+    })
 })
+*/
 //Permite el enrutamiento
 module.exports = router;
