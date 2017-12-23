@@ -448,27 +448,26 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
 })
 router.get('/mod-tarj', ensureAuthenticated, (req, res) => {
     var todasTarjetas = new Array()
-    var conntador=0
-    User.find().where({esvendedor:true}).exec((error, vendedores)=>{
-        ImgTarjeta.find().exec((error, imgs) => {
-            try {
-                Tarjeta.find().exec((error, tarjetas) => {
-                    for (var i = 0; i < imgs.length; i++) {
-                        var tarjeta_por_grupo = new Array()
-                        for (var j = 0; j < tarjetas.length; j++) {
-                            if (imgs[i].codigo == tarjetas[j].imagen) {
-                                console.log(conntador++)
-                                tarjeta_por_grupo.push(Number(tarjetas[j].numero))
-                            }
+    ImgTarjeta.find().exec((error, imgs) => {
+        try {
+            Tarjeta.find().exec((error, tarjetas) => {               
+                for (var i = 0; i < imgs.length; i++) {
+                    var tarjeta_por_grupo = new Array()
+                    for (var j = 0; j < tarjetas.length; j++) {
+                        if (imgs[i].codigo == tarjetas[j].imagen) {
+                            tarjeta_por_grupo.push(Number(tarjetas[j].numero))
                         }
-                        tarjeta_por_grupo = tarjeta_por_grupo.sort(function (a, b) { return a - b })
-                        todasTarjetas.push({ identificador: imgs[i].codigo, inicial: tarjeta_por_grupo[0], final: tarjeta_por_grupo[tarjeta_por_grupo.length - 1] })
                     }
-                    res.render('administrador/tarjeta/modificar-eliminar', { tarjetas: todasTarjetas , vendedores: vendedores})
-                })
-            } catch (error) { console.log(error) }
-        })
+                    tarjeta_por_grupo = tarjeta_por_grupo.sort(function (a, b) { return a - b })
+                    todasTarjetas.push({ identificador: imgs[i].codigo, inicial: tarjeta_por_grupo[0], final: tarjeta_por_grupo[tarjeta_por_grupo.length - 1] })
+                }
+                res.render('administrador/tarjeta/modificar-eliminar', { tarjetas: todasTarjetas })
+                
+                res.send('Listo')
+            })
+        } catch (error) { console.log(error) }
     })
+    
 })
 router.post('/consultar-numero', ensureAuthenticated, (req, res) => {
     Tarjeta.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {

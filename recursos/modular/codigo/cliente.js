@@ -36,7 +36,6 @@ function presentar_locales(identidad){
 		url: "/cliente/tarjeta",
 		data: envio
 	}).done(( datos )=>{
-        no_cargando()
         var cadena=''
         document.getElementById('nada').style.display='none'
         if(datos[0].confirmar){
@@ -54,14 +53,15 @@ function presentar_locales(identidad){
         vencimiento1.innerHTML= ordenarFechas(new Date(datos[0].fechafinal)) 
         document.getElementById('Rvencimiento1').style.display='block'
         document.getElementById('Rvencimiento').style.display='block'
+        document.getElementById('todos_locales').innerHTML=''
         for(var i=0;i< datos[1].length;i++){
-            cadena+=`<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:10px">
-                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }"/>
+            document.getElementById('todos_locales').innerHTML+=`<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:10px">
+                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[1][i].nombre}"/>
                     </div> 
                      `       
                     
         }
-        document.getElementById('todos_locales').innerHTML=cadena
+        no_cargando()
     })
    
 }
