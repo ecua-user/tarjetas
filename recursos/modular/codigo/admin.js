@@ -337,10 +337,13 @@ function actualiza_trj_indivdidual() {
 
 }
 function consultar_trj() {
-	//var opciones_vend=document.getElementsByClassName('lista_vendedores')
-	//for(var i=0;i < opciones_vend.length;i++){
-	//	document.getElementsByClassName('lista_vendedores')[1].removeAttribute('selected', '')					
-	//}
+	var opciones_vend=document.getElementsByClassName('lista_vendedores')
+	for(var i=0;i < opciones_vend.length;i++){
+		try {
+			document.getElementsByClassName('lista_vendedores')[1].removeAttribute('selected', '')	
+		} catch (error) {
+		}			
+	}
 	var envio = { numero: valor('numero_consulta') }
 	cargando()
 	$.ajax({
