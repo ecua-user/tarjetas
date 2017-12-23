@@ -839,19 +839,24 @@ router.post('/eliminar-imagen', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/integrar', (req,res)=>{
-    Tarjeta.find().exec((error, tarjeta)=>{
-        for(var k=0; k < tarjeta.length; k++){
-            for(var i=0;i<tarjeta[k].locales.length; i++){
-                for(var j=0; j< tarjeta[k].locales[i].beneficio.length; j++){
-                    tarjeta[k].locales[i].beneficio[j]=extend({}, tarjeta[k].locales[i].beneficio[j], {fecha_activacion: ""});
+    try {
+        Tarjeta.find().exec((error, tarjeta)=>{
+            for(var k=0; k < tarjeta.length; k++){
+                for(var i=0;i<tarjeta[k].locales.length; i++){
+                    for(var j=0; j< tarjeta[k].locales[i].beneficio.length; j++){
+                        tarjeta[k].locales[i].beneficio[j]=extend({}, tarjeta[k].locales[i].beneficio[j], {fecha_activacion: ""});
+                    }
                 }
+                Tarjeta.findOneAndUpdate({numero: tarjeta[k].numero},{locales:tarjeta[k].locales}, (e, resp)=>{
+                    console.log(tarjeta[k].numero)
+                })
             }
-            Tarjeta.findOneAndUpdate({numero: tarjeta[k].numero},{locales:tarjeta[k].locales}, (e, resp)=>{
-                console.log(tarjeta[k].numero)
-            })
-        }
-        res.send(tarjeta)
-    })
+            res.send(tarjeta)
+        })
+    } catch (error) {
+        res.send(error)
+    }
+    
 })
 //Permite el enrutamiento
 module.exports = router;
