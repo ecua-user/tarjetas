@@ -847,7 +847,7 @@ router.get('/integrar', (req,res)=>{
                 }
             }
             Tarjeta.findOneAndUpdate({numero: tarjeta[k].numero},{locales:tarjeta[k].locales}, (e, resp)=>{
-                console.log('hecho')
+                console.log(tarjeta[k].numero)
             })
         }
         res.send(tarjeta)
