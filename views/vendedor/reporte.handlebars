@@ -13,6 +13,8 @@
                         <th>Fecha</th>
                         <th>Tarjeta</th>
                         <th>Número</th>
+                        <th>Pagado vendedor</th>
+                        <th>Pagado referido</th>
                     </tr>
                     {{#if ventas}}
                         {{#each ventas}}
@@ -24,6 +26,8 @@
                                 <td class="fechas">{{this.fecha}}</td>
                                 <td ><img src="{{this.tarjeta}}" width="60px" alt=""></td>
                                 <td>{{this.numero}}</td>
+                                <td class="decisivo">{{this.pagado_cabeza}}</td>
+                                <td class="decisivo">{{this.pagado_vendedor}}</td>
                             </tr>
                         {{/each}}
                     {{/if}}
@@ -32,12 +36,14 @@
         </div>
     </div>
 </div>
+<script src="../modular/codigo/vendedor.js"></script>
 <script>
     window.addEventListener('load', ()=>{
         var fechas= document.getElementsByClassName('fechas')
         for(var i=0; i< fechas.length; i++){
             fechas[i].innerHTML=transfor_fechas(fechas[i].innerHTML)
         }
+        decisivos()
         function transfor_fechas(fecha){
             fecha = new Date(fecha);
             dia = fecha.getDate();

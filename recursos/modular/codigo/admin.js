@@ -610,10 +610,101 @@ function generar_reporte_vendedor(){
 	})
 }
 
+function generar_reporte_referido(){
+	var envio={nombre:valor('todos_vendedores')}
+	cargando()
+	$.ajax({
+		method: "POST",
+		url: "/admin/ver-reporte-referidos",
+		data: envio
+	}).done(( respuesta )=>{
+		var cadena=`<tr>
+						<th>Cliente</th>
+						<th>Nombre</th>
+						<th>Tarjeta</th>
+						<th>Referido</th>
+						<th>Tipo</th>
+						<th>Vendedor</th>
+						<th>Hora</th>
+						<th>Fecha</th>
+						<th>Pagado socio</th>
+						<th>Pagado vendedor</th>
+					</tr>`
+		for(var i=0; i< respuesta.length; i++){
+			cadena+=`<tr>
+						<td>${respuesta[i].cliente}</td>
+						<td>${respuesta[i].nombre || '' }</td>
+						<td>${ respuesta[i].numero}</td>
+						<td>${respuesta[i].referido || '' }</td>
+						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
+						<td>${respuesta[i].vendedor}</td>
+						<td>${obtenerFecha(respuesta[i].fecha)}</td>
+						<td>${obetenerHora(respuesta[i].fecha)}</td>
+						<td><button id="PC${respuesta[i].codigo}" onclick="paga_cabeza('${respuesta[i].codigo}')" class="btn btn-primary   ${pagado_ono(respuesta[i].pagado_cabeza) || ''}">Pagar</button></td>
+						<td><button id="PS${respuesta[i].codigo}" onclick="paga_sub('${respuesta[i].codigo}')" class="btn btn-warning  ${pagado_ono(respuesta[i].pagado_vendedor) || ''}">Pagar</button></td>
+					</tr>`
+		}
+		
+		innerTexto('datos_reporte', cadena)
+		habilitador()
+		no_cargando()
+	})
+}
+function habilitador(){
+	activos=document.getElementsByClassName('activado')
+	for(var i=0; i< activos.length; i++){
+		document.getElementsByClassName('activado')[i].innerText='No pagado'
+		
+	}
+	desactivos=document.getElementsByClassName('desactivado')
+	for(var i=0; i< desactivos.length; i++){
+		document.getElementsByClassName('desactivado')[i].innerText='Pagado'
+		document.getElementsByClassName('desactivado')[i].setAttribute('disabled', '')
+	}
+}
+function pagado_ono(dato){
+	//Si esta pagado en true debe desactivarse
+	if(dato==true){
+		return 'desactivado'
+	}else{
+		return 'activado'
+	}
+}
+function paga_cabeza(codigo){
+	cargando('Actualizando información')
+	var envio={codigo:codigo}
+	$.ajax({
+		method: "POST",
+		url: "/admin/paga_cabeza",
+		data: envio
+	}).done(( respuesta )=>{
+		if(respuesta=='error')
+			swal('Error', 'No se pudo actualizar', 'error')
+		else
+			generar_reporte_referido()	
+		no_cargando()
+	})
+}
+function paga_sub(codigo){
+	cargando('Actualizando información')
+	var envio={codigo:codigo}
+	$.ajax({
+		method: "POST",
+		url: "/admin/paga_sub",
+		data: envio
+	}).done(( respuesta )=>{
+		if(respuesta=='error')
+			swal('Error', 'No se pudo actualizar', 'error')
+		else
+			generar_reporte_referido()	
+		no_cargando()
+	})
+}
+
 function tipo_vendedor(superior){
 	if (superior!=''){
 		if(superior=='Ninguno')
-			return 'Cabeza'
+			return 'Principal'
 		else
 			return 'Subvendedor'
 	}

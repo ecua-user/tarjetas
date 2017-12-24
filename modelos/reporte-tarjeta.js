@@ -8,6 +8,8 @@ reporteventasSchema=new mongoose.Schema({
     fecha: Date,
     tarjeta: String,
     numero:String,
-    codigo: String
+    codigo: String,
+    pagado_cabeza: Boolean,
+    pagado_vendedor: Boolean
 }) 
 var RepoVentas=module.exports=mongoose.model('RepoVentas',reporteventasSchema);

@@ -55,7 +55,9 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 					cedula: cedula,
 					fecha: new Date(req.body.fecha),
 					tarjeta: req.body.tarjeta,
-					numero: req.body.numero
+					numero: req.body.numero,
+					pagado_cabeza: false,
+					pagado_vendedor: false
 				})
 				var env = new Array()
 				env.push(respuesta.activacion)

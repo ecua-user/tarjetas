@@ -717,7 +717,21 @@ router.post('/ver-reporte-locales', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/reporte-referido', ensureAuthenticated, (req,res)=>{
-    res.render('administrador/reportes/usuario')
+    User.find().where({esvendedor:true}).exec((error, referidos)=>{
+        res.render('administrador/reportes/referido',{referido: referidos})
+    })
+})
+
+router.post('/ver-reporte-referidos', ensureAuthenticated, (req,res)=>{
+    if(req.body.nombre =='Todos'){
+        RepoTarjeta.find().exec((error, respuesta) => {
+            res.send(respuesta)
+        })
+    }else{
+        RepoTarjeta.find().where({$or:[{vendedor: req.body.nombre},{referido:req.body.nombre}] }).exec((error, respuesta) => {
+            res.send(respuesta)
+        })
+    }
 })
 
 router.get('/reporte-vendedor', ensureAuthenticated, (req, res) => {
@@ -859,5 +873,24 @@ router.get('/integrar', (req,res)=>{
     })
 })
 */
+
+router.post('/paga_cabeza', ensureAuthenticated, (req,res)=>{
+    RepoTarjeta.findOneAndUpdate({codigo:req.body.codigo},{pagado_cabeza:true},(error, respuesta)=>{
+        console.log(respuesta)
+        if(error)
+            res.send('error')
+        else
+            res.send('ok')
+    })
+})
+router.post('/paga_sub', ensureAuthenticated, (req,res)=>{
+    RepoTarjeta.findOneAndUpdate({codigo:req.body.codigo},{pagado_vendedor:true},(error, respuesta)=>{
+        console.log(respuesta)
+        if(error)
+            res.send('error')
+        else
+            res.send('ok')
+    })
+})
 //Permite el enrutamiento
 module.exports = router;

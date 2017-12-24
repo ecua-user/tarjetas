@@ -41,3 +41,16 @@ function venderTarjeta(event){
 	})
 }
 
+function decisivos(){
+    elementos=document.getElementsByClassName('decisivo')
+    for(var i=0; i< elementos.length; i++){
+        
+        if(elementos[i].innerText=='false'){
+            document.getElementsByClassName('decisivo')[i].innerText='No pagado'
+            document.getElementsByClassName('decisivo')[i].style.color='red'
+        }else{
+            document.getElementsByClassName('decisivo')[i].innerText='Pagado'
+            document.getElementsByClassName('decisivo')[i].style.color='blue'
+        }
+    }
+}
