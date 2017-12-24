@@ -892,5 +892,34 @@ router.post('/paga_sub', ensureAuthenticated, (req,res)=>{
             res.send('ok')
     })
 })
+
+router.get('/ver-asignaciones', ensureAuthenticated, (req,res)=>{
+    User.find().where({esvendedor:true}).exec((error, vendedores)=>{
+        if(error)
+            res.render('500', {error: error})
+        else{
+            Tarjeta.find().where({vendedor:{$ne:''}}).select('vendedor vendida numero').sort({numero: 1}).exec((error, tarjetas)=>{
+                if(error)
+                    res.render('500',{error: error})
+                else{
+                    res.render('administrador/reportes/asignaciones',{vendedor: vendedores, tarjeta: tarjetas})
+                }
+            })      
+        }      
+    })
+})
+
+router.post('/nombre-vendedor', ensureAuthenticated, (req,res)=>{
+    User.findOne().where({codigo: req.body.codigo}).select('nombre codigo').exec((error, nombre)=>{
+        res.send(nombre)
+    })
+})
+router.post('/quitar-asignacion', ensureAuthenticated, (req,res)=>{
+    for(var i=0; i< req.body.tarjetas.length; i++){
+        Tarjeta.findOneAndUpdate({numero: req.body.tarjetas[i]},{vendedor:''},(error, respuesta)=>{
+        })
+    }
+    res.send('ok')
+})
 //Permite el enrutamiento
 module.exports = router;

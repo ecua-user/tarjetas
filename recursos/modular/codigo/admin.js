@@ -316,7 +316,7 @@ function actualiza_trj_indivdidual() {
 		a_enviar.push({ codigo: codigo, beneficios: beneficios_a_enviar })
 	}
 
-	var envio = { numero: valor('mod_tar_num'), cambios: a_enviar, inicial: valor('mod_tar_inic'), final: valor('mod_tar_fin'), vendedor:valor('listar_vend') }
+	var envio = { numero: valor('mod_tar_num'), cambios: a_enviar, inicial: valor('mod_tar_inic'), final: valor('mod_tar_fin'), vendedor: valor('listar_vend') }
 
 	$.ajax({
 		type: "POST",
@@ -337,12 +337,12 @@ function actualiza_trj_indivdidual() {
 
 }
 function consultar_trj() {
-	var opciones_vend=document.getElementsByClassName('lista_vendedores')
-	for(var i=0;i < opciones_vend.length;i++){
+	var opciones_vend = document.getElementsByClassName('lista_vendedores')
+	for (var i = 0; i < opciones_vend.length; i++) {
 		try {
-			document.getElementsByClassName('lista_vendedores')[1].removeAttribute('selected', '')	
+			document.getElementsByClassName('lista_vendedores')[1].removeAttribute('selected', '')
 		} catch (error) {
-		}			
+		}
 	}
 	var envio = { numero: valor('numero_consulta') }
 	cargando()
@@ -358,11 +358,11 @@ function consultar_trj() {
 				no_cargando()
 				return
 			}
-			var opciones_vend=document.getElementsByClassName('lista_vendedores')
-			for(var i=0;i < opciones_vend.length;i++){
-				if(opciones_vend[i].value==respuesta[0].vendedor){
-					opciones_vend[i].setAttribute('selected', '')					
-				}					
+			var opciones_vend = document.getElementsByClassName('lista_vendedores')
+			for (var i = 0; i < opciones_vend.length; i++) {
+				if (opciones_vend[i].value == respuesta[0].vendedor) {
+					opciones_vend[i].setAttribute('selected', '')
+				}
 			}
 			document.getElementById('div-error').style.display = 'none'
 			asignar('mod_tar_num', respuesta[0].numero)
@@ -403,8 +403,8 @@ function consultar_trj() {
 			asignar('numero_consulta', '')
 		} catch (error) {
 			$('#div-error').html('Tarjeta no encontrada')
-            document.getElementById('div-error').style.display = 'block'
-            no_cargando()
+			document.getElementById('div-error').style.display = 'block'
+			no_cargando()
 		}
 		no_cargando()
 	})
@@ -421,45 +421,45 @@ function verificar_benef(atributo) {
 	}
 	return respuesta
 }
-function conSeleccion(elemento){
-	var nombre=elemento.name
+function conSeleccion(elemento) {
+	var nombre = elemento.name
 	document.getElementsByName(nombre)[1].removeAttribute('checked')
-	document.getElementsByName(nombre)[0].setAttribute('checked','')
+	document.getElementsByName(nombre)[0].setAttribute('checked', '')
 }
 
-function sinSeleccion(elemento){
-	var nombre=elemento.name
+function sinSeleccion(elemento) {
+	var nombre = elemento.name
 	document.getElementsByName(nombre)[0].removeAttribute('checked')
-	document.getElementsByName(nombre)[1].setAttribute('checked','')
+	document.getElementsByName(nombre)[1].setAttribute('checked', '')
 }
 
-function eliminar_user(identidad){
-	envio={codigo:identidad}
+function eliminar_user(identidad) {
+	envio = { codigo: identidad }
 	cargando('Procesando...')
 	$.ajax({
 		method: "POST",
 		url: "/admin/eliminar-cliente",
 		data: envio
 	}).done((respuesta) => {
-		if(respuesta=='Error al eliminar el cliente'){
+		if (respuesta == 'Error al eliminar el cliente') {
 			$('#div-error').html('Tarjeta no encontrada')
-            document.getElementById('div-error').style.display = 'block'
-            no_cargando()
-		}else{
+			document.getElementById('div-error').style.display = 'block'
+			no_cargando()
+		} else {
 			location.reload()
 			no_cargando()
 		}
 	})
 }
-function generar_reporte_local(){
-	var envio={nombre:valor('todos_locales')}
+function generar_reporte_local() {
+	var envio = { nombre: valor('todos_locales') }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/ver-reporte-locales",
 		data: envio
-	}).done(( respuesta )=>{
-		var cadena=`<tr>
+	}).done((respuesta) => {
+		var cadena = `<tr>
 						<th>Local</th>
 						<th>Cédula Cliente</th>
 						<th>Mail Cliente</th>
@@ -472,8 +472,8 @@ function generar_reporte_local(){
 						<th>Hora</th>
 						<th>Beneficio</th>
 					</tr>`
-		for(var i=0; i< respuesta.length; i++){
-			cadena+=`<tr>
+		for (var i = 0; i < respuesta.length; i++) {
+			cadena += `<tr>
 						<td>${respuesta[i].local}</td>
 						<td>${respuesta[i].cedula || ''}</td>
 						<td>${respuesta[i].usuario}</td>
@@ -494,15 +494,15 @@ function generar_reporte_local(){
 
 
 
-function generar_reporte_cliente(){
-	var envio={nombre:valor('todos_usuarios')}
+function generar_reporte_cliente() {
+	var envio = { nombre: valor('todos_usuarios') }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/ver-reporte-usuario",
 		data: envio
-	}).done(( respuesta )=>{
-		var cadena=`<tr>
+	}).done((respuesta) => {
+		var cadena = `<tr>
 						<th>Código</th>
 						<th>Local</th>
 						<th>Cliente</th>
@@ -511,8 +511,8 @@ function generar_reporte_cliente(){
 						<th>Hora</th>
 						<th>Beneficio</th>
 					</tr>`
-		for(var i=0; i< respuesta.length; i++){
-			cadena+=`<tr>
+		for (var i = 0; i < respuesta.length; i++) {
+			cadena += `<tr>
 						<td>${respuesta[i].codigo}</td>
 						<td>${respuesta[i].local}</td>
 						<td>${respuesta[i].usuario}</td>
@@ -527,59 +527,59 @@ function generar_reporte_cliente(){
 	})
 }
 
-function eliminar_grupo_trj(valor){
-	var envio={codigo: valor}
+function eliminar_grupo_trj(valor) {
+	var envio = { codigo: valor }
 	$.ajax({
 		method: "POST",
 		url: "/admin/eliminar-tarjetas",
 		data: envio
-	}).done(( respuesta )=>{
+	}).done((respuesta) => {
 		swal(respuesta)
 	})
 }
-function obetenerHora(fecha){
-	var nfecha=new Date(fecha)
-	return nfecha.getHours()+':'+ nfecha.getMinutes()
+function obetenerHora(fecha) {
+	var nfecha = new Date(fecha)
+	return nfecha.getHours() + ':' + nfecha.getMinutes()
 }
 
-function eliminarVideo(identificador){
-	var envio={codigo:identificador}
+function eliminarVideo(identificador) {
+	var envio = { codigo: identificador }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/eliminar-video",
 		data: envio
-	}).done(( respuesta )=>{
+	}).done((respuesta) => {
 		no_cargando()
-		if(respuesta=='Error')
+		if (respuesta == 'Error')
 			swal('Error', 'No se ha podido eliminar', 'error')
 		else
 			swal('Listo', respuesta, 'success')
 		location.reload()
 	})
 }
-function validarURL(event){
-	entrada=document.getElementById('input_video').value
-	if(entrada.indexOf('embed')<0){
+function validarURL(event) {
+	entrada = document.getElementById('input_video').value
+	if (entrada.indexOf('embed') < 0) {
 		document.getElementById('input_video').setCustomValidity('Esta url no es válida, debe ser embebida')
 		event.preventDefault()
-	}		
+	}
 	else
 		document.getElementById('input_video').setCustomValidity('')
 }
-function quitarValidacion(){
+function quitarValidacion() {
 	document.getElementById('input_video').setCustomValidity('')
 }
 
-function generar_reporte_vendedor(){
-	var envio={nombre:valor('todos_vendedores')}
+function generar_reporte_vendedor() {
+	var envio = { nombre: valor('todos_vendedores') }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/ver-reporte-vendedor",
 		data: envio
-	}).done(( respuesta )=>{
-		var cadena=`<tr>
+	}).done((respuesta) => {
+		var cadena = `<tr>
 						<th>Superior</th>
 						<th>Vendedor</th>
 						<th>Tipo</th>
@@ -591,9 +591,9 @@ function generar_reporte_vendedor(){
 						<th>Tarjeta</th>
 						<th>Número</th>
 					</tr>`
-		for(var i=0; i< respuesta.length; i++){
-			cadena+=`<tr>
-						<td>${respuesta[i].referido || '' }</td>
+		for (var i = 0; i < respuesta.length; i++) {
+			cadena += `<tr>
+						<td>${respuesta[i].referido || ''}</td>
 						<td>${respuesta[i].vendedor}</td>
 						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
 						<td>${respuesta[i].cliente}</td>
@@ -610,15 +610,15 @@ function generar_reporte_vendedor(){
 	})
 }
 
-function generar_reporte_referido(){
-	var envio={nombre:valor('todos_vendedores')}
+function generar_reporte_referido() {
+	var envio = { nombre: valor('todos_vendedores') }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/ver-reporte-referidos",
 		data: envio
-	}).done(( respuesta )=>{
-		var cadena=`<tr>
+	}).done((respuesta) => {
+		var cadena = `<tr>
 						<th>Cliente</th>
 						<th>Nombre</th>
 						<th>Tarjeta</th>
@@ -630,12 +630,12 @@ function generar_reporte_referido(){
 						<th>Pagado socio</th>
 						<th>Pagado vendedor</th>
 					</tr>`
-		for(var i=0; i< respuesta.length; i++){
-			cadena+=`<tr>
+		for (var i = 0; i < respuesta.length; i++) {
+			cadena += `<tr>
 						<td>${respuesta[i].cliente}</td>
-						<td>${respuesta[i].nombre || '' }</td>
+						<td>${respuesta[i].nombre || ''}</td>
 						<td>${ respuesta[i].numero}</td>
-						<td>${respuesta[i].referido || '' }</td>
+						<td>${respuesta[i].referido || ''}</td>
 						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
 						<td>${respuesta[i].vendedor}</td>
 						<td>${obtenerFecha(respuesta[i].fecha)}</td>
@@ -644,98 +644,98 @@ function generar_reporte_referido(){
 						<td><button id="PS${respuesta[i].codigo}" onclick="paga_sub('${respuesta[i].codigo}')" class="btn btn-warning  ${pagado_ono(respuesta[i].pagado_vendedor) || ''}">Pagar</button></td>
 					</tr>`
 		}
-		
+
 		innerTexto('datos_reporte', cadena)
 		habilitador()
 		no_cargando()
 	})
 }
-function habilitador(){
-	activos=document.getElementsByClassName('activado')
-	for(var i=0; i< activos.length; i++){
-		document.getElementsByClassName('activado')[i].innerText='No pagado'
-		
+function habilitador() {
+	activos = document.getElementsByClassName('activado')
+	for (var i = 0; i < activos.length; i++) {
+		document.getElementsByClassName('activado')[i].innerText = 'No pagado'
+
 	}
-	desactivos=document.getElementsByClassName('desactivado')
-	for(var i=0; i< desactivos.length; i++){
-		document.getElementsByClassName('desactivado')[i].innerText='Pagado'
+	desactivos = document.getElementsByClassName('desactivado')
+	for (var i = 0; i < desactivos.length; i++) {
+		document.getElementsByClassName('desactivado')[i].innerText = 'Pagado'
 		document.getElementsByClassName('desactivado')[i].setAttribute('disabled', '')
 	}
 }
-function pagado_ono(dato){
+function pagado_ono(dato) {
 	//Si esta pagado en true debe desactivarse
-	if(dato==true){
+	if (dato == true) {
 		return 'desactivado'
-	}else{
+	} else {
 		return 'activado'
 	}
 }
-function paga_cabeza(codigo){
+function paga_cabeza(codigo) {
 	cargando('Actualizando información')
-	var envio={codigo:codigo}
+	var envio = { codigo: codigo }
 	$.ajax({
 		method: "POST",
 		url: "/admin/paga_cabeza",
 		data: envio
-	}).done(( respuesta )=>{
-		if(respuesta=='error')
+	}).done((respuesta) => {
+		if (respuesta == 'error')
 			swal('Error', 'No se pudo actualizar', 'error')
 		else
-			generar_reporte_referido()	
+			generar_reporte_referido()
 		no_cargando()
 	})
 }
-function paga_sub(codigo){
+function paga_sub(codigo) {
 	cargando('Actualizando información')
-	var envio={codigo:codigo}
+	var envio = { codigo: codigo }
 	$.ajax({
 		method: "POST",
 		url: "/admin/paga_sub",
 		data: envio
-	}).done(( respuesta )=>{
-		if(respuesta=='error')
+	}).done((respuesta) => {
+		if (respuesta == 'error')
 			swal('Error', 'No se pudo actualizar', 'error')
 		else
-			generar_reporte_referido()	
+			generar_reporte_referido()
 		no_cargando()
 	})
 }
 
-function tipo_vendedor(superior){
-	if (superior!=''){
-		if(superior=='Ninguno')
+function tipo_vendedor(superior) {
+	if (superior != '') {
+		if (superior == 'Ninguno')
 			return 'Principal'
 		else
 			return 'Subvendedor'
 	}
 }
 
-function eliminar_img(codigo){
-	envio={codigo:codigo}
+function eliminar_img(codigo) {
+	envio = { codigo: codigo }
 	cargando()
 	$.ajax({
 		method: "POST",
 		url: "/admin/eliminar-imagen",
 		data: envio
-	}).done(( datos )=>{
+	}).done((datos) => {
 		no_cargando()
-		if(datos=='Error'){
+		if (datos == 'Error') {
 			swal('Error', 'Ha ocurrido un error inesperado', 'error')
-		}else{
+		} else {
 			swal('Listo', 'Eliminado con éxito', 'success')
 			location.reload()
-		}	
+		}
 	})
 }
-function modificar_user(identidad){
+function modificar_user(identidad) {
 	cargando('Obteniedo información del usuario')
-	envio={codigo:identidad}
+	envio = { codigo: identidad }
 	$.ajax({
 		method: "POST",
 		url: "/admin/editar-cliente",
 		data: envio
-	}).done(( datos )=>{
-		if(datos!='Error'){
+	}).done((datos) => {
+		if (datos != 'Error') {
 			no_cargando()
 			asignar('txtnombre', datos.nombre)
 			asignar('txtedad', datos.edad)
@@ -744,42 +744,117 @@ function modificar_user(identidad){
 			asignar('txttelefono', datos.telefono)
 			asignar('textdireccion', datos.direccion)
 			asignar('txtmail', datos.username)
-			var opciones=document.getElementsByClassName('listado_referidos')
-			for(var i=0;i< opciones.length;i++){
-				if(datos.referido==opciones[i].value)
+			var opciones = document.getElementsByClassName('listado_referidos')
+			for (var i = 0; i < opciones.length; i++) {
+				if (datos.referido == opciones[i].value)
 					opciones[i].setAttribute('selected', '')
 			}
 			$('#modal-modificar-user').modal()
-		}else{
+		} else {
 			no_cargando()
 			swal('Error', 'Ha ocurrido un error inesperado', 'error')
 		}
 	})
-	
+
 }
-function actualizar_cliente(event){
+function actualizar_cliente(event) {
 	event.preventDefault()
-	envio={
-		nombre: valor('txtnombre'), 
-		edad: valor('txtedad'), 
-		sector: valor('txtsector'), 
+	envio = {
+		nombre: valor('txtnombre'),
+		edad: valor('txtedad'),
+		sector: valor('txtsector'),
 		cedula: valor('txtcedula'),
 		telefono: valor('txttelefono'),
 		direccion: valor('textdireccion'),
-		referido:valor('referidos_lista'),
+		referido: valor('referidos_lista'),
 		username: valor('txtmail')
 	}
 	$.ajax({
 		method: "POST",
 		url: "/admin/actualizar-cliente",
 		data: envio
-	}).done(( datos )=>{
-		if(datos!='Error'){
+	}).done((datos) => {
+		if (datos != 'Error') {
 			swal('Listo', 'Actualizado con éxito', 'success')
 			location.reload()
-		}else{
+		} else {
 			swal('Error', 'Ha ocurrido un error inesperado', 'error')
 			location.reload()
 		}
 	})
+}
+function obtener_nombre() {
+	codigos = document.getElementsByClassName('cod_vend')
+	for (var i = 0; i < codigos.length; i++) {
+		envio = { codigo: codigos[i].innerText }
+		$.ajax({
+			method: "POST",
+			url: "/admin/nombre-vendedor",
+			data: envio
+		}).done((datos) => {
+			Tcodigos = document.getElementsByClassName('cod_vend')
+			for (var j = 0; j < Tcodigos.length; j++) {
+				if (Tcodigos[j].innerText == datos.codigo) {
+					Tcodigos[j].innerText = datos.nombre
+				}
+			}
+		})
+	}
+}
+function checar_todos() {
+	var asign = document.getElementsByName('asignadas')
+	for (var i = 0; i < asign.length; i++) {
+		asign[i].checked=true
+	}
+}
+function filtroAsignacion() {
+	parametro = valor('todos_vendedores')
+	if (parametro == 'NA') {
+		var desocultar = document.getElementsByClassName('tarjetas_asig')
+		for (var i = 0; i < desocultar.length; i++) {
+			desocultar[i].style.display = 'block'
+		}
+	} else {
+		var desocultar = document.getElementsByClassName('tarjetas_asig')
+		for (var i = 0; i < desocultar.length; i++) {
+			desocultar[i].style.display = 'none'
+		}
+
+		clases = document.getElementsByClassName('TA' + parametro)
+		for (var j = 0; j < clases.length; j++) {
+			clases[j].style.display = 'block'
+		}
+	}
+}
+function Guardar_asignacion(){
+	cargando('Listo, estamos quitando la asignación a las tarjetas deseleccionadas')
+	asignadas=document.getElementsByName('asignadas')
+	var sin_asignar=new Array()
+	for(var i=0; i< asignadas.length; i++){
+		var resultado=document.getElementsByName('asignadas')[i].checked
+		if(!resultado)
+			sin_asignar.push(asignadas[i].value)
+	}
+	envio={tarjetas: sin_asignar}
+	$.ajax({
+        type: "POST",
+        url: "/admin/quitar-asignacion",
+        dataType: "text",
+        contentType: "application/json",
+        data: JSON.stringify(envio)
+    }).done(function (resp) {
+		no_cargando()
+		swal('Listo', 'Tarjetas liberadas', 'success')
+		var asign = document.getElementsByName('asignadas')
+		for (var i = 0; i < asign.length; i++) {
+			asign[i].checked=true
+		}
+		location.reload()
+	})
+}
+function evitar_vendidos(){
+	vendidos=document.getElementsByClassName('vendtrue')
+	for(var i=0; i < vendidos.length; i++){
+		document.getElementsByClassName('vendtrue')[i].setAttribute('disabled', '')
+	}
 }

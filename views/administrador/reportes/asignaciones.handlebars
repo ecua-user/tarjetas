@@ -22,7 +22,7 @@
         </div>
     </li>
     <li class="nav-item dropdown">
-         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
             <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
@@ -40,10 +40,9 @@
         <a class="nav-link" href="/admin/slider">Home</a>
     </li>
 </ul>
-
 <div class="row margen">
-    <div class="col-lg-2 col-md-2 col-sm-1"></div>
-    <div class="col-lg-8 col-md-8 col-sm-10">
+    <div class="col-lg-1 col-md-1 col-sm-1"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10">
         <div class="contenedor-bordes blanco">
             <div id="central-mensajes">
                 {{#if success_msg}}
@@ -60,57 +59,39 @@
                 </div>
                 <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
-            <h3 class="centrado ">Asignar tarjetas a vendedor</h3>
-            <form  id="form_asignacion" action="/admin/asignar-vendedor" method="post" onsubmit="comprobar_validez(event)">
-                <div class="form-group row ">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label for="">Fecha y hora</label>
-                        <input type="datetime-local" name="fecha" id="fechayhora" autocomplete="" class="form-control" readonly>
-                        <div class="form-group">
-                            <br>
-                            <label for="">Desde la tarjeta número:</label>
-                            <input type="number" id="tarj_ini" class="form-control" name="tarjeta_ini" min="1" step="1" value="1">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label for="">Vendedor</label>
-                        <select name="vendedor" id="todos_vendedores" class="form-control" id="">
-                            {{#if vendedor}} {{#each vendedor}}
-                            <option value="{{this.codigo}}">{{this.nombre}}</option>
-                            {{/each}} {{/if}}
-                        </select>
-                        <div class="form-group">
-                            <br>
-                            <label for="">Hasta la tarjeta número:</label>
-                            <input type="number" id="tarje_fin" class="form-control" name="tarjeta_fin" min="1" step="1" value="1">
-                        </div>
-                    </div>
+            <h3 class="centrado ">Asignaciones de tarjetas </h3>
+            <div class="form-group">
+
+                <label for="">Vendedor</label>
+                <p> Quitar el check para liberar tarjetas</p>
+                <div class="input-group">
+                    <select name="vendedor" id="todos_vendedores" class="form-control" onchange="filtroAsignacion()" id="">
+                        <option value="NA">Todos</option>
+                        {{#if vendedor}} {{#each vendedor}}
+                        <option value="{{this.codigo}}">{{this.nombre}}</option>
+                        {{/each}} {{/if}}
+                    </select>
+                    <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="Guardar_asignacion()">Liberar asignacion</span>
+                    <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
                 </div>
 
-                <button type="submit" class="btn btn-warning">Hacer entrega</button>        
-                <a href="/admin/ver-asignaciones"><button type="button" class="btn btn-primary" >Ver asignaciones</button></a>
-            </form>
+            </div>
+                <div class="row calibri" >
+                {{#if tarjeta}}{{#each tarjeta}}
+                <div class="tarjetas_asig col-lg-6 ol-md-6 TA{{this.vendedor}}">
+                     <div style="border-bottom: 1px solid #FFCC66"><label for=""><input type="checkbox" class="vend{{this.vendida}}" name="asignadas" value="{{this.numero}}" id="" > Vendedor: <b class="cod_vend">{{this.vendedor}}</b>  , Tarjeta Número: {{this.numero}} </label> </div>
+                </div>
+                {{/each}}{{/if}}
+            </div>
         </div>
     </div>
 </div>
-
+<script src="../modular/codigo/admin.js"></script>
 <script>
-    window.addEventListener('load', () => {
-        fecha = new Date();
-        dia = fecha.getDate();
-        if (dia < 10)
-            dia = '0' + dia
-        mes = fecha.getMonth() + 1
-        if (mes < 10)
-            mes = '0' + mes
-        hora = fecha.getHours()
-        if (hora < 10)
-            hora = '0' + hora
-        minuto = fecha.getMinutes()
-        if (minuto < 10)
-            minuto = '0' + minuto
-        asignar('fechayhora', fecha.getFullYear() + '-' + mes + '-' + dia + 'T' + hora + ':' + minuto)
-        opciones()
+    window.addEventListener('load', ()=>{
+        swal('Recuerde que quitar el check sirve para liberar la tarjeta')
+        evitar_vendidos()
+        obtener_nombre()
+        checar_todos()
     })
 </script>
-<script src="../modular/codigo/admin.js"></script>
