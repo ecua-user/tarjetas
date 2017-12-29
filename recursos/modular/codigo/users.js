@@ -1,6 +1,6 @@
 function registro(event) {
     event.preventDefault()
-    cargando()
+    cargando('Una vez finalizado revise su email para confirmar su cuenta por favor')
     var envio = {
         nombre: valor('txtnombre'),
         cedula: valor('txtcedula'),
@@ -22,7 +22,7 @@ function registro(event) {
         contentType: "application/json",
         data: JSON.stringify(envio)
     }).done((resp) => {
-        if (resp != 'ok') {
+        if (resp == 'Error') {
             $('#div-error').html(resp)
             document.getElementById('div-error').style.display = 'block'
             no_cargando()
@@ -30,7 +30,8 @@ function registro(event) {
             emailjs.send("default_service","template_KK3G9LwJ",{
                     to_destinatario: envio.username, 
                     to_name:envio.nombre,
-                    mensaje: `Usted ha solicitado registrarse en "Republica del Salvador Activa" y para ello necesitará hacer uso del siguiente token: ${envio.token} para confirmar su cuenta`
+                    mensaje: `Usted ha solicitado registrarse en "Republica del Salvador Activa" y para ello necesitará hacer uso del siguiente token: ${envio.token} para confirmar su cuenta o también puede activar su cuenta al dar click al siguiente vínculo `,
+                    link:`www.ecuadoractiva.com/users/activacion:${resp}-${envio.token}`
                 }
             ).then(
                 (response)=> {

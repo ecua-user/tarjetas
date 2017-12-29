@@ -109,9 +109,9 @@ router.post('/registro', (req, res) => {
             })
             User.createUser(newUser, (e, user) => {
                 if (e)
-                    res.send('Error: ' + e)
+                    res.send('Error')
                 else
-                    res.send('ok')
+                    res.send(newUser.codigo)
             })
         }
     })
@@ -257,6 +257,35 @@ router.post('/cambiar', ensureAuthenticated, (req, res) => {
             }
         });
     }
+})
+router.get('/activacion:datos', (req,res)=>{
+    var data=(req.params.datos).substr(1,req.params.datos.length)
+    data=data.split('-')
+    User.findOne().where({$and:[{codigo:data[0]}, {activo:false}, {token:data[1]}]}).exec((error, respuesta)=>{
+        if(error)
+            res.render('errores/500')
+        else{
+            if(respuesta){
+                User.findOneAndUpdate({codigo:data[0]},{activo:true,token: cadenaAleatoria()},(error, respuesta)=>{
+                    if(error)
+                        res.render('errores/500', {error:error})
+                    else{
+                        ImgTarjeta.find((err,tarjetas)=>{     
+                            User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
+                                Imagen.find().exec((err, imagenes)=>{
+                                    Video.find().exec((error, videos)=>{
+                                        res.render('home/index',{tarjetas:tarjetas,referido:referido, imagenes:imagenes,video: videos, success_msg: 'Cuenta confirmada con éxito'}) 
+                                    })               
+                                })                   
+                            })   
+                        })
+                    }
+                })
+            }else{
+                res.render('errores/400')
+            }
+        }
+    })
 })
 
 //Permite el enrutamiento____________________________________________
