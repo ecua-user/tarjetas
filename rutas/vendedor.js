@@ -38,17 +38,16 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 		if (error)
 			res.send('Error')
 		else {
-			User.findOne().where({ username: req.body.correo }).select('cedula nombre').exec((e, usuario) => {
+			User.findOne().where({ username: req.body.correo }).select('cedula nombre referido').exec((e, usuario) => {
 				cedula = ''
 				nombre = ''
 				if (usuario != null) {
 					cedula = usuario.cedula;
 					nombre = usuario.nombre
 				}
-
 				var nuevoReporte = new Repotarjeta({
 					codigo: Date.now(),
-					referido: req.user.referido,
+					referido: usuario.referido,
 					vendedor: req.user.nombre,
 					cliente: req.body.correo,
 					nombre: nombre,
@@ -169,14 +168,33 @@ router.post('/reasignar', ensureAuthenticated, (req,res)=>{
 router.get('/repo-ventas', ensureAuthenticated, (req,res)=>{
 	var users=new Array()
 	User.find().where({$and:[{esvendedor:true},{referido: req.user.nombre}]}).exec((error, vendedores)=>{
-		for(var i=0; i< vendedores.length;i++){
-			users.push({vendedor: vendedores[i].nombre})
+		if(error)
+			res.render('errore/500')
+		else{
+			if(vendedores!=null){
+				for(var i=0; i < vendedores.length; i++){
+					users.push({referido: vendedores[i].nombre})
+				}
+				users.push({referido: req.user.nombre})
+				users.push({nombre: req.user.nombre})
+				User.find().where({$and:[{esvendedor:true},{$or:users}]}).exec((error, todos_vendedores)=>{
+					if(todos_vendedores!=null){
+						var lared=new Array()
+						for(var i=0; i < todos_vendedores.length; i++){
+							lared.push({vendedor:todos_vendedores[i].nombre})
+						}
+						Repotarjeta.find().where({$or: lared}).exec((error, ventas)=>{
+							res.render('vendedor/reporte',{ventas: ventas})
+						})
+					}else{
+						res.render('vendedor/reporte')
+					}
+				})
+			}else
+				res.render('vendedor/reporte')			
 		}
-		users.push({vendedor: req.user.nombre})
-		Repotarjeta.find().where({$or: users}).exec((error, ventas)=>{
-			res.render('vendedor/reporte',{ventas: ventas})
-		})
 	})
 })
+
 //Permite el enrutamiento____________________________________________
 module.exports = router;

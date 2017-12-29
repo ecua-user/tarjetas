@@ -53,8 +53,15 @@ router.post('/finalizar-activacion', ensureAuthenticated, (req,res)=>{
 router.get('/perfil', ensureAuthenticated,(req,res)=>{
     Imagen.find().exec((err, imagenes)=>{
         Tarjeta.find().where({$and:[{cliente: req.user.username},{vendida:true}, {activo:true}]}).exec((error, tarjetas)=>{
-            console.log(tarjetas)
-            res.render('cliente/perfil',{imagenes:imagenes, tarjetas: tarjetas})
+            if(error)
+                resizeBy.render('errores/500', {error:error})
+            else{
+                if(tarjetas.length==0){
+                    res.redirect('/cliente/activar')
+                }else{
+                    res.render('cliente/perfil',{imagenes:imagenes, tarjetas: tarjetas})
+                }     
+            }
         })      
     })
 })
@@ -75,7 +82,7 @@ router.post('/tarjeta', ensureAuthenticated, (req,res)=>{
             Tarjeta.findOneAndUpdate({numero: req.body.numero},{confirmar:true},(error, respuesta)=>{
 
             })
-        }
+        } 
     })
     Tarjeta.findOne().where({numero:req.body.numero}).exec((error, tarjeta)=>{
         if (error)

@@ -31,7 +31,12 @@ function cadenaAleatoria() {
 }
 //Muestra un mensaje de cargando
 function cargando(texto){
-    swal({title:'Cargando...',text: texto ||'No tomará mucho tiempo',allowOutsideClick: false,onOpen:()=>{swal.showLoading()}})
+    swal({
+        title:'Cargando...',
+        text: texto ||'No tomará mucho tiempo',
+        allowOutsideClick: false, 
+        onOpen:()=>{swal.showLoading()},      
+    })
 }
 
 //Quita el mensaje de cargando

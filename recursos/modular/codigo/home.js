@@ -35,3 +35,9 @@ function control_slider(){
 	imagenes_slider[0].className += ' active'
 }
 
+function detalle_trj(){
+	$('#tarjeta-info').modal()
+}
+function ocultar_modal(){
+	$('#tarjeta-info').modal('hide')
+}

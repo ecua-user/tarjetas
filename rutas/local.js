@@ -151,7 +151,6 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
 
 router.get('/activaciones', ensureAuthenticated, (req,res)=>{
     Repolocal.find().where({local: req.user.nombre}).exec((error, reporte)=>{
-        console.log(reporte)
         res.render('administrador/local/reportes', {ventas: reporte})
     })
     

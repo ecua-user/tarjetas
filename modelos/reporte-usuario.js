@@ -13,7 +13,7 @@ repousuarioSchema=new mongoose.Schema({
     local: String,
     fecha: Date,
     beneficio: String,
-    tarjeta: Number 
+    tarjeta: Number
 }) 
 var Repousuario=module.exports=mongoose.model('Repousuario',repousuarioSchema);
 

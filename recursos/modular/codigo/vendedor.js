@@ -18,14 +18,16 @@ function venderTarjeta(event){
             emailjs.send("default_service","template_KK3G9LwJ",{
                 to_name: respuesta[1],
                 to_destinatario: envio.correo,
-                mensaje: `Para poder activar su tarjeta número ${envio.numero} de ECUADORACTIVA.COM es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
+                mensaje: `Para poder activar su tarjeta número ${envio.numero} de República de el Salvador Actíva es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
             }
             ).then(
                 (response)=> {
                     no_cargando()   
-                    swal("Listo", "Su asignación de tarjeta ha ido un éxito, buena venta continua vendiendo")	
-                    history.back()
-                    location.reload()
+                    swal("Listo", "Su venta de tarjeta ha Sido un éxito, ¡EXCELENTE! SIGUE GANANDO").then((result)=>{
+                        if (result) {
+                            location.reload()
+                        }
+                    })	
 
                 }, 
                 (error)=> {
@@ -43,8 +45,7 @@ function venderTarjeta(event){
 
 function decisivos(){
     elementos=document.getElementsByClassName('decisivo')
-    for(var i=0; i< elementos.length; i++){
-        
+    for(var i=0; i< elementos.length; i++){      
         if(elementos[i].innerText=='false'){
             document.getElementsByClassName('decisivo')[i].innerText='No pagado'
             document.getElementsByClassName('decisivo')[i].style.color='red'

@@ -122,7 +122,7 @@
                                             <img src="" id="img_trj" width="100%" alt="" class="borde-redondo">
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" >
-                                            <select required name="tarjeta" onchange="actualizar_img(this.value);" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                            <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
                                                 <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
                                                 <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
@@ -150,7 +150,7 @@
                                             <img src="" id="img_trj1" width="100%" alt="" class="borde-redondo">
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-top:20px">
-                                            <select required name="tarjeta" onchange="actualizar_img(this.value);" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                            <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
                                                 <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
                                                 <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
@@ -201,7 +201,7 @@
                     </button>
                 </a>
                 <a href="/users/logout" class="blanco">
-                    <button class="btn btn-light">
+                    <button class="btn btn-light nligth">
                         Cerrar
                     </button>
                 </a>
@@ -211,17 +211,17 @@
                         <div class="col-lg-8 col-md-8">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 centrado" style="margin-bottom:4px">
-                                    <input type="email" name="username" class="form-control" placeholder="Correo electrónico" required>
+                                    <input type="email" name="username" class="form-control form-control-size" placeholder="Correo electrónico" required>
                                 </div>
                                 <div class="col-lg-6 col-md-6" style="margin-bottom:4px">
-                                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
-                                    <a class="blanco " href="/users/confirmar">¿Confirmar tu cuenta?</a>
+                                    <input type="password" name="password" class="form-control form-control-size"  placeholder="Contraseña" required>
+                                    <a class="blanco form-control-size" href="/users/confirmar">¿Confirmar tu cuenta?</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4" style="margin-bottom:4px">
                             <button type="submit" class="btn btn-primary nprimary" style="width:100%">INICIAR SESIÓN</button>
-                            <a href="/users/olvido" class="blanco">¿Olvidaste tu contraseña?</a>
+                            <a href="/users/olvido" class="blanco form-control-size">¿Olvidaste tu contraseña?</a>
                         </div>
                     </div>
                 </form>
@@ -232,7 +232,7 @@
     <div id="contendedor-general">
         <div style="min-height:70%;">
             <div class="fullscreen-bg">
-                <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
+                <video loop muted autoplay poster="general/imagenes/fondo.png" class="fullscreen-bg__video">
                     <source src="../general/fondo.mp4" type='video/ogg; codecs="theora,vorbis"' />
                     <source src="../general/fondo.mp4" type='video/webm; codecs="vp8,vorbis"' />
                 </video>
@@ -261,7 +261,7 @@
             <div class="col-lg-8">
                 <div class="row">
                     <div class="col-lg-4">
-                        <a href="/contactos" class="blanco">Quiero registrar mi establecimiento</a>
+                        <a href="mailto:info@ecuadoractiva.com" class="blanco">Quiero registrar mi establecimiento</a>
                     </div>
                     <div class="col-lg-4">
                         <a href="/contactos" class="blanco">Contacto</a>

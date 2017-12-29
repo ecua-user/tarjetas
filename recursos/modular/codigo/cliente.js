@@ -12,9 +12,12 @@ function activar_tarjeta(event){
         if(datos=='Ha ocurrido un error inesperado' || datos=='No existe esta tarjeta para este usuario')
             swal('Error', datos+', o ya ha sido activada','error')
         else{
-            swal('Listo', 'TU TARJETA HA SIDO  ACTIVADA CON ÉXITO', 'success')
+            swal('Listo', 'TU TARJETA HA SIDO  ACTIVADA CON ÉXITO VIVE UNA NUEVA EXPERIENCIA DE CONUMO', 'success').then((result)=>{
+                if (result) {
+                    location.reload()
+                }
+            })	
         }
-        location.reload()
     })
 }
 
@@ -56,7 +59,7 @@ function presentar_locales(identidad){
         document.getElementById('todos_locales').innerHTML=''
         for(var i=0;i< datos[1].length;i++){
             document.getElementById('todos_locales').innerHTML+=`<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:10px">
-                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[1][i].nombre}"/>
+                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[0].imagen}"/>
                     </div> 
                      `       
                     

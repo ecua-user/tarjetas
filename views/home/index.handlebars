@@ -1,53 +1,59 @@
-<div class="row">
+<div class="row" onmouseover="ocultar_modal()">
     <div class="col-lg-6 col-md-6" style="padding-left:2%; padding-right:2%">
         <div class="centrado contenedor-bordesI">
-            {{#if imagenes}}
-            <div id="corousel-ben" class="carousel slide " data-ride="carousel">
-                <div class="carousel-inner">
-                    {{#each imagenes}}
-                    <div class="carousel-item carro_img" style="padding-left:10%; padding-right:10%">
-                        <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
-                    </div>
-                    {{/each}}
-                </div>
-                <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0.01)" href="#corousel-ben" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            {{/if}}
-        </div>
-        <div class="centrado contenedor-bordesI">
-            <div class="" style="padding-left:20%; padding-right:20%">
+            <div class="" style="padding-left:15%; padding-right:15%">
                 {{#if tarjetas}}
-                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
-                    <div class="carousel-inner" >
-                        {{#each tarjetas}}
-                        <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
-                            <!--href="/tarjetas:{{this.codigo}}"-->
-                            <a  href="#" >
-                                <img class="img-slider d-block w-100 borde-redondo" src="{{this.imagen}}" alt="{{this.titulo}}">
-                            </a>
+                <div >
+                    <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
+                        <div class="carousel-inner">
+                            {{#each tarjetas}}
+                            <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
+                                <!--href="/tarjetas:{{this.codigo}}"-->
+                                <a href="javascript:detalle_trj()" style="background-color:rgba(000, 000, 000, 0.8);">
+                                    <img class="img-slider d-block w-100 borde-redondo" style="margin:4px" src="{{this.imagen}}" alt="{{this.titulo}}">
+                                </a>
+                            </div>
+                            {{/each}}
                         </div>
-                        {{/each}}
+                        <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
+                            data-slide="prev">
+                            <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
+                            data-slide="next">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                    <a class="carousel-control-prev" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
-                        data-slide="prev">
-                        <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" style="background-color:rgba(000, 000, 000, 0)" href="#carouselExampleIndicators" role="button"
-                        data-slide="next">
-                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
+
                 {{/if}}
             </div>
+        </div>
+        <div class="hidden-lg">
+            <div class="row">
+                <div class="col-lg-6  centrado">
+                    <img src="http://res.cloudinary.com/tarjetas/image/upload/v1514479641/mapa2_ihhuqx.png" class="centrado" height="350px" alt=""
+                    />
+                </div>
+                <div class="col-lg-6 centrado">
+                    <p class="blanco cordia centrado form-control-size" style="margin:12px">
+                        <b>
+                            Conéctate con diversos establecimientos, obten beneficios exclusivos y vive momentos especiales
+                        </b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div style="margin:12px" class="hidden-xs hidden-sm hidden-md">
+            <img src="http://res.cloudinary.com/tarjetas/image/upload/v1514479641/mapa2_ihhuqx.png" height="350px" style="position: absolute;left: 0px;bottom: 60px; z-index: 10;"
+                alt="" />
+            <p class="blanco cordia " style="font-size:170%;z-index:20;position: absolute;left: 170px;bottom: 60px;margin-right:32px">
+                <b>
+                    Conéctate con diversos establecimientos, obten beneficios exclusivos y vive momentos especiales
+                </b>
+            </p>
         </div>
     </div>
     <div class="col-lg-6 col-md-6" style="">
@@ -67,15 +73,15 @@
             <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
         </div>
         {{#if user}}
-         <div class="contenedor-bordesI blanco">
-             <h1 class="blanco centrado">VIDEOS INFORMATIVOS</h1>
+        <div class="contenedor-bordesI blanco" style="height:500px">
+            <h1 class="blanco centrado">VIDEOS INFORMATIVOS</h1>
             {{#if video}}
             <div id="corousel-vid" class="carousel slide " data-ride="">
                 <div class="carousel-inner">
                     {{#each video}}
-                    <div class="carousel-item carro_vid" style="padding-left:12%; padding-right:12%">
-                         <iframe width="100%" id="espacio_video" height="315" src="{{this.url}}" frameborder="0" gesture="media" allow="encrypted-media"
-                allowfullscreen></iframe>
+                    <div class="carousel-item carro_vid" style="padding-left:4%; padding-right:4%">
+                        <iframe width="100%" id="espacio_video" height="315" src="{{this.url}}" frameborder="0" gesture="media" allow="encrypted-media"
+                            allowfullscreen></iframe>
                     </div>
                     {{/each}}
                 </div>
@@ -94,45 +100,47 @@
         {{else}}
         <div class="blanco" id="" style="background-color:rgba(000, 000, 000, 0.5);padding:24px">
             <h1 class="centrado blanco calibri">REGISTRARTE</h1>
-            <form class="form-signin cordia" action="/users/registro" style="font-size:150%" method="post" onsubmit="registro(event)">
+            <form class=" cordia" action="/users/registro" method="post" onsubmit="registro(event)">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="form-group">
                             <input type="text" title="No se incluyen números" pattern="^[a-zA-ZñÑ\s\W]*" id="txtnombre" autofocus placeholder="Nombre (completo)"
-                                class="form-control" required>
+                                class="form-control form-control-size" required>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1">Edad</span>
-                                <input type="number" step="1" value="18" min="18" max="150" id="txtedad" placeholder="Edad" class="form-control" required>
+                                <input type="number" step="1" value="18" min="18" max="150" id="txtedad" placeholder="Edad" class="form-control form-control-size"
+                                    required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <input type="text" id="txtsector" placeholder="Sector" class="form-control" required>
+                            <input type="text" id="txtsector" placeholder="Sector" class="form-control form-control-size" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="txtcorreo" placeholder="Correo" class="form-control" required>
+                            <input type="email" id="txtcorreo" placeholder="Correo" class="form-control form-control-size" required>
                         </div>
                         <div class="form-group">
                             <input type="password" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
-                                minlength="8" id="txtpassword" placeholder="Contraseña" class="form-control" required>
+                                minlength="8" id="txtpassword" placeholder="Contraseña" class="form-control form-control-size"
+                                required>
                         </div>
                         <div class="form-group">
                             <input title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico."
-                                type="password" minlength="8" id="txtRpassword" placeholder="Repetir contraseña" class="form-control"
+                                type="password" minlength="8" id="txtRpassword" placeholder="Repetir contraseña" class="form-control form-control-size"
                                 required>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="form-group">
-                            <input  type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()"
-                                id="txtcedula" placeholder="Cédula" class="form-control" required>
+                            <input type="text" onload="vlidar()" onclick="validar()" onchange="validar()" onkeyup="validar()" id="txtcedula" placeholder="Cédula/pasaporte"
+                                class="form-control form-control-size" required>
                         </div>
                         <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Genero</span>
-                                <select name="selgenero" id="generoSelector" class="form-control">
+                            <div class="input-group form-control">
+                                <span class="input-group-addon " id="basic-addon1">Género</span>
+                                <select name="selgenero" id="generoSelector" class="form-control ">
                                     <option value="M">Masculino</option>
                                     <option value="F">Femenino</option>
                                     <option value="N">Otro</option>
@@ -140,7 +148,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="input-group">
+                            <div class="input-group form-control">
                                 <span class="input-group-addon" id="basic-addon1">Referido</span>
                                 <select name="referido" class="form-control" id="idreferido">
                                     <option value="Ninguno">Ninguno</option>
@@ -152,12 +160,14 @@
                         </div>
                         <div class="form-group">
                             <input type="tel" pattern="^(09)[0-9]*" title="Ingreser un número de celular válido" id="txttelefono" minlength="10" maxlength="10"
-                                placeholder="Teléfono" class="form-control" required>
+                                placeholder="Teléfono" class="form-control form-control-size" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="txtdireccion" placeholder="Dirección" class="form-control" required>
+                            <input type="text" id="txtdireccion" placeholder="Dirección" class="form-control form-control-size" required>
                         </div>
-                        <button type="submit" class="btn btn-warning nwarning btn-block"><b>REGISTRAR</b></button>
+                        <button type="submit" class="btn btn-warning nwarning btn-block">
+                            <b>REGISTRAR</b>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -168,11 +178,45 @@
 <script src="../modular/codigo/home.js"></script>
 <script>
     window.addEventListener('load', () => {
-        control_slider_beneficios()
-        control_slider() 
-        control_slider_videos()          
+        //control_slider_beneficios()
+        control_slider()
+        control_slider_videos()
     })
 </script>
 <link rel="stylesheet" href="../modular/estilos/registro.css">
 <script src="../modular/codigo/users.js"></script>
 <link rel="stylesheet" href="../modular/estilos/home.css">
+<style>
+    .nwarning {
+        font-size: 150%;
+    }
+
+    .nprimary {
+        font-size: 150%;
+    }
+    .nligth{
+        font-size: 150%;
+    }
+
+    .form-control-size {
+        font-size: 150%;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0);
+        overflow-y: auto;
+    }
+</style>
+<div class="modal fade  cordia" id="tarjeta-info" role="dialog">
+    <div class="modal-dialog modal-sm" style="margin-top:10%; " role="document">
+        <div class="modal-content " style="background-color:rgba(000, 000, 000, 0.75)">
+            <div class="modal-body blanco" style="margin:12px; border:solid 1px #FFCC66">
+                <h4 class="calibri">TARJETA REPÚBLICA DEL SALVADOR ACTÍVA</h4>
+                <p class="cordia" style="font-size:135%">Dinamiza tu estancia en el sector más cosmopolitan de Quito-Ecuador y obtén múltiples beneficios en restaurantes,
+                    hoteles, centros médicos, entre otros …</p>
+                <p class="centrado">Entérate de más</p>
+                <h4 class="centrado calibri" style="margin-top:-12px">REGISTRATE</h4>
+            </div>
+        </div>
+    </div>
+</div>

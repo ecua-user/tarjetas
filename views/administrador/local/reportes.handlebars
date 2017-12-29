@@ -11,6 +11,7 @@
                         <th>Cédula</th>
                         <th>Fecha</th>
                         <th>Número de tarjeta</th>
+                        <th>Beneficio</th>
                     </tr>
                     {{#if ventas}}
                         {{#each ventas}}
@@ -20,6 +21,7 @@
                                 <td>{{this.cedula}}</td>
                                 <td class="fechas">{{this.fecha}}</td>
                                 <td>{{this.tarjeta}}</td>
+                                <td class="benef_rep">{{this.beneficio}}</td>
                             </tr>
                         {{/each}}
                     {{/if}}
@@ -33,6 +35,10 @@
         var fechas= document.getElementsByClassName('fechas')
         for(var i=0; i< fechas.length; i++){
             fechas[i].innerHTML=transfor_fechas(fechas[i].innerHTML)
+        }
+        var benef=document.getElementsByClassName('benef_rep')
+        for(var i=0; i < benef.length; i++){
+            benef[i].innerHTML=ascii_texto(benef[i].innerHTML)
         }
         function transfor_fechas(fecha){
             fecha = new Date(fecha);

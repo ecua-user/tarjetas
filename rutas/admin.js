@@ -921,5 +921,30 @@ router.post('/quitar-asignacion', ensureAuthenticated, (req,res)=>{
     }
     res.send('ok')
 })
+
+/*
+
+router.post('/arreglar-referido', ensureAuthenticated, (req,res)=>{
+	User.findOne().where({username: req.body.username}).select('referido').exec((error, usuario)=>{
+        referido='Ninguno'
+        if(usuario !=null)
+           referido=usuario.referido
+        RepoTarjeta.findOneAndUpdate({$and:[{cliente: req.body.username}, {numero: req.body.numero}]}, {referido:referido},(error, respuesta)=>{
+            res.send('ok')
+        })    
+	})
+})
+*/
+router.post('/cabeza_principal', ensureAuthenticated, (req, res)=>{
+    console.log(req.body.nombre)
+    User.findOne().where({nombre: req.body.nombre}).select('referido').exec((error, cabeza)=>{
+        if(cabeza==null)
+            res.send({numero: req.body.numero, referido:'Ninguno'})
+        else
+            res.send({numero: req.body.numero, referido:cabeza.referido})
+    })
+})
+
+
 //Permite el enrutamiento
 module.exports = router;

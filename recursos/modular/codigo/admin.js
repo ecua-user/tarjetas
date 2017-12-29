@@ -96,6 +96,7 @@ function comprobar_validez(event) {
 			}).done((respuesta) => {
 				swal("Listo", respuesta)
 				location.reload();
+				
 			})
 		}
 		no_cargando();
@@ -460,17 +461,20 @@ function generar_reporte_local() {
 		data: envio
 	}).done((respuesta) => {
 		var cadena = `<tr>
-						<th>Local</th>
-						<th>Cédula Cliente</th>
-						<th>Mail Cliente</th>
-						<th>Nombre Cliente</th>
-						<th>Edad Cliente</th>
-						<th>Genero Cliente</th>
-						<th>Ref. Cliente</th>
-						<th>Tarjeta</th>
-						<th>Fecha</th>
-						<th>Hora</th>
-						<th>Beneficio</th>
+						<th class="encabezado_tabla">Local</th>
+						<th class="encabezado_tabla">Cédula Cliente</th>
+						<th class="encabezado_tabla">Mail Cliente</th>
+						<th class="encabezado_tabla">Nombre Cliente</th>
+						<th class="encabezado_tabla">Edad Cliente</th>
+						<th class="encabezado_tabla">Genero Cliente</th>
+						<th class="encabezado_tabla">Ref. Cliente</th>
+						<th class="encabezado_tabla">Teléfono</th>
+						<th class="encabezado_tabla">Sector</th>
+						<th class="encabezado_tabla">Dirección</th>
+						<th class="encabezado_tabla">Tarjeta</th>
+						<th class="encabezado_tabla">Fecha</th>
+						<th class="encabezado_tabla">Hora</th>
+						<th class="encabezado_tabla">Beneficio</th>
 					</tr>`
 		for (var i = 0; i < respuesta.length; i++) {
 			cadena += `<tr>
@@ -481,6 +485,9 @@ function generar_reporte_local() {
 						<td>${respuesta[i].edad || ''}</td>
 						<td>${respuesta[i].genero || ''}</td>
 						<td>${respuesta[i].referido || ''}</td>
+						<td>${respuesta[i].telefono || ''}</td>
+						<td>${respuesta[i].sector || ''}</td>
+						<td>${respuesta[i].direccion || ''}</td>
 						<td>${respuesta[i].tarjeta}</td>
 						<td>${obtenerFecha(respuesta[i].fecha)}</td>
 						<td>${obetenerHora(respuesta[i].fecha)}</td>
@@ -580,6 +587,7 @@ function generar_reporte_vendedor() {
 		data: envio
 	}).done((respuesta) => {
 		var cadena = `<tr>
+						<th>Principal</th>
 						<th>Superior</th>
 						<th>Vendedor</th>
 						<th>Tipo</th>
@@ -593,8 +601,9 @@ function generar_reporte_vendedor() {
 					</tr>`
 		for (var i = 0; i < respuesta.length; i++) {
 			cadena += `<tr>
-						<td>${respuesta[i].referido || ''}</td>
-						<td>${respuesta[i].vendedor}</td>
+						<td class="principal"></td>
+						<td class="superior"></td>
+						<td class="refer">${respuesta[i].vendedor}</td>
 						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
 						<td>${respuesta[i].cliente}</td>
 						<td>${respuesta[i].cedula || ''}</td>
@@ -607,8 +616,33 @@ function generar_reporte_vendedor() {
 		}
 		no_cargando()
 		innerTexto('datos_reporte', cadena)
+		obtener_superior()
 	})
 }
+function obtener_superior(){
+	cargando('Obteniendo información')
+	var superiores= document.getElementsByClassName('refer')
+	for(var i=0; i < superiores.length; i++){
+		envio={numero:i,nombre: superiores[i].innerText}
+		$.ajax({
+			method: "POST",
+			url: "/admin/cabeza_principal",
+			data: envio
+		}).done((respuesta) => {
+			document.getElementsByClassName('superior')[respuesta.numero].innerHTML=respuesta.referido
+			var env={numero:respuesta.numero, nombre:document.getElementsByClassName('superior')[respuesta.numero].innerHTML}
+			$.ajax({
+				method: "POST",
+				url: "/admin/cabeza_principal",
+				data: env
+			}).done((respuesta) => {
+				document.getElementsByClassName('principal')[respuesta.numero].innerHTML=respuesta.referido
+			})
+		})
+	}
+	no_cargando()
+}
+
 
 function generar_reporte_referido() {
 	var envio = { nombre: valor('todos_vendedores') }
@@ -619,12 +653,12 @@ function generar_reporte_referido() {
 		data: envio
 	}).done((respuesta) => {
 		var cadena = `<tr>
-						<th>Cliente</th>
+						<th >Cliente</th>
 						<th>Nombre</th>
 						<th>Tarjeta</th>
-						<th>Referido</th>
+						<th class="encabezado_tabla">Referido</th>
 						<th>Tipo</th>
-						<th>Vendedor</th>
+						<th class="encabezado_tabla">Vendedor</th>
 						<th>Hora</th>
 						<th>Fecha</th>
 						<th>Pagado socio</th>
@@ -632,9 +666,9 @@ function generar_reporte_referido() {
 					</tr>`
 		for (var i = 0; i < respuesta.length; i++) {
 			cadena += `<tr>
-						<td>${respuesta[i].cliente}</td>
+						<td class="referer">${respuesta[i].cliente}</td>
 						<td>${respuesta[i].nombre || ''}</td>
-						<td>${ respuesta[i].numero}</td>
+						<td class="numero">${ respuesta[i].numero}</td>
 						<td>${respuesta[i].referido || ''}</td>
 						<td>${tipo_vendedor(respuesta[i].referido || '') || ''}</td>
 						<td>${respuesta[i].vendedor}</td>
@@ -647,9 +681,11 @@ function generar_reporte_referido() {
 
 		innerTexto('datos_reporte', cadena)
 		habilitador()
+		
 		no_cargando()
 	})
 }
+
 function habilitador() {
 	activos = document.getElementsByClassName('activado')
 	for (var i = 0; i < activos.length; i++) {
@@ -858,3 +894,19 @@ function evitar_vendidos(){
 		document.getElementsByClassName('vendtrue')[i].setAttribute('disabled', '')
 	}
 }
+/*
+function arreglo(){
+	var referidos=document.getElementsByClassName('referer')
+	var numero= document.getElementsByClassName('numero')
+	for(var i=0; i < referidos.length; i++){  
+		envio={username: referidos[i].innerText, numero: numero[i].innerText}
+		$.ajax({
+			method: "POST",
+			url: "/admin/arreglar-referido",
+			data: envio
+		}).done((respuesta) => {
+			alert(respuesta)
+		})
+	}       
+}
+*/

@@ -49,3 +49,25 @@ router.post('/ver-reporte-usuario', ensureAuthenticated, (req, res) => {
         })
     }
 })
+
+SSH
+
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home1/ecuadox0/.ssh/id_rsa.
+Your public key has been saved in /home1/ecuadox0/.ssh/id_rsa.pub.
+The key fingerprint is:
+6a:d3:9f:1c:93:28:1e:5a:7b:8d:e6:6d:b3:c7:8e:4b 
+The key's randomart image is:
++--[ RSA 2048]----+
+|                 |
+|                 |
+|                 |
+|                 |
+|        S        |
+|       o . .     |
+|      B ooE.     |
+|     = =+=+=o    |
+|    . o+..O*.    |
++-----------------+
