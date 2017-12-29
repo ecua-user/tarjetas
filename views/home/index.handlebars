@@ -1,4 +1,5 @@
-<div class="row" onmouseover="ocultar_modal()">
+<div class="row" >
+    <!--Aqui esta la falla-->
     <div class="col-lg-6 col-md-6" style="padding-left:2%; padding-right:2%">
         <div class="centrado contenedor-bordesI">
             <div class="" style="padding-left:15%; padding-right:15%">
@@ -31,11 +32,10 @@
                 {{/if}}
             </div>
         </div>
-        <div class="hidden-lg">
+        <div class="hidden-lg ">
             <div class="row">
                 <div class="col-lg-6  centrado">
-                    <img src="http://res.cloudinary.com/tarjetas/image/upload/v1514479641/mapa2_ihhuqx.png" class="centrado" height="350px" alt=""
-                    />
+                    
                 </div>
                 <div class="col-lg-6 centrado">
                     <p class="blanco cordia centrado form-control-size" style="margin:12px">
@@ -56,6 +56,7 @@
             </p>
         </div>
     </div>
+    <!--Aqui acaba la falla-->
     <div class="col-lg-6 col-md-6" style="">
         <div id="central-mensajes" style="height:60px">
             {{#if success_msg}}
@@ -180,7 +181,12 @@
     window.addEventListener('load', () => {
         //control_slider_beneficios()
         control_slider()
-        control_slider_videos()
+        try{
+            control_slider_videos()
+        }catch(e){
+
+        }
+        
     })
 </script>
 <link rel="stylesheet" href="../modular/estilos/registro.css">
