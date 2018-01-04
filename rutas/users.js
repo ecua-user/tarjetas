@@ -83,7 +83,6 @@ router.post('/registro', (req, res) => {
         res.send('Debe ser mayor de edad para poder registrarse')
         return
     } 
-    console.log(req.body.referido)
     User.findOne().where({ $or: [{ username: req.body.username }] }).exec((e, resp) => {
         if (resp != null)
             res.send('Ya existe una cuenta con este correo')

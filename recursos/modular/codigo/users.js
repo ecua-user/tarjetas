@@ -22,7 +22,8 @@ function registro(event) {
         contentType: "application/json",
         data: JSON.stringify(envio)
     }).done((resp) => {
-        if (resp == 'Error') {
+        alert(resp.length)
+        if (resp.length != 13) {
             $('#div-error').html(resp)
             document.getElementById('div-error').style.display = 'block'
             no_cargando()
