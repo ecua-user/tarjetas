@@ -12,7 +12,7 @@ function activar_tarjeta(event){
         if(datos=='Ha ocurrido un error inesperado' || datos=='No existe esta tarjeta para este usuario')
             swal('Error', datos+', o ya ha sido activada','error')
         else{
-            swal('Listo', 'TU TARJETA HA SIDO  ACTIVADA CON ÉXITO VIVE UNA NUEVA EXPERIENCIA DE CONUMO', 'success').then((result)=>{
+            swal('Listo', 'TU TARJETA HA SIDO  ACTIVADA CON ÉXITO VIVE UNA NUEVA EXPERIENCIA DE CONSUMO', 'success').then((result)=>{
                 if (result) {
                     location.reload()
                 }

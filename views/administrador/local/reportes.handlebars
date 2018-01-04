@@ -6,7 +6,6 @@
             <div class="table" id="datos_reporte">
                 <table class="table">
                     <tr>
-                        <th>Email</th>
                         <th>Nombre</th>
                         <th>Cédula</th>
                         <th>Fecha</th>
@@ -16,7 +15,6 @@
                     {{#if ventas}}
                         {{#each ventas}}
                             <tr>
-                                <td>{{this.usuario}}</td>
                                 <td>{{this.nombre}}</td>
                                 <td>{{this.cedula}}</td>
                                 <td class="fechas">{{this.fecha}}</td>

@@ -66,6 +66,7 @@ function eliminar_vendedor(identidad) {
 		})
 }
 
+//Revisar
 function comprobar_validez(event) {
 	document.getElementById('div-error').innerText = ''
 	document.getElementById('div-error').style.display = 'none'

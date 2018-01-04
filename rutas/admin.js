@@ -375,8 +375,7 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
             numerofinal = req.body.final
             if (!(Array.isArray(locales)))
                 locales = [locales]
-            for (var i = numeroinicial; i <= numerofinal; i++) { 
-                
+            for (var i = numeroinicial; i <= numerofinal; i++) {                
                 query.push({ 'numero': i }) 
             }
 
