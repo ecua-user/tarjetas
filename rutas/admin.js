@@ -944,6 +944,21 @@ router.post('/cabeza_principal', ensureAuthenticated, (req, res)=>{
     })
 })
 
+router.post('/trj_vend',ensureAuthenticated ,(req,res)=>{
+    Tarjeta.findOne().where({numero:req.body.numero}).exec((error, respuesta)=>{
+        if(respuesta==null){
+            res.send('no existe')
+        }else{
+            if(!respuesta.vendida){
+                res.send('no vendida')
+            }else{
+                Tarjeta.findOneAndUpdate({numero: req.body.numero}, {activo: true},(error, respuesta)=>{
+                    res.send('activo')
+                })
+            }
+        }
+    })
+})
 
 //Permite el enrutamiento
 module.exports = router;

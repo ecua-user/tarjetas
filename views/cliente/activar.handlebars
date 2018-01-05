@@ -74,6 +74,7 @@
                     <input placeholder="Código de activación enviado a {{user.username}}" id="txt_codigo" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-warning nwarning">Validar tarjeta</button>
+                <button type="button" class="btn btn-primary nprimary" onclick="$('#reenvio_codigo').modal()">Reenviar código</button>
             </form>
         </div>
     </div>
@@ -83,4 +84,54 @@
     window.addEventListener('load', ()=>{
         control_slider_videos()   
     })
+</script>
+<div class="modal fade" id="reenvio_codigo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog calibri" role="document">
+    <div class="modal-content" style="background-color:rgba(000,000,000,0.9)">
+
+      <div class="modal-body blanco">
+          <h5 class="modal-title centrado" id="exampleModalLabel">REENVIAR CÓDIGO DE ACTIVACIÓN</h5><br>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <form action="" method="post" id="reactivaciones" onsubmit="reenviar_cod(event)">
+            <label for="">Número de la tarjeta</label>
+            <input type="number" class="form-control" required id="numero_reactivar"><br>
+            <button type="submit" form="reactivaciones" class="btn btn-warning nwarning" >Reenviar</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function reenviar_cod(){
+        event.preventDefault()
+        cargando('Analizando datos')
+        envio={numero: valor('numero_reactivar')}
+        $.ajax({
+            method: "POST",
+            url: "/cliente/reeviar",
+            data: envio
+        }).done(( datos )=>{
+            if(datos.mensaje.length==16){
+                emailjs.send("default_service","template_KK3G9LwJ",{
+                        to_destinatario: datos.username, 
+                        mensaje: datos.mensaje,
+                    }
+                ).then(
+                    (response)=> {
+                        swal('Listo', 'Se ha reenviado el código de activación a'+ datos.username, 'success')			
+                    }, 
+                    (error)=> {
+                        swal('Error', 'Ha ocurrido un error', 'error')
+                    }
+                );
+            }else{
+                swal('Error', datos.mensaje, 'error')
+            }
+            no_cargando()
+        })
+    }
 </script>

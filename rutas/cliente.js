@@ -128,6 +128,15 @@ router.post('/local-trj',(req,res)=>{
         })
     })
 })
+router.post('/reeviar', ensureAuthenticated, (req,res)=>{
+    Tarjeta.findOne().where({$and:[{numero: req.body.numero},{vendida:true}, {cliente:req.user.username}]}).exec((error, respuesta)=>{
+        if(respuesta==null){
+            res.send({mensaje:'Lo sentimos, usetd no ha comprado la tarjeta número '+req.body.numero})
+        }else{
+            res.send({username: req.user.username, mensaje: respuesta.activacion})
+        }
+    })
+})
 
 //Permite el enrutamiento__________________________
 module.exports = router;

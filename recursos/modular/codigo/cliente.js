@@ -69,6 +69,9 @@ function presentar_locales(identidad){
    
 }
 
+function reenviar_cod(){
+    envio={numero: valor()}
+}
 
 function detallarLoc(codigo){
 	var envio={codigo:codigo, numero: sesion_tarjeta}
