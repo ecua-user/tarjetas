@@ -18,8 +18,8 @@ http = require('http').Server(servidor)
 port = process.env.PORT || puerto
 
 //# region conexion======================= Conexión con la base de datos ======================//
-//mongoose.connect('mongodb://Admin:Abc123.....@ds163806.mlab.com:63806/ecactiva',{ server: { reconnectTries: Number.MAX_VALUE } });
-mongoose.connect('mongodb://Admin:Abc123.....@ds013941.mlab.com:13941/pruebas',{ server: { reconnectTries: Number.MAX_VALUE } });
+mongoose.connect('mongodb://Admin:Abc123.....@ds163806.mlab.com:63806/ecactiva',{ server: { reconnectTries: Number.MAX_VALUE } });
+//mongoose.connect('mongodb://Admin:Abc123.....@ds013941.mlab.com:13941/pruebas',{ server: { reconnectTries: Number.MAX_VALUE } });
 
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
