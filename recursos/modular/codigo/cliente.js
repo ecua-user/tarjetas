@@ -58,7 +58,7 @@ function presentar_locales(identidad){
         document.getElementById('Rvencimiento').style.display='block'
         document.getElementById('todos_locales').innerHTML=''
         for(var i=0;i< datos[1].length;i++){
-            document.getElementById('todos_locales').innerHTML+=`<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:10px">
+            document.getElementById('todos_locales').innerHTML+=`<div style="padding:4px; width:25%; float:left">
                         <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[0].imagen}"/>
                     </div> 
                      `       
