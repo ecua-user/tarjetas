@@ -106,7 +106,7 @@
 </div>
 
 <script>
-    function reenviar_cod(){
+    function reenviar_cod(event){
         event.preventDefault()
         cargando('Analizando datos')
         envio={numero: valor('numero_reactivar')}
@@ -118,20 +118,23 @@
             if(datos.mensaje.length==16){
                 emailjs.send("default_service","template_KK3G9LwJ",{
                         to_destinatario: datos.username, 
-                        mensaje: datos.mensaje,
+                        mensaje: 'Su código de activación de la tarjeta número: '+envio.numero+' es: '+datos.mensaje,
                     }
                 ).then(
                     (response)=> {
-                        swal('Listo', 'Se ha reenviado el código de activación a'+ datos.username, 'success')			
+                        no_cargando()
+                        swal('Listo', 'Se ha reenviado el código de activación a '+ datos.username, 'success')			
                     }, 
                     (error)=> {
+                        no_cargando()
                         swal('Error', 'Ha ocurrido un error', 'error')
                     }
                 );
             }else{
+                no_cargando()
                 swal('Error', datos.mensaje, 'error')
             }
-            no_cargando()
+            
         })
     }
 </script>

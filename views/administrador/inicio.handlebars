@@ -53,7 +53,7 @@
                 <br>
                 <h4>En este panel encontrará todas las herramientas necesarias para sus actividades comerciales</h4><br><br>
                 <h5 class="calibri">Activación manual de tarjetas</h5>
-                <form action="" onsubmit="activar_manual()" method="post">
+                <form action="" onsubmit="activar_manual(event)" method="post">
                     <label for="">Número de tarjeta</label>
                     <input type="number" class="form-control" id="num_activacion" required><br>
                     <button type="submit" class="btn btn-warning nwarning">Activar</button>
@@ -69,9 +69,10 @@
         envio={numero:valor('num_activacion')}
         $.ajax({
             method: "POST",
-            url: "/cliente/trj_vend",
+            url: "/admin/trj_vend",
             data: envio
         }).done(( datos )=>{
+            no_cargando()
             if(datos=='activo'){
                 swal('Listo', 'Tarjeta activada manualmente', 'success')
             }
@@ -81,7 +82,7 @@
             if(datos=='no existe'){
                 swal('Error', 'No puede activarse una tarjeta que no existe', 'error')
             }
-            no_cargando()
+            
         })
     }
 </script>

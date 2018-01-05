@@ -38,7 +38,7 @@ function venderTarjeta(event){
                 }
             );
         }else{
-            swal("Listo", "Ha ocurrido un error")
+            swal("Error", "Ha ocurrido un error", 'error')
         }                 
 	})
 }

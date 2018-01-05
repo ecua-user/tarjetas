@@ -960,5 +960,11 @@ router.post('/trj_vend',ensureAuthenticated ,(req,res)=>{
     })
 })
 
+router.get('/mildos', (req,res)=>{
+    Tarjeta.findOne().where({numero:1002}).exec((error, tarjeta)=>{
+        res.send(tarjeta)
+    })
+})
+
 //Permite el enrutamiento
 module.exports = router;
