@@ -1,5 +1,5 @@
+
 <div class="row" >
-    <!--Aqui esta la falla-->
     <div class="col-lg-6 col-md-6" style="padding-left:2%; padding-right:2%">
         <div class="centrado contenedor-bordesI">
             <div class="" style="padding-left:15%; padding-right:15%">
@@ -9,7 +9,6 @@
                         <div class="carousel-inner">
                             {{#each tarjetas}}
                             <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
-                                <!--href="/tarjetas:{{this.codigo}}"-->
                                 <a href="javascript:detalle_trj()" style="background-color:rgba(000, 000, 000, 0.8);">
                                     <img class="img-slider d-block w-100 borde-redondo" style="margin:4px" src="{{this.imagen}}" alt="{{this.titulo}}">
                                 </a>
@@ -27,6 +26,14 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
+                    <script>
+                    (function(){
+                        cadena = ''
+                        var imagenes_slider = document.getElementsByClassName('carro_trj')
+                        document.getElementsByClassName('indica').className += 'active'
+                        imagenes_slider[0].className += ' active'
+                    })()
+                </script>
                 </div>
 
                 {{/if}}
@@ -40,7 +47,7 @@
                 <div class="col-lg-6 centrado">
                     <p class="blanco cordia centrado form-control-size" style="margin:12px">
                         <b>
-                            Conéctate con diversos establecimientos, obten beneficios exclusivos y vive momentos especiales
+                            Conéctate con diversos establecimientos, obtén beneficios exclusivos y vive momentos especiales
                         </b>
                     </p>
                 </div>
@@ -51,12 +58,12 @@
                 alt="" />
             <p class="blanco cordia " style="font-size:170%;z-index:20;position: absolute;left: 170px;bottom: 60px;margin-right:32px">
                 <b>
-                    Conéctate con diversos establecimientos, obten beneficios exclusivos y vive momentos especiales
+                    Conéctate con diversos establecimientos, obtén beneficios exclusivos y vive momentos especiales
                 </b>
             </p>
         </div>
     </div>
-    <!--Aqui acaba la falla-->
+
     <div class="col-lg-6 col-md-6" style="">
         <div id="central-mensajes" style="height:60px">
             {{#if success_msg}}
@@ -95,6 +102,13 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            <script>
+                (function () {
+                    cadena = ''
+                    var imagenes_slider = document.getElementsByClassName('carro_vid')
+                    imagenes_slider[0].className += ' active'
+                })()
+            </script> 
             {{/if}}
         </div>
 
@@ -176,34 +190,17 @@
         {{/if}}
     </div>
 </div>
-<script src="../modular/codigo/home.js"></script>
-<script>
-    window.addEventListener('load', () => {
-        //control_slider_beneficios()
-        control_slider()
-        try{
-            control_slider_videos()
-        }catch(e){
 
-        }
-        
-    })
-</script>
+
+<script src="../modular/codigo/home.js"></script>
+
 <link rel="stylesheet" href="../modular/estilos/registro.css">
 <script src="../modular/codigo/users.js"></script>
 <link rel="stylesheet" href="../modular/estilos/home.css">
 <style>
-    .nwarning {
-        font-size: 150%;
-    }
-
-    .nprimary {
-        font-size: 150%;
-    }
-    .nligth{
-        font-size: 150%;
-    }
-
+    .nwarning,
+    .nprimary,
+    .nligth,
     .form-control-size {
         font-size: 150%;
     }
@@ -218,7 +215,7 @@
         <div class="modal-content " style="background-color:rgba(000, 000, 000, 0.75)">
             <div class="modal-body blanco" style="margin:12px; border:solid 1px #FFCC66">
                 <h4 class="calibri">TARJETA REPÚBLICA DEL SALVADOR ACTÍVA</h4>
-                <p class="cordia" style="font-size:135%">Dinamiza tu estancia en el sector más cosmopolitan de Quito-Ecuador y obtén múltiples beneficios en restaurantes,
+                <p class="cordia" style="font-size:135%">Dinamiza tu estancia en el sector más cosmopolita de Quito-Ecuador y obtén múltiples beneficios en restaurantes,
                     hoteles, centros médicos, entre otros …</p>
                 <p class="centrado">Entérate de más</p>
                 <h4 class="centrado calibri" style="margin-top:-12px">REGISTRATE</h4>
@@ -226,3 +223,22 @@
         </div>
     </div>
 </div>
+<script>
+        function getAndroidVersion(ua) {
+            ua = (ua || navigator.userAgent).toLowerCase(); 
+            var match = ua.match(/android\s([0-9\.]*)/);
+            return match ? match[1] : false;
+        };
+        $(function () {
+            var nua = navigator.userAgent
+            var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1)
+            if (isAndroid){
+                $('select.form-control').removeClass('form-control').css('width', '100%')
+            }   
+            if(getAndroidVersion()){
+                if(getAndroidVersion()[0]<5){                   
+                    swal('Atención', 'El SO del dispositivo es muy antiguo, es posible que no se muestre correctamente en el navegador por defecto, use la última versión de preferencia Mozilla firefox o Google Chrome', 'info')
+                }
+            }
+        })
+    </script>

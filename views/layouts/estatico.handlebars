@@ -273,17 +273,17 @@
         </div>
     </footer>
     <script>
-        window.addEventListener('load', () => {
+        (function (){
             var direccion = window.location.pathname
             if (direccion != '/cliente/perfil') {
                 document.getElementById('tit_general').style.display = 'none'
-                document.getElementById('bienvenida0').style.display='block'
+                document.getElementById('bienvenida0').style.display = 'block'
                 document.getElementById('cabecera_cliente').style.display = 'none'
             }
-            
-        })
+        })()
     </script>
-
+    
+    
 </body>
 
 </html>
