@@ -44,26 +44,47 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 				if (usuario != null) {
 					cedula = usuario.cedula;
 					nombre = usuario.nombre
+					var nuevoReporte = new Repotarjeta({
+						codigo: Date.now(),
+						referido: usuario.referido,
+						vendedor: req.user.nombre,
+						cliente: req.body.correo,
+						nombre: nombre,
+						cedula: cedula,
+						fecha: new Date(req.body.fecha),
+						tarjeta: req.body.tarjeta,
+						numero: req.body.numero,
+						pagado_cabeza: false,
+						pagado_vendedor: false
+					})
+					var env = new Array()
+					env.push(respuesta.activacion)
+					env.push(nombre)
+					nuevoReporte.save((error, correcto) => {
+						res.send(env)
+					})
 				}
-				var nuevoReporte = new Repotarjeta({
-					codigo: Date.now(),
-					referido: usuario.referido,
-					vendedor: req.user.nombre,
-					cliente: req.body.correo,
-					nombre: nombre,
-					cedula: cedula,
-					fecha: new Date(req.body.fecha),
-					tarjeta: req.body.tarjeta,
-					numero: req.body.numero,
-					pagado_cabeza: false,
-					pagado_vendedor: false
-				})
-				var env = new Array()
-				env.push(respuesta.activacion)
-				env.push(nombre)
-				nuevoReporte.save((error, correcto) => {
-					res.send(env)
-				})
+				else{
+					var nuevoReporte = new Repotarjeta({
+						codigo: Date.now(),
+						referido: '',
+						vendedor: req.user.nombre,
+						cliente: req.body.correo,
+						nombre: nombre,
+						cedula: cedula,
+						fecha: new Date(req.body.fecha),
+						tarjeta: req.body.tarjeta,
+						numero: req.body.numero,
+						pagado_cabeza: false,
+						pagado_vendedor: false
+					})
+					var env = new Array()
+					env.push(respuesta.activacion)
+					env.push(nombre)
+					nuevoReporte.save((error, correcto) => {
+						res.send(env)
+					})
+				}
 			})
 		}
 	})

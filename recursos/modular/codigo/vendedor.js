@@ -16,7 +16,7 @@ function venderTarjeta(event){
 	}).done(( respuesta )=>{
         if(respuesta!='Error'){
             emailjs.send("default_service","template_KK3G9LwJ",{
-                to_name: respuesta[1],
+                to_name: respuesta[1] || '',
                 to_destinatario: envio.correo,
                 mensaje: `Para poder activar su tarjeta número ${envio.numero} de República de el Salvador Actíva es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
             }
