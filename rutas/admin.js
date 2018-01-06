@@ -966,5 +966,33 @@ router.get('/mildos', (req,res)=>{
     })
 })
 
+router.post('/resetear', ensureAuthenticated, (req,res)=>{
+    Tarjeta.findOne().where({numero: req.body.numero}).select('imagen').exec((error, tarjeta)=>{
+        if(tarjeta==null){
+            res.send('Error')
+        }else{
+            ImgTarjeta.findOne().where({codigo:tarjeta.imagen}).exec((error, imgtrj)=>{
+                if(imgtrj==null){
+                    res.send('Error')
+                }else{
+                    Tarjeta.findOneAndUpdate(
+                        {numero: req.body.numero},
+                        {activo:false, vendedor:'',vendida:false, confirmar:false, cliente:false, locales:imgtrj.locales},
+                        (error, respuesta)=>{
+                            if(error)
+                                res.send('Error')
+                            else{
+                                res.send('Ok')
+                            }
+                        }
+                    )
+                }
+            })
+        }
+        
+    })
+    
+})
+
 //Permite el enrutamiento
 module.exports = router;

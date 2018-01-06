@@ -117,11 +117,11 @@ router.post('/registro', (req, res) => {
 })
 
 //Confirmar la cuenta________________________________________________
-router.get('/confirmar', (req, res) => {
+/*router.get('/confirmar', (req, res) => {
     Video.find().exec((error, videos)=>{
         res.render('usuario/confirmar',{video: videos})
     })
-})
+})*/
 
 router.post('/confirmar', (req, res) => {
     User.findOne().where({ $and: [{ username: req.body.username }, { activo: false }, { token: (req.body.token).trim() }] }).exec((e, resp) => {

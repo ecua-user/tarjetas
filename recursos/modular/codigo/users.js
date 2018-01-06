@@ -30,13 +30,12 @@ function registro(event) {
             emailjs.send("default_service","template_KK3G9LwJ",{
                     to_destinatario: envio.username, 
                     to_name:envio.nombre,
-                    mensaje: `Usted ha solicitado registrarse en "Republica del Salvador Activa" y para ello necesitará hacer uso del siguiente token: ${envio.token} para confirmar su cuenta o también puede activar su cuenta al dar click al siguiente vínculo `,
+                    mensaje: `Usted ha solicitado registrarse en "Republica del Salvador Activa" y para ello necesitará activar su cuenta al dar click al siguiente vínculo `,
                     link:`www.ecuadoractiva.com/users/activacion:${resp}-${envio.token}`
                 }
             ).then(
                 (response)=> {
-                    localStorage.setItem('user',envio.username)
-                    location.replace('/users/confirmar')			
+                    localStorage.setItem('user',envio.username)			
                 }, 
                 (error)=> {
                     $('#div-error').html('Ha ocurrido un error al enviar su token de confirmación')

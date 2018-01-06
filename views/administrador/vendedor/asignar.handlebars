@@ -89,6 +89,7 @@
 
                 <button type="submit" class="btn btn-warning">Hacer entrega</button>        
                 <a href="/admin/ver-asignaciones"><button type="button" class="btn btn-primary" >Ver asignaciones</button></a>
+                <button type="button" onclick="$('#reseteo-tarjeta').modal()" class="btn btn-light nlight" >Resetear tarjeta</button></a>
             </form>
         </div>
     </div>
@@ -114,3 +115,40 @@
     })
 </script>
 <script src="../modular/codigo/admin.js"></script>
+<div class="modal fade" id="reseteo-tarjeta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog calibri" role="document">
+    <div class="modal-content" style="background-color:rgba(000,000,000,0.9)">
+      <div class="modal-body">
+        <h5 class="modal-title blanco centrado" id="exampleModalLabel">RESETEO DE TARJETAS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <form action="" method="post" onsubmit="resetar_tarjeta(event)">
+            <input type="number" id="numero_tarjeta_resetear" class="form-control" required min="0"><br>
+            <button type="submit" class="btn btn-warning nwarning">Resetear</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function resetar_tarjeta(event){
+        event.preventDefault()
+        envio={numero:valor('numero_tarjeta_resetear')}
+        cargando('Comprobando información')
+        $.ajax({
+            type: "POST",
+            url: "/admin/resetear",
+            contentType: "application/json",
+            data: JSON.stringify(envio)
+        }).done((resp) => {
+            if(resp=='Error'){
+                no_cargando()
+                swal('Error', 'No se ha podido resetear', 'error')
+            }else{
+                no_cargando()
+                swal('Listo', 'Tarjeta reseteada con éxito', 'success')
+            }
+        })
+    }
+</script>
