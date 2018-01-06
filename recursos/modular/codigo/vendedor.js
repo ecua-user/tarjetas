@@ -39,10 +39,12 @@ function venderTarjeta(event){
                     }
                 );
             } catch (error) {
+                no_cargando()
                 alert(error)
             }
             
         }else{
+            no_cargando()
             swal("Error", "Ha ocurrido un error", 'error')
         }                 
 	})
