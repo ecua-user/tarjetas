@@ -15,28 +15,33 @@ function venderTarjeta(event){
 		data: envio
 	}).done(( respuesta )=>{
         if(respuesta!='Error'){
-            emailjs.send("default_service","template_KK3G9LwJ",{
-                to_name: respuesta[1] || '',
-                to_destinatario: envio.correo,
-                mensaje: `Para poder activar su tarjeta número ${envio.numero} de República de el Salvador Actíva es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
-            }
-            ).then(
-                (response)=> {
-                    no_cargando()   
-                    swal("Listo", "Su venta de tarjeta ha Sido un éxito, ¡EXCELENTE! SIGUE GANANDO").then((result)=>{
-                        if (result) {
-                            location.reload()
-                        }
-                    })	
-
-                }, 
-                (error)=> {
-                    document.getElementById('div-error').innerText='No se ha podido concretar el proceso favor intente nuevamente'
-                    document.getElementById('div-error').style.display='block'
-                    no_cargando()   
-                    location.reload()
+            try {
+                emailjs.send("default_service","template_KK3G9LwJ",{
+                    to_name: respuesta[1],
+                    to_destinatario: envio.correo,
+                    mensaje: `Para poder activar su tarjeta número ${envio.numero} de República de el Salvador Actíva es necesario introducir el siguiente código de activación :  ${respuesta[0]}`
                 }
-            );
+                ).then(
+                    (response)=> {
+                        no_cargando()   
+                        swal("Listo", "Su venta de tarjeta ha Sido un éxito, ¡EXCELENTE! SIGUE GANANDO").then((result)=>{
+                            if (result) {
+                                location.reload()
+                            }
+                        })	
+    
+                    }, 
+                    (error)=> {
+                        document.getElementById('div-error').innerText='No se ha podido concretar el proceso favor intente nuevamente'
+                        document.getElementById('div-error').style.display='block'
+                        no_cargando()   
+                        location.reload()
+                    }
+                );
+            } catch (error) {
+                alert(error)
+            }
+            
         }else{
             swal("Error", "Ha ocurrido un error", 'error')
         }                 
