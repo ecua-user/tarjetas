@@ -35,12 +35,15 @@ function registro(event) {
                 }
             ).then(
                 (response)=> {
+                    no_cargando()
+                    swal('Listo', 'Revise su email para confirma la cuenta', 'success')
                     localStorage.setItem('user',envio.username)			
                 }, 
                 (error)=> {
+                    no_cargando()
                     $('#div-error').html('Ha ocurrido un error al enviar su token de confirmación')
                     document.getElementById('div-error').style.display = 'block'
-                    no_cargando()
+                    
                 }
             );
         }
