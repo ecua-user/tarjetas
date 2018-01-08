@@ -109,21 +109,33 @@ function olvido(event){
             document.getElementById('div-error').style.display = 'block'
             no_cargando()
         }else{
-            emailjs.send("default_service","template_KK3G9LwJ",{
-                to_destinatario: envio.username, 
-                to_name:resp[1],
-                mensaje: `Para poder recuperar su cuenta se necesario ingresar este token: ${resp[0]}`
-            }
-            ).then(
-                (response)=> {
-                    location.replace('/users/recuperar')			
-                }, 
-                (error)=> {
-                    $('#div-error').html('Ha ocurrido un error al enviar el token de recuperación')
+            if(resp=='Error'){
+                $('#div-error').html('Ha ocurrido un error al realizar el proceso, intente nuevamente')
+                document.getElementById('div-error').style.display = 'block'
+                no_cargando()
+            }else{
+                if(resp[0]==null){
+                    $('#div-error').html('Ha ocurrido un error al realizar el proceso, intente nuevamente')
                     document.getElementById('div-error').style.display = 'block'
                     no_cargando()
+                }else{
+                    emailjs.send("default_service","template_KK3G9LwJ",{
+                        to_destinatario: envio.username, 
+                        to_name:resp[1],
+                        mensaje: `Para poder recuperar su cuenta es necesario ingresar este token: ${resp[0]}`
+                    }
+                    ).then(
+                        (response)=> {
+                            location.replace('/users/recuperar')			
+                        }, 
+                        (error)=> {
+                            $('#div-error').html('Ha ocurrido un error al enviar el token de recuperación')
+                            document.getElementById('div-error').style.display = 'block'
+                            no_cargando()
+                        }
+                    );
                 }
-            );
+            }
         }
     })
 }
