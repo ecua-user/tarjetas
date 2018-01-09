@@ -966,6 +966,15 @@ router.get('/mildos', (req,res)=>{
     })
 })
 
+router.post('/eliminar-local', ensureAuthenticated, (req, res) => {
+    User.findOneAndRemove({ codigo: req.body.codigo }, (error, respuesta) => {
+        if (error)
+            res.send('Error: ' + error)
+        else
+            res.send('Elimiando con éxito')
+    })
+})
+
 router.post('/resetear', ensureAuthenticated, (req,res)=>{
     Tarjeta.findOne().where({numero: req.body.numero}).select('imagen').exec((error, tarjeta)=>{
         if(tarjeta==null){
