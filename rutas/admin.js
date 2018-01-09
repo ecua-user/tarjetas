@@ -445,30 +445,23 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
         }
     })
 })
-router.get('/mod-tarj', ensureAuthenticated, (req, res) => {
+
+
+    
+router.get('/mod-tarj', ensureAuthenticated,(req, res) => {
     var todasTarjetas = new Array()
     User.find().where({esvendedor:true}).exec((error, vendedores)=>{
         ImgTarjeta.find().exec((error, imgs) => {
-            try {
-                Tarjeta.find().exec((error, tarjetas) => {               
-                    for (var i = 0; i < imgs.length; i++) {
-                        var tarjeta_por_grupo = new Array()
-                        for (var j = 0; j < tarjetas.length; j++) {
-                            if (imgs[i].codigo == tarjetas[j].imagen) {
-                                tarjeta_por_grupo.push(Number(tarjetas[j].numero))
-                            }
-                        }
-                        tarjeta_por_grupo = tarjeta_por_grupo.sort(function (a, b) { return a - b })
-                        todasTarjetas.push({ identificador: imgs[i].codigo, inicial: tarjeta_por_grupo[0], final: tarjeta_por_grupo[tarjeta_por_grupo.length - 1] })
-                    }
-                    res.render('administrador/tarjeta/modificar-eliminar', { tarjetas: todasTarjetas ,vendedores: vendedores })
-                })
-            } catch (error) { console.log(error) }
+            res.render('administrador/tarjeta/modificar-eliminar', { tarjetas: imgs ,vendedores: vendedores })
         })
-    })
-    
-    
+    }) 
 })
+
+
+
+
+
+
 router.post('/consultar-numero', ensureAuthenticated, (req, res) => {
     Tarjeta.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {
         if (error)
@@ -518,14 +511,16 @@ router.post('/eliminar-numero', ensureAuthenticated, (req, res) => {
 router.post('/detalles-masa', ensureAuthenticated, (req, res) => {
     var resultados = new Array()
     ImgTarjeta.findOne().where({ codigo: req.body.codigo }).exec((error, tarjeta) => {
-        if (error)
+        if (error){
             res.send(error)
+        }       
         else {
             try {
                 resultados.push(tarjeta)
                 User.find().where({ eslocal: true }).select('codigo nombre').exec((e, loc_det) => {
-                    if (e)
+                    if (e){
                         res.send(e)
+                    }                       
                     else {
                         resultados.push(loc_det)
                         res.send(resultados)
@@ -609,18 +604,12 @@ router.post('/modificar-masa', ensureAuthenticated, (req, res) => {
                             titulo: req.body.titulo
                         }
                         ImgTarjeta.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {
-                            Tarjeta.find().where({ imagen: req.body.codigo }).select('numero').exec((error, respu) => {
-                                try {
-                                    for (var i = 0; i < respu.length; i++) {
-                                        Tarjeta.findOneAndUpdate({ numero: respu[i].numero }, { fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin), locales: elegidos }, (error, resp) => {
-
-                                        })
-                                    }
+                            Tarjeta.updateMany({ imagen: req.body.codigo }, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin), locales: elegidos }}, (error, resp)=>{
+                                if(error)
+                                    res.render('errores/500', {error: 'No se pudo actualizar: Error '+error})
+                                else
                                     res.redirect('/admin/mod-tarj')
-                                } catch (error) {
-                                    res.render('errores/500', { error: 'No se ha podido concretar error: ' + error })
-                                }
-                            })
+                            })                          
                         })
                     })
                 }, { public_id: 'tarjetas/' + req.body.codigo })

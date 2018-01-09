@@ -543,6 +543,7 @@ function eliminar_grupo_trj(valor) {
 		data: envio
 	}).done((respuesta) => {
 		swal(respuesta)
+		location.reload()
 	})
 }
 function obetenerHora(fecha) {

@@ -134,14 +134,14 @@
                             <table class="table">
                                 {{#if tarjetas}} {{#each tarjetas}}
                                 <tr>
-                                    <td>De la tarjeta número: {{this.inicial}} a la tarjeta número: {{this.final}}</td>
+                                    <td>Tarjeta: {{this.titulo}}</td>
                                     <td>
-                                        <button onclick="modificar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-dark" aria-label="Left Align">
+                                        <button onclick="modificar_grupo_trj('{{this.codigo}}')" type="button" class="btn btn-dark" aria-label="Left Align">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </button>
                                     </td>
                                     <td>
-                                        <button onclick="eliminar_grupo_trj('{{this.identificador}}')" type="button" class="btn btn-danger" aria-label="Left Align">
+                                        <button onclick="eliminar_grupo_trj('{{this.codigo}}')" type="button" class="btn btn-danger" aria-label="Left Align">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
                                     </td>
