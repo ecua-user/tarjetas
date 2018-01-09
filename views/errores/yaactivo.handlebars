@@ -60,9 +60,8 @@
 			data: envio
 		}).done((resp) => {
             if (resp=='Error' || resp=='Nada') {
-                $('#div-error').html('Lo sentimos, esta cuenta no existe o ya ha sido confirmada')
-                document.getElementById('div-error').style.display = 'block'
                 no_cargando()
+                swal('Error', 'Lo sentimos, esta cuenta ya ha sido confirmada o no existe', 'error')
             } else{
                 emailjs.send("default_service","template_KK3G9LwJ",{
                         to_destinatario: envio.username, 
