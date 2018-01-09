@@ -608,7 +608,7 @@ router.post('/modificar-masa', ensureAuthenticated, (req, res) => {
                                 if(error)
                                     res.render('errores/500', {error: 'No se pudo actualizar: Error '+error})
                                 else{
-                                    Tarjeta.updateMany({vendida:true}, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin) }}, (error, resp)=>{
+                                    Tarjeta.updateMany({$and:[{imagen: req.body.codigo},{vendida:false}]}, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin) }}, (error, resp)=>{
                                         if(error)
                                             res.render('errores/500', {error: 'No se pudo actualizar: Error '+error})
                                         else
