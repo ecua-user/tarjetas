@@ -604,11 +604,17 @@ router.post('/modificar-masa', ensureAuthenticated, (req, res) => {
                             titulo: req.body.titulo
                         }
                         ImgTarjeta.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {
-                            Tarjeta.updateMany({ imagen: req.body.codigo }, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin), locales: elegidos }}, (error, resp)=>{
+                            Tarjeta.updateMany({ $and:[{imagen: req.body.codigo},{vendida:true}] }, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin), locales: elegidos }}, (error, resp)=>{
                                 if(error)
                                     res.render('errores/500', {error: 'No se pudo actualizar: Error '+error})
-                                else
-                                    res.redirect('/admin/mod-tarj')
+                                else{
+                                    Tarjeta.updateMany({vendida:true}, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin) }}, (error, resp)=>{
+                                        if(error)
+                                            res.render('errores/500', {error: 'No se pudo actualizar: Error '+error})
+                                        else
+                                            res.redirect('/admin/mod-tarj')
+                                    })
+                                }                                   
                             })                          
                         })
                     })

@@ -896,6 +896,21 @@ function evitar_vendidos(){
 		document.getElementsByClassName('vendtrue')[i].setAttribute('disabled', '')
 	}
 }
+function preguntas_modificar(event){
+	event.preventDefault()
+	swal({
+		title: "Información",
+		text: "Con respecto a los locales comerciales y sus beneficios solo podrán ser modificadas las tarjetas que no hayan sido vendidas, no sería bueno quitar beneficios que un cliente haya pagado o aumentar unos que no haya pagado",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				document.forms['form-masa'].submit()
+			}
+		})
+}
 /*
 function arreglo(){
 	var referidos=document.getElementsByClassName('referer')
