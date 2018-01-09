@@ -281,7 +281,22 @@ router.get('/activacion:datos', (req,res)=>{
                     }
                 })
             }else{
-                res.render('errores/400')
+                res.render('errores/yaactivo', {error: 'Este link de activación ha caducado'})
+            }
+        }
+    })
+})
+
+router.post('/reenvio_link', (req,res)=>{
+    User.findOne().where({$and:[{username: req.body.username},{escliente:true},{activo:false}]}).select('codigo token').exec((error, respuesta)=>{
+        if(error)
+            res.send('Error')
+        else{
+            if(respuesta ==null){
+                res.send('Nada')
+            }else{
+                console.log(respuesta)
+                res.send(respuesta)
             }
         }
     })

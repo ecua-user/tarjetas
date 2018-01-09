@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="../modular/estilos/errores.css">
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
+        <div class="centrado contenedor-bordes blanco">
+            <div class="error-template">
+                <div id="central-mensajes">
+                {{#if success_msg}}
+                <div class="centrado blanco mensaje-bien-sistema animated flash">
+                    <h3>{{success_msg}}</h3>
+                </div>
+                {{/if}} {{#if error}}
+                <div class="centrado blanco mensaje-error-sistema animated flash">
+                    <h3>{{error}}</h3>
+                </div>
+                {{/if}}
+                <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+                </div>
+                <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+            </div>
+                <div class="error-actions">
+                    <h3 class="cordia centrado">¿No recuerdas haber confirmado tu cuenta?</h3><br>
+                    <button onclick="$('#reenvio_conf').modal()" class="btn btn-warning nwarning">Reenviar código de activación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="reenvio_conf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body blanco cordia" style="background-color:rgba(000, 000, 000, 0.9)">
+        <h4 class="modal-title" id="exampleModalLabel">Reenvio de link de activación</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <form action="" method="post" onsubmit="reenvio_link(event)">
+        <div class="form-group">
+            <label for="">Email a confirmar</label>
+            <input type="email" required id="correo_user" class="form-control" placeholder="Email">
+        </div>
+        <button class="btn btn-warning nwarning">Reenviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function reenvio_link(event){
+        event.preventDefault()
+        envio={username:valor('correo_user')}
+        cargando()
+
+        $.ajax({
+			method: "POST",
+			url: "/users/reenvio_link",
+			data: envio
+		}).done((resp) => {
+            if (resp=='Error' || resp=='Nada') {
+                $('#div-error').html('Lo sentimos, esta cuenta no existe o ya ha sido confirmada')
+                document.getElementById('div-error').style.display = 'block'
+                no_cargando()
+            } else{
+                emailjs.send("default_service","template_KK3G9LwJ",{
+                        to_destinatario: envio.username, 
+                        to_name:'',
+                        mensaje: `Su vínculo para confirmación de cuenta en www.ecuadoractiva.com es: `,
+                        link:`www.ecuadoractiva.com/users/activacion:${resp.codigo}-${resp.token}`
+                    }
+                ).then(
+                    (response)=> {
+                        no_cargando()
+                        swal('Listo', 'Revise su email para confirma la cuenta', 'success')		
+                    }, 
+                    (error)=> {
+                        no_cargando()
+                        swal('Error', 'Ha ocurrido un error inesperado, intente mas tarde', 'error')
+                        
+                    }
+                );
+            }
+        }) 
+    }
+</script>
