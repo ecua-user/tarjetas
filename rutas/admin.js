@@ -930,7 +930,6 @@ router.post('/arreglar-referido', ensureAuthenticated, (req,res)=>{
 })
 */
 router.post('/cabeza_principal', ensureAuthenticated, (req, res)=>{
-    console.log(req.body.nombre)
     User.findOne().where({nombre: req.body.nombre}).select('referido').exec((error, cabeza)=>{
         if(cabeza==null)
             res.send({numero: req.body.numero, referido:'Ninguno'})
@@ -996,6 +995,17 @@ router.post('/resetear', ensureAuthenticated, (req,res)=>{
         
     })
     
+})
+
+router.post('/limitaciones', ensureAuthenticated, (req,res)=>{
+    var respuesta= new Array();
+    Tarjeta.findOne().where( {"imagen": req.body.codigo}).sort({numero:-1}).limit(1).select('numero').exec((e, mayor)=>{
+        respuesta.push(mayor.numero)
+        Tarjeta.findOne().where( {"imagen": req.body.codigo}).sort({numero:1}).limit(1).select('numero').exec((e, menor)=>{
+            respuesta.push(menor.numero)
+            res.send(respuesta)
+        })
+    })
 })
 
 //Permite el enrutamiento
