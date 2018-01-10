@@ -338,6 +338,8 @@ function actualiza_trj_indivdidual() {
 
 
 }
+
+
 function consultar_trj() {
 	var opciones_vend = document.getElementsByClassName('lista_vendedores')
 	for (var i = 0; i < opciones_vend.length; i++) {
@@ -353,7 +355,6 @@ function consultar_trj() {
 		url: "/admin/consultar-numero",
 		data: envio
 	}).done((respuesta) => {
-		try {
 			if (respuesta.length == 0) {
 				$('#div-error').html('Esta tarjeta no existe')
 				document.getElementById('div-error').style.display = 'block'
@@ -372,7 +373,8 @@ function consultar_trj() {
 			asignar('mod_tar_fin', ordenarFechas(respuesta[0].fechafinal))
 			var cadena = '';
 			for (var i = 0; i < respuesta[0].locales.length; i++) {
-				cadena += `<div class="row fondo-blanco este-es-local" style=" width:100%" id="${respuesta[1][i].codigo}">
+				try {
+					cadena += `<div class="row fondo-blanco este-es-local" style=" width:100%" id="${respuesta[1][i].codigo}">
 							<div class="col-lg-3 col-md-4">
 							<label>Local</label>
 							<img width="100%" src="${respuesta[1][i].logotipo}"/>
@@ -398,19 +400,19 @@ function consultar_trj() {
 								</div>
 							</div>
 						</div>`
+				} catch (error) {
+					cadena+=''
+				}
 			}
 			document.getElementById('loc_mod_tar').innerHTML = cadena
 			document.getElementById('edicion_individual').style.display = 'block'
 			document.getElementById('consulta_edicion').style.display = 'none'
 			asignar('numero_consulta', '')
-		} catch (error) {
-			$('#div-error').html('Tarjeta no encontrada')
-			document.getElementById('div-error').style.display = 'block'
-			no_cargando()
-		}
 		no_cargando()
 	})
 }
+
+
 
 function verificar_benef(atributo) {
 	var respuesta = new Array()

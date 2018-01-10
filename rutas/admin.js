@@ -601,7 +601,7 @@ router.post('/modificar-masa', ensureAuthenticated, (req, res) => {
                             final: new Date(req.body.ffin),
                             linkface: req.body.linkface,
                             linkInst: req.body.linkInst,
-                            titulo: req.body.titulo
+                            titulo: req.body.titulo 
                         }
                         ImgTarjeta.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {
                             Tarjeta.updateMany({ $and:[{imagen: req.body.codigo},{vendida:true}] }, {$set:{fechainicial: new Date(req.body.fini), fechafinal: new Date(req.body.ffin), locales: elegidos }}, (error, resp)=>{
