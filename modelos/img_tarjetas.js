@@ -6,6 +6,7 @@ imgSchema=new mongoose.Schema({
     inicial:Date,
     final:Date,
     titulo:String,
+    descripcion:String,
     linkface:String,
     linkInst:String
 }) 

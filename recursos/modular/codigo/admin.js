@@ -263,6 +263,7 @@ function modificar_grupo_trj(identificador) {
 		data: envio
 	}).done((respuesta) => {
 		try {
+			asignar('desc_tar_mas', respuesta[0].descripcion)
 			asignar('codInteSiste', respuesta[0].codigo)
 			asignar('tit_tar_mas', respuesta[0].titulo)
 			asignar('fecha-inicial', ordenarFechas(respuesta[0].inicial))

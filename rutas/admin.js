@@ -428,7 +428,8 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
                                         final: new Date(req.body.ffin),
                                         linkface: req.body.linkface,
                                         linkInst: req.body.linkInst,
-                                        titulo: req.body.titulo
+                                        titulo: req.body.titulo,
+                                        descripcion:req.body.descripcion
                                     })
                                     newImagen.save((err, guardado) => {
                                         if (err)
@@ -456,10 +457,6 @@ router.get('/mod-tarj', ensureAuthenticated,(req, res) => {
         })
     }) 
 })
-
-
-
-
 
 
 router.post('/consultar-numero', ensureAuthenticated, (req, res) => {
@@ -601,6 +598,7 @@ router.post('/modificar-masa', ensureAuthenticated, (req, res) => {
                             final: new Date(req.body.ffin),
                             linkface: req.body.linkface,
                             linkInst: req.body.linkInst,
+                            descripcion:req.body.descripcion,
                             titulo: req.body.titulo 
                         }
                         ImgTarjeta.findOneAndUpdate({ codigo: req.body.codigo }, query, (error, respuesta) => {

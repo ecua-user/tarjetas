@@ -68,6 +68,11 @@ router.post('/local',(req,res)=>{
         res.send(respuesta)
     })
 })
+router.post('/detalles_trj', (req,res)=>{
+    ImgTarjeta.findOne().where({codigo:req.body.codigo}).select('titulo descripcion').exec((error, respuesta)=>{
+        res.send(respuesta)
+    })
+})
 
 router.get('/nosotros', (req,res)=>{
     res.render('home/nosotros')

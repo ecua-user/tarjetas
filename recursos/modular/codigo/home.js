@@ -35,8 +35,19 @@ function control_slider(){
 	imagenes_slider[0].className += ' active'
 }
 
-function detalle_trj(){
-	$('#tarjeta-info').modal()
+function detalle_trj(codigo){
+	envio={codigo:codigo}
+	$.ajax({
+		method: "POST",
+		url: "/detalles_trj",
+		data: envio
+	}).done(( datos )=>{
+		document.getElementById('flotante_tit').innerText=datos.titulo
+		document.getElementById('flotante_desc').innerText=datos.descripcion
+		$('#tarjeta-info').modal()
+	})
+	
+
 }
 function ocultar_modal(){
 	$('#tarjeta-info').modal('hide')

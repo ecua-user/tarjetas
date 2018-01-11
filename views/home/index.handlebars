@@ -9,7 +9,7 @@
                         <div class="carousel-inner">
                             {{#each tarjetas}}
                             <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
-                                <a href="javascript:detalle_trj()" style="background-color:rgba(000, 000, 000, 0.8);">
+                                <a href="javascript:detalle_trj('{{this.codigo}}')" style="background-color:rgba(000, 000, 000, 0.8);">
                                     <img class="img-slider d-block w-100 borde-redondo" style="margin:4px" src="{{this.imagen}}" alt="{{this.titulo}}">
                                 </a>
                             </div>
@@ -214,9 +214,8 @@
     <div class="modal-dialog modal-sm" style="margin-top:10%; " role="document">
         <div class="modal-content " style="background-color:rgba(000, 000, 000, 0.75)">
             <div class="modal-body blanco" style="margin:12px; border:solid 1px #FFCC66">
-                <h4 class="calibri">TARJETA REPÚBLICA DEL SALVADOR ACTÍVA</h4>
-                <p class="cordia" style="font-size:135%">Dinamiza tu estancia en el sector más cosmopolita de Quito-Ecuador y obtén múltiples beneficios en restaurantes,
-                    hoteles, centros médicos, entre otros …</p>
+                <h4 class="calibri" id="flotante_tit"></h4>
+                <p class="cordia" style="font-size:135%" id="flotante_desc"></p>
                 <p class="centrado">Entérate de más</p>
                 <h4 class="centrado calibri" style="margin-top:-12px">REGISTRATE</h4>
             </div>
