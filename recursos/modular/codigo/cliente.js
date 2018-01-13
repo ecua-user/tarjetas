@@ -98,7 +98,7 @@ function detallarLoc(codigo){
 		for(var i=0; i< datos[0].beneficio.length; i++){
 			if(i!=0)
 				activo=''
-			cadena+=mostrar_beneficiosLoc(activo,datos[0].beneficio[i])
+			//cadena+=mostrar_beneficiosLoc(activo,datos[0].beneficio[i])
 		}
 		innerTexto('elementos-carrusel', cadena)	
 		no_cargando()

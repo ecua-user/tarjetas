@@ -385,7 +385,16 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
             }
             User.find().where({ $or: locales_escogidos_tarjeta }).exec((error, locales_respuesta) => {
                 for (var i = 0; i < locales_respuesta.length; i++) {
-                    elegidos.push({ local: locales_respuesta[i].codigo, beneficio: locales_respuesta[i].beneficio })
+			 var benef_ing=new Array()
+                    for(var l=0; l< locales_respuesta[i].beneficio.length; l++){
+                        benef_ing.push({
+                            imagen:locales_respuesta[i].beneficio[l].imagen,
+                            activo:true,
+                            codigo:locales_respuesta[i].beneficio[l].codigo,
+                            fecha_activacion:""
+                        })
+                    }
+                    elegidos.push({ local: locales_respuesta[i].codigo, beneficio: benef_ing})
                 }
                 Tarjeta.find().where({ $or: query }).exec((err, tarjetas) => {
                     if (err)
@@ -415,8 +424,12 @@ router.post('/ing-tarjeta', ensureAuthenticated, (req, res) => {
                                         cliente: ""
                                     })
                                     nuevaTarjeta.save((error, respuesta) => {
-                                        if (error)
+                                        if (error){
                                             console.log(error)
+                                            return
+                                        }else{
+                                            console.log(respuesta.numero)
+                                        }             
                                     })
                                 }
                                 User.find().where({ eslocal: true }).exec((error, locales) => {
@@ -1006,5 +1019,47 @@ router.post('/limitaciones', ensureAuthenticated, (req,res)=>{
     })
 })
 
-//Permite el enrutamiento
+router.get('/video_test',(req,res)=>{
+    Video.insertMany([
+        {codigo:'34343434',url:'video',titulo:'prueba1'},
+        {codigo:'34343434',url:'video',titulo:'prueba2'},
+        {codigo:'34343434',url:'video',titulo:'prueba3'}
+    ],(e,respuesta)=>{
+        if(e)
+            res.send(e)
+        else
+            res.send(respuesta)
+        })
+})
+
+router.get('/contador_trj', (req,res)=>{
+    Tarjeta.find().where({vendida:true}).select('numero activacion fechaventa vendedor cliente activo vendida').exec((error, vendidas)=>{
+        res.send(vendidas)
+    })
+})
+router.post('/actualizar_data',(req,res)=>{
+    Tarjeta.findOneAndUpdate({numero:req.body.numero},{
+
+        fechaventa:req.body.fecha,
+        vendedor:req.body.vendedor,
+        activacion:req.body.activacion,
+        cliente:req.body.cliente,
+
+        activo:req.body.activo,
+        vendida:true  
+    },(error, listo)=>{
+        res.send(listo)
+    })
+})
+router.get('/nuevo_dato',(req, res)=>{
+    Tarjeta.find().where({numero:1100}).exec((e, listo)=>{
+        res.send(listo)
+    })
+})
+router.get('/tresmil',(req,res)=>{
+    Tarjeta.findOne().where({numero:3000}).exec((error, tarjeta)=>{
+        res.send(tarjeta)
+    })
+})
+
 module.exports = router;
