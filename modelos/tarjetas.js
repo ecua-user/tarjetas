@@ -1,18 +1,14 @@
 var mongoose =require('mongoose');
 TarjetaSchema=new mongoose.Schema({
-    numero:Number,
+    codigo: Number,
     fechainicial:Date,
     fechafinal:Date,
-    locales:Array,
+    titulo: String,
+    descripcion:String,
     imagen:String,
-    activacion:String,
-    activo:Boolean,
-    vendedor:String,
-    fechaasignacion:Date,
-    fechaventa: Date,
-    confirmar:Boolean,
-    vendida:Boolean,
-    cliente:String,
-    
+    linkface:String,
+    linkInst:String,
+    tarjetas: Array,
+    locales: Array
 }) 
-var Tarjetas=module.exports=mongoose.model('Tarjetas',TarjetaSchema);
+var Tarjetas=module.exports=mongoose.model('Tarjetas',TarjetaSchema); 

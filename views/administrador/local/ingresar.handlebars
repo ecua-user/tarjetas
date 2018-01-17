@@ -2,46 +2,46 @@
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
-            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+            <a class="dropdown-item" href="/admin-vendedor/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin-vendedor/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-vendedor/asignar-vendedor">Asignar tarjetas</a>
         </div>
     </li>
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-local/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin-local/modificar-local">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-tarjetas/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin-tarjetas/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
-            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+            <a class="dropdown-item" href="/admin-cliente/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin-cliente/vendedores">Vendedores</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
-            <a class="dropdown-item" href="/admin/reporte-referido">Por referido</a>
-            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-referido">Por referido</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-local">Por local</a>
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/slider">Home</a>
+        <a class="nav-link" href="/admin-home/slider">Home</a>
     </li>
 </ul>
 
-<div class="row margen">
+<div class="row margen calibri">
     <div class="col-lg-1 col-md-1"></div>
     <div class="col-lg-10 col-md-10">
         <div class="contenedor-bordes blanco">
@@ -61,7 +61,7 @@
                 <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
             <h2 class="centrado">Ingresar local</h2>
-            <form action="/admin/ingresar-local" method="post" enctype="multipart/form-data">
+            <form action="/admin-local/ingresar-local" method="post" enctype="multipart/form-data">
                 <div class="row margen-row " style="margin-bottom:12px">
                     <div class="col-lg-3 col-sm-6">
                         <h4 class="centrado">Logotipo</h4>

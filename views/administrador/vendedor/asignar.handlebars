@@ -2,42 +2,42 @@
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
-            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+            <a class="dropdown-item" href="/admin-vendedor/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin-vendedor/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-vendedor/asignar-vendedor">Asignar tarjetas</a>
         </div>
     </li>
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-local/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin-local/modificar-local">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-tarjetas/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin-tarjetas/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
-            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+            <a class="dropdown-item" href="/admin-cliente/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin-cliente/vendedores">Vendedores</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
-            <a class="dropdown-item" href="/admin/reporte-referido">Por referido</a>
-            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-referido">Por referido</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-local">Por local</a>
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/slider">Home</a>
+        <a class="nav-link" href="/admin-home/slider">Home</a>
     </li>
 </ul>
 
@@ -61,7 +61,7 @@
                 <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
             </div>
             <h3 class="centrado ">Asignar tarjetas a vendedor</h3>
-            <form  id="form_asignacion" action="/admin/asignar-vendedor" method="post" onsubmit="comprobar_validez(event)">
+            <form  id="form_asignacion" action="/admin-vendedor/asignar-vendedor" method="post" onsubmit="comprobar_validez(event)">
                 <div class="form-group row ">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <label for="">Fecha y hora</label>
@@ -88,7 +88,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-warning">Hacer entrega</button>        
-                <a href="/admin/ver-asignaciones"><button type="button" class="btn btn-primary" >Ver asignaciones</button></a>
+                <a href="/admin-tarjetas/ver-asignaciones"><button type="button" class="btn btn-primary" >Ver asignaciones</button></a>
                 <button type="button" onclick="$('#reseteo-tarjeta').modal()" class="btn btn-light nlight" >Resetear tarjeta</button></a>
             </form>
         </div>
@@ -138,7 +138,7 @@
         cargando('Comprobando información')
         $.ajax({
             type: "POST",
-            url: "/admin/resetear",
+            url: "/admin-vendedor/resetear",
             contentType: "application/json",
             data: JSON.stringify(envio)
         }).done((resp) => {
@@ -147,7 +147,7 @@
                 swal('Error', 'No se ha podido resetear', 'error')
             }else{
                 no_cargando()
-                swal('Listo', 'Tarjeta reseteada con éxito', 'success')
+                swal('Listo', 'Tarjeta reseteada con éxito, si los cambios aun no se muestran solo recargue la página', 'success')
             }
         })
     }

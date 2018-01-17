@@ -2,30 +2,30 @@
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
-            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+            <a class="dropdown-item" href="/admin-vendedor/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin-vendedor/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-vendedor/asignar-vendedor">Asignar tarjetas</a>
         </div>
     </li>
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-local/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin-local/modificar-local">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-tarjetas/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin-tarejtas/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
-            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+            <a class="dropdown-item" href="/admin-cliente/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin-cliente/vendedores">Vendedores</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -38,10 +38,10 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/slider">Home</a>
+        <a class="nav-link" href="/admin-home/slider">Home</a>
     </li>
 </ul>
-<div class="row margen">
+<div class="row margen calibri">
     <div class="col-lg-1 col-md-1"></div>
     <div class="col-lg-10 col-md-10">
         <div class="contenedor-bordes blanco">
@@ -88,7 +88,7 @@
 </div>
 <div class="modal fade bd-example-modal-lg" id="modal-modificar-local" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg calibri" role="document">
         <div class="modal-content blanco centrado" style="background-color:rgba(000, 000, 000, 0.9); border:solid 1px white">
             <div class="modal-header">
                 <h5 class="modal-title centrado">Modificar local</h5>
@@ -97,7 +97,7 @@
                 </button>
             </div>
             
-            <form style="margin:12px" action="/admin/modificar-local" method="post" enctype="multipart/form-data">
+            <form style="margin:12px" action="/admin-local/modificar-local" method="post" enctype="multipart/form-data">
                 <input type="text" name="codigo" id="codigo_local" style="display:none">
                 <div class="row" style="margin-bottom:12px">
                     <div class="col-lg-3 col-sm-6">

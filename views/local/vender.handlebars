@@ -36,13 +36,12 @@
         var envio = {codigo:obtenerTexto('codigo-usuario')}
         $.ajax({
             type: "POST",
-            url: "/admin/beneficios_por_local",
+            url: "/local/beneficios_por_local",
             contentType: "application/json",
             data: JSON.stringify(envio)
         }).done(function (elementos) { 
             var activo='active'
-            var cadena=''
-            
+            var cadena=''         
             for(var i=0; i< elementos[0].beneficio.length; i++){
                 if(i!=0)
                     activo=''

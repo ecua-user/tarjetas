@@ -29,7 +29,6 @@ function venderTarjeta(event){
                                 location.reload()
                             }
                         })	
-    
                     }, 
                     (error)=> {
                         document.getElementById('div-error').innerText='No se ha podido concretar el proceso favor intente nuevamente'

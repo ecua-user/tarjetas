@@ -3,7 +3,7 @@ express = require('express')
 router = express.Router()
 
 User = require('../modelos/usuarios')
-Tarjeta = require('../modelos/tarjetas')
+Tarjeta_uso = require('../modelos/tarjeta_uso')
 Notificacion = require('../modelos/notificaciones')
 Repolocal = require('../modelos/reporte-usuario')
 function obtenerFecha(fecha){
@@ -22,14 +22,21 @@ function ensureAuthenticated(req, res, next) {
     else
         res.redirect('/neutral');
 }
-
-//########################################  Se establecen las rutas ###################################
 router.get('/', ensureAuthenticated, (req, res) => {
     res.render('local/vender')
 })
-
+router.post('/beneficios_por_local', (req, res) => {
+    User.findOne().where({ codigo: req.body.codigo }).select('beneficio').exec((error, beneficios) => {
+        var respuesta = new Array()
+        if (!Array.isArray(beneficios))
+            respuesta.push(beneficios)
+        else
+            respuesta = beneficios
+        res.send(respuesta)
+    })
+})
 router.post('/activar', ensureAuthenticated, (req, res) => {
-    Tarjeta.findOne().where({ $and: [{ numero: req.body.numero }, { vendida: true, activo: true }] }).exec((error, tarjeta) => {
+    Tarjeta_uso.findOne().where({ $and: [{ numero: req.body.numero }, { vendida: true, activo: true }] }).exec((error, tarjeta) => {
         if (error)
             res.send('Error')
         else {
@@ -52,11 +59,9 @@ router.post('/activar', ensureAuthenticated, (req, res) => {
 
     })
 })
-
-
 router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
     User.findOne().where({ username: req.body.cliente }).exec((error, user_act) => {
-        Tarjeta.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {
+        Tarjeta_uso.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {
             var sumatoria = 0;
             var comprobante = 0;
             for (var i = 0; i < tarjeta.locales.length; i++) {
@@ -72,7 +77,7 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
                 })
             }
         })
-        Tarjeta.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {
+        Tarjeta_uso.findOne().where({ numero: req.body.numero }).exec((error, tarjeta) => {
             if (error)
                 res.send('Error')
             else {
@@ -85,7 +90,7 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
                                         tarjeta.locales[i].beneficio[j].activo = false
                                         tarjeta.locales[i].beneficio[j].fecha_activacion = new Date(req.body.fecha)
                                         var benfff = tarjeta.locales[i].beneficio[j].beneficio
-                                        Tarjeta.findOneAndUpdate({ numero: req.body.numero }, { locales: tarjeta.locales }, (error, respuesta) => {
+                                        Tarjeta_uso.findOneAndUpdate({ numero: req.body.numero }, { locales: tarjeta.locales }, (error, respuesta) => {
                                             var notifica = new Notificacion({
                                                 fecha: new Date(req.body.fecha),
                                                 local: req.user.codigo,
@@ -94,22 +99,6 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
                                                 beneficio: benfff
                                             })
                                             var reporte_usuario = new Repolocal({
-                                                codigo: Date.now(),
-                                                usuario: req.body.cliente,
-                                                nombre:user_act.nombre,
-                                                cedula: user_act.cedula,
-                                                telefono: user_act.telefono,
-                                                direccion: user_act.direccion,
-                                                sector: user_act.sector,
-                                                edad: user_act.edad,
-                                                genero: user_act.genero,
-                                                referido: user_act.referido,
-                                                local: req.user.nombre,
-                                                fecha: new Date(req.body.fecha),
-                                                beneficio: benfff,
-                                                tarjeta: req.body.numero
-                                            })
-                                            console.log({
                                                 codigo: Date.now(),
                                                 usuario: req.body.cliente,
                                                 nombre:user_act.nombre,
@@ -139,7 +128,7 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
                         }
                     }
                 } else {
-                    Tarjeta.findOneAndUpdate({ numero: req.body.numero }, { confirmar: true }, (error, respuesta) => {
+                    Tarjeta_uso.findOneAndUpdate({ numero: req.body.numero }, { confirmar: true }, (error, respuesta) => {
                         res.send('Tarjeta caducada')
                     })
                 }
@@ -148,7 +137,6 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
     })
 
 })
-
 router.get('/activaciones', ensureAuthenticated, (req,res)=>{
     Repolocal.find().where({local: req.user.nombre}).exec((error, reporte)=>{
         res.render('administrador/local/reportes', {ventas: reporte})

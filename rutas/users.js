@@ -7,9 +7,11 @@ LocalStrategy = require('passport-local').Strategy
 Error_500 = 'errores/500'
 Imagen_ben= require('../modelos/imagenes')
 
+
 //Modelos de datos a usar____________________________________________
 User = require('../modelos/usuarios')
 Video= require('../modelos/videos')
+Tarjeta= require('../modelos/tarjetas')
 
 //Confirma la autenticación del usuario______________________________
 function ensureAuthenticated(req, res, next) {
@@ -54,12 +56,6 @@ passport.serializeUser((user, done) => { done(null, user.id); });
 passport.deserializeUser((id, done) => { User.getUserById(id, (err, user) => { done(err, user); }); });
 
 
-
-//Login______________________________________________________________
-/*router.get('/login',(req,res)=>{
-    res.render('usuario/login')
-})*/
-
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/neutral/', failureRedirect: '/', failureFlash: true
 }),
@@ -67,12 +63,6 @@ router.post('/login', passport.authenticate('local', {
         res.redirect('/');
     });
 
-//Registro___________________________________________________________
-/*router.get('/registro',(req,res)=>{ 
-    User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{
-        res.render('usuario/registro',{referido:referido}) 
-    })
-})*/
 
 router.post('/registro', (req, res) => {
     if (req.body.password != req.body.rpassword) {
@@ -83,7 +73,7 @@ router.post('/registro', (req, res) => {
         res.send('Debe ser mayor de edad para poder registrarse')
         return
     } 
-    User.findOne().where({ $or: [{ username: req.body.username }] }).exec((e, resp) => {
+    User.findOne().where({ $or: [{ username: (req.body.username).toLowerCase() }] }).exec((e, resp) => {
         if (resp != null)
             res.send('Ya existe una cuenta con este correo')
         else {
@@ -116,12 +106,6 @@ router.post('/registro', (req, res) => {
     })
 })
 
-//Confirmar la cuenta________________________________________________
-/*router.get('/confirmar', (req, res) => {
-    Video.find().exec((error, videos)=>{
-        res.render('usuario/confirmar',{video: videos})
-    })
-})*/
 
 router.post('/confirmar', (req, res) => {
     User.findOne().where({ $and: [{ username: req.body.username }, { activo: false }, { token: (req.body.token).trim() }] }).exec((e, resp) => {
@@ -133,7 +117,7 @@ router.post('/confirmar', (req, res) => {
                     if (e)
                         res.render(Error_500, { error: e })
                     else {
-                        ImgTarjeta.find((err,tarjetas)=>{     
+                        Tarjeta.find((err,tarjetas)=>{     
                             User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
                                 Imagen.find().exec((err, imagenes)=>{
                                     Video.find().exec((error, videos)=>{
@@ -269,7 +253,7 @@ router.get('/activacion:datos', (req,res)=>{
                     if(error)
                         res.render('errores/500', {error:error})
                     else{
-                        ImgTarjeta.find((err,tarjetas)=>{     
+                        Tarjeta.find((err,tarjetas)=>{     
                             User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
                                 Imagen.find().exec((err, imagenes)=>{
                                     Video.find().exec((error, videos)=>{
@@ -295,7 +279,6 @@ router.post('/reenvio_link', (req,res)=>{
             if(respuesta ==null){
                 res.send('Nada')
             }else{
-                console.log(respuesta)
                 res.send(respuesta)
             }
         }

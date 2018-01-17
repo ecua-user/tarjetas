@@ -20,15 +20,23 @@ port = process.env.PORT || puerto
 
 //# region conexion======================= Conexión con la base de datos ======================//
 //mongoose.connect('mongodb://Admin:Abc123.....@ds163806.mlab.com:63806/ecactiva',{ server: { reconnectTries: Number.MAX_VALUE } });
-mongoose.connect('mongodb://Admin:Abc123.....@ds249707.mlab.com:49707/ecuactiva',{ server: { reconnectTries: Number.MAX_VALUE,autoReconnect : true } });
+mongoose.connect('mongodb://Admin:Abc123.....@ds127300.mlab.com:27300/ecuadoractiva',{ server: { reconnectTries: Number.MAX_VALUE } });
 
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
+
 rutaUsuario=require('./rutas/users')
-admin = require('./rutas/admin')
+
+admin = require('./rutas/admin/admin')
+admin_vendedor=require('./rutas/admin/admin-vendedor')
+admin_local=require('./rutas/admin/admin-local')
+admin_home=require('./rutas/admin/admin-home')
+admin_cliente=require('./rutas/admin/admin-cliente')
+admin_reportes=require('./rutas/admin/admin-reportes')
+admin_tarjetas=require('./rutas/admin/admin-tarjetas')
 rutaVendedor=require('./rutas/vendedor')
-rutaLocal=require('./rutas/local')
 rutaCliente=require('./rutas/cliente')
+rutaLocal=require('./rutas/local')
 
 //Definimos que se usará tecnología hbs para modificar la vista de una página
 servidor.set('views', path.join(__dirname, 'views'));
@@ -74,11 +82,16 @@ servidor.use((req, res, next)=>{
 //usamos las rutas creadas anteriormente
 servidor.use('/', routes)
 servidor.use('/users',rutaUsuario)
-servidor.use('/vendedor',rutaVendedor)
 servidor.use('/admin', admin)
-servidor.use('/local', rutaLocal)
+servidor.use('/admin-vendedor', admin_vendedor)
+servidor.use('/admin-local', admin_local)
+servidor.use('/admin-home', admin_home)
+servidor.use('/admin-cliente', admin_cliente)
+servidor.use('/admin-reportes', admin_reportes)
+servidor.use('/admin-tarjetas', admin_tarjetas)
+servidor.use('/vendedor',rutaVendedor)
 servidor.use('/cliente',rutaCliente)
-
+servidor.use('/local', rutaLocal)
 
 //Controlamos el error de página no encontrada
 servidor.use((req, res)=>{

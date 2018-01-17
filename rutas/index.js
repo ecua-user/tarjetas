@@ -3,21 +3,19 @@ express = require('express')
 router = express.Router()
 
 //Modelos de datos a usar
-ImgTarjeta = require('../modelos/img_tarjetas')
 User = require('../modelos/usuarios')
 Video= require('../modelos/videos')
 Imagen=require('../modelos/imagenes') 
+Tarjetas= require('../modelos/tarjetas')
 
 router.get('/',(req,res)=>{ 
-    ImgTarjeta.find((err,tarjetas)=>{     
-        User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
-            Imagen.find().exec((err, imagenes)=>{
-                Video.find().exec((error, videos)=>{
-                    res.render('home/index',{tarjetas:tarjetas,referido:referido, imagenes:imagenes,video: videos}) 
-                })               
-            })                   
-        })   
-    })
+    User.find().where({esvendedor:true}).select('codigo nombre').exec((error, referido)=>{       
+        Tarjetas.find().exec((err, tarjetas)=>{
+            Video.find().exec((error, videos)=>{
+                res.render('home/index',{referido:referido, tarjetas:tarjetas,video: videos}) 
+            })               
+        })                   
+    })   
 })
 
 router.get('/neutral',(req,res)=>{
@@ -37,26 +35,7 @@ router.get('/neutral',(req,res)=>{
     } catch (e) { res.redirect('/'); }
 })
 
-//Detalle de la tarjeta____________________________
-router.get('/tarjetas:codigo',(req,res)=>{
-    var codigoE=(req.params.codigo).substr(1,req.params.codigo.length)
-    ImgTarjeta.findOne().where({codigo:codigoE}).exec((error,respuesta)=>{
-        if(error)
-            res.render('errores/500',{error:error})
-        else{
-            query = new Array()
-            if(respuesta!=null){
-                for (var i = 0; i < respuesta.locales.length; i++) {
-                    query.push({ codigo: respuesta.locales[i].local })
-                }
-                User.find().where({ $and: [{ $or: query }, { eslocal: true }] }).exec((err, resp) => {
-                    res.render('home/locales', { locales: resp, tarjeta: respuesta, inicial:respuesta.inicial, final:respuesta.final})
-                })
-            }else
-                res.render('errores/500',{error: 'No existe'})
-        }           
-    })
-})
+
 //Detalle del local_______________________________
 router.post('/local',(req,res)=>{
     User.findOne().where({codigo:req.body.codigo}).exec((e,local)=>{
@@ -68,8 +47,9 @@ router.post('/local',(req,res)=>{
         res.send(respuesta)
     })
 })
+
 router.post('/detalles_trj', (req,res)=>{
-    ImgTarjeta.findOne().where({codigo:req.body.codigo}).select('titulo descripcion').exec((error, respuesta)=>{
+    Tarjetas.findOne().where({codigo:req.body.codigo}).select('titulo descripcion').exec((error, respuesta)=>{
         res.send(respuesta)
     })
 })

@@ -94,11 +94,11 @@ function detallarLoc(codigo){
         document.getElementById('tel_local').setAttribute('href', 'tel://'+ datos[0].telefono)
         document.getElementById('mail_local').setAttribute('href', 'mailto:'+ datos[0].username)
         document.getElementById('web_local').setAttribute('href', datos[0].web)
-		document.getElementById('mapa_loc').setAttribute('src',datos[0].mapa)
+        document.getElementById('mapa_loc').setAttribute('src',datos[0].mapa)
 		for(var i=0; i< datos[0].beneficio.length; i++){
 			if(i!=0)
 				activo=''
-			//cadena+=mostrar_beneficiosLoc(activo,datos[0].beneficio[i])
+			cadena+=mostrar_beneficiosLoc(activo,datos[0].beneficio[i])
 		}
 		innerTexto('elementos-carrusel', cadena)	
 		no_cargando()

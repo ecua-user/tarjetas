@@ -8,9 +8,50 @@ function obtenerHora(fecha){
     fecha=new Date(fecha)
     return fecha.getHours()+' : '+fecha.getMinutes()
 }
+
 //Obtiene el valor de un input
 function valor(id){
     return document.getElementById(id).value
+}
+
+//Sube las imágenes
+function alertaOferta(input, val) {
+	var imagenAnterior = document.getElementById('img_destino').src;
+	if ((val / 1024) > 3000) {
+		document.getElementById('centralMensajes').innerHTML = '<div class="alert alert-danger">Esta imágen pesa mas de 3Mb</div>';
+		document.getElementById('file_url').value = ''
+		$('#esconder').css("display", "none")
+		document.getElementById('img_destino').src = imagenAnterior;
+	} else {
+		$('#esconder').css("display", "block")
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = (e) => {
+				$('#img_destino').attr('src', e.target.result);
+				document.getElementById('poder').style.display = 'block';
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+}
+function alertaOferta1(input, val) {
+	document.getElementById('beneficios_desc').innerHTML = '';
+	var cadena = ``;
+	if (input.files) {
+		for (var i = 0; i < input.files.length; i++) {
+			cadena += `<div style="margin-bottom:4px"><label>Imagen: ${input.files[i].name}</label>
+					<div class="form-group" >
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-assignment-check"></i></span>
+						<textarea name="beneficio" class="form-control" placeholder="Beneficio"></textarea>
+					</div></div><div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1"><i class="zmdi zmdi-block"></i></span>
+						<textarea name="restricciones" class="form-control" placeholder="Restricciones"></textarea>
+					</div></div></div>`
+		}
+		document.getElementById('beneficios_desc').innerHTML = cadena;
+	}
 }
 
 //Establece valor de un input
@@ -223,3 +264,16 @@ var tableToExcel = (function() {
       window.location.href = uri + base64(format(template, ctx))
     }
   })()
+
+function validarURL(event) {
+	entrada = document.getElementById('input_video').value
+	if (entrada.indexOf('embed') < 0) {
+		document.getElementById('input_video').setCustomValidity('Esta url no es válida, debe ser embebida')
+		event.preventDefault()
+	}
+	else
+		document.getElementById('input_video').setCustomValidity('')
+}
+function quitarValidacion() {
+	document.getElementById('input_video').setCustomValidity('')
+}

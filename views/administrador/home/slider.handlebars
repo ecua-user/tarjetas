@@ -2,42 +2,42 @@
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedor</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-vendedor">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-vendedor">Modificar o eliminar</a>
-            <a class="dropdown-item" href="/admin/asignar-vendedor">Asignar tarjetas</a>
+            <a class="dropdown-item" href="/admin-vendedor/ingresar-vendedor">Añadir</a>
+            <a class="dropdown-item" href="/admin-vendedor/modificar-vendedor">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-vendedor/asignar-vendedor">Asignar tarjetas</a>
         </div>
     </li>
     <li class="nav-item dropdown ">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Local</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/ingresar-local">Añadir</a>
-            <a class="dropdown-item" href="/admin/modificar-local">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-local/ingresar-local">Añadir</a>
+            <a class="dropdown-item" href="/admin-local/modificar-local">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tarjeta</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reg-tarj">Añadir</a>
-            <a class="dropdown-item" onclick="cargando()" href="/admin/mod-tarj">Modificar o eliminar</a>
+            <a class="dropdown-item" href="/admin-tarjetas/reg-tarj">Añadir</a>
+            <a class="dropdown-item" href="/admin-tarjetas/mod-tarj">Modificar o eliminar</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/eliminar-usuario">Clientes</a>
-            <a class="dropdown-item" href="/admin/vendedores">Vendedores</a>
+            <a class="dropdown-item" href="/admin-cliente/eliminar-usuario">Clientes</a>
+            <a class="dropdown-item" href="/admin-cliente/vendedores">Vendedores</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/admin/reporte-vendedor">Por vendedor</a>
-            <a class="dropdown-item" href="/admin/reporte-referido">Por referido</a>
-            <a class="dropdown-item" href="/admin/reporte-local">Por local</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-vendedor">Por vendedor</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-referido">Por referido</a>
+            <a class="dropdown-item" href="/admin-reportes/reporte-local">Por local</a>
         </div>
     </li>
     <li class="nav-item active">
-        <a class="nav-link active" href="/admin/slider">Home</a>
+        <a class="nav-link active" href="/admin-home/slider">Home</a>
     </li>
 </ul>
 
@@ -64,7 +64,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contenedor-bordes ">
             <h3 class="centrado blanco">Subir BENEFICIOS EXCLUSIVOS</h3>
-            <form action="/admin/home-imagenes" method="post" enctype="multipart/form-data">
+            <form action="/admin-home/home-imagenes" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div id="poder" class="centrado">
@@ -108,7 +108,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="contenedor-bordes centrado">
             <h3 class="centrado blanco">Subir videos de youtube</h3>
-            <form action="/admin/home-video" method="post" onsubmit="validarURL(event)">
+            <form action="/admin-home/home-video" method="post" onsubmit="validarURL(event)">
                 <img src="/modular/imagenes/youtube.png" width="30%" style="margin:0 auto;border:1px solid white" alt="Youtube">
                 <div class="forrm-group" style="margin-top:12px">
                     <input type="text" name="titulo" id="" class="form-control" placeholder="Titulo del video" required>

@@ -76,7 +76,7 @@
         <a href="/">
             <img src="../general/imagenes/brand.png" alt="Brand" class="img-responsive" style="margin-top:-25px;" width="150px">
         </a>
-        <div id="bienvenida0" class="blanco centrado">
+        <div id="bienvenida0" class="blanco centrado" style="padding-left:4px; padding-right:4px">
             {{#if user}}
             <h6>BIENVENIDO</h6>
             <h5>{{user.nombre}}</h5>
@@ -124,7 +124,7 @@
                                             <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
                                                 <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
-                                                <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
+                                                <option onclick="presentar_locales(this.innerHTML)" value="{{this.imagen}}">{{this.numero}}</option>
                                                 {{/each}} {{/if}}
                                             </select>
                                             <p class="blanco" id="Rvencimiento" style="display:none">Esta tarjete vence en:
