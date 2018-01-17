@@ -35,7 +35,18 @@
                 no_cargando()
                 $('#modal-modificar-vendedor').modal();
             });
-        }
+		}
+		function filtro_vendedores() {
+			filtro = (document.getElementById('filtro-buscar').value).toUpperCase()
+			elementos = document.getElementsByClassName('busqueda')
+			contenedores = document.getElementsByClassName('vendedores-buscar')
+			for (var i = 0; i < elementos.length; i++) {
+				if (elementos[i].innerHTML.toUpperCase().indexOf(filtro) > -1)
+					contenedores[i].style.display = ""
+				else
+					contenedores[i].style.display = "none"
+			}
+		}
     //Eliminar
         function eliminar_vendedor(identidad) {
             swal({
