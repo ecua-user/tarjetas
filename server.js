@@ -19,8 +19,8 @@ port = process.env.PORT || puerto
 
 
 //# region conexion======================= Conexión con la base de datos ======================//
-mongoose.connect('mongodb://Admin:Abc123.....@ds163806.mlab.com:63806/ecactiva',{ server: { reconnectTries: Number.MAX_VALUE } });
-//mongoose.connect('mongodb://Admin:Abc123.....@ds231715.mlab.com:31715/tarjetas',{ server: { reconnectTries: Number.MAX_VALUE } });
+//mongoose.connect('mongodb://Admin:Abc123.....@ds163806.mlab.com:63806/ecactiva',{ server: { reconnectTries: Number.MAX_VALUE } });
+mongoose.connect('mongodb://Admin:Abc123.....@ds231715.mlab.com:31715/tarjetas',{ server: { reconnectTries: Number.MAX_VALUE } });
 
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
