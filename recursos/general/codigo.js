@@ -198,9 +198,14 @@ function texto_ascii(texto) {
     
 }
 function ascii_texto(ascii){
-    codigos=ascii.split(' '), cadena=''
-    for(var i=0; i< (codigos.length);i++){
-        cadena+=String.fromCharCode(codigos[i])
+    cadena=''
+    try {
+        codigos=ascii.split(' ')
+        for(var i=0; i< (codigos.length);i++){
+            cadena+=String.fromCharCode(codigos[i])
+        }
+    } catch (error) {
+        
     }
     return cadena
 }

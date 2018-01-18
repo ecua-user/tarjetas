@@ -345,24 +345,25 @@
 								<th class="encabezado_tabla">Hora</th>
 								<th class="encabezado_tabla">Beneficio</th>
 							</tr>`
-				for (var i = 0; i < respuesta.length; i++) {
-					cadena += `<tr>
-								<td>${respuesta[i].local}</td>
-								<td>${respuesta[i].cedula || ''}</td>
-								<td>${respuesta[i].usuario}</td>
-								<td>${respuesta[i].nombre || ''}</td>
-								<td>${respuesta[i].edad || ''}</td>
-								<td>${respuesta[i].genero || ''}</td>
-								<td>${respuesta[i].referido || ''}</td>
-								<td>${respuesta[i].telefono || ''}</td>
-								<td>${respuesta[i].sector || ''}</td>
-								<td>${respuesta[i].direccion || ''}</td>
-								<td>${respuesta[i].tarjeta}</td>
-								<td>${obtenerFecha(respuesta[i].fecha)}</td>
-								<td>${obtenerHora(respuesta[i].fecha)}</td>
-								<td>${ascii_texto(respuesta[i].beneficio)}</td>
-							</tr>`
-				}
+							for (var i = 0; i < respuesta.length; i++) {
+								cadena += `<tr>
+											<td>${respuesta[i].local}</td>
+											<td>${respuesta[i].cedula || ''}</td>
+											<td>${respuesta[i].usuario}</td>
+											<td>${respuesta[i].nombre || ''}</td>
+											<td>${respuesta[i].edad || ''}</td>
+											<td>${respuesta[i].genero || ''}</td>
+											<td>${respuesta[i].referido || ''}</td>
+											<td>${respuesta[i].telefono || ''}</td>
+											<td>${respuesta[i].sector || ''}</td>
+											<td>${respuesta[i].direccion || ''}</td>
+											<td>${respuesta[i].tarjeta}</td>
+											<td>${obtenerFecha(respuesta[i].fecha)}</td>
+											<td>${obtenerHora(respuesta[i].fecha)}</td>
+											<td>${ascii_texto(respuesta[i].beneficio)}</td>
+										</tr>`
+							}
+				
 				no_cargando()
 				innerTexto('datos_reporte', cadena)
 			})
