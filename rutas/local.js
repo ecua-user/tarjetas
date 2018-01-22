@@ -89,7 +89,11 @@ router.post('/usar-beneficio', ensureAuthenticated, (req, res) => {
                                     if (tarjeta.locales[i].beneficio[j].activo == true) {
                                         tarjeta.locales[i].beneficio[j].activo = false
                                         tarjeta.locales[i].beneficio[j].fecha_activacion = new Date(req.body.fecha)
-                                        var benfff = tarjeta.locales[i].beneficio[j].beneficio
+                                        var benfff=''
+                                        for(var b=0; b< req.user.beneficio.length; b++){
+                                            if(tarjeta.locales[i].beneficio[j].codigo== req.user.beneficio[b].codigo)
+                                                benfff=req.user.beneficio[b].beneficio
+                                        }
                                         Tarjeta_uso.findOneAndUpdate({ numero: req.body.numero }, { locales: tarjeta.locales }, (error, respuesta) => {
                                             var notifica = new Notificacion({
                                                 fecha: new Date(req.body.fecha),

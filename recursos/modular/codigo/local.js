@@ -4,7 +4,7 @@ function activar_desc(event){
     envio={numero: valor('numero_act')}
     $.ajax({
 		method: "POST",
-		url: "/local/activar",
+		url: "/local/activar", 
 		data: envio
 	}).done(( respuesta )=>{        
         if(respuesta=='Error'){

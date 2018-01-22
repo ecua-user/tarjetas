@@ -197,7 +197,9 @@ router.post('/resetear', (req,res)=>{
                 } catch (error) {
                     console.log(error)
                 }                  
-                Tarjeta.findOneAndUpdate({codigo:codigos},{tarjetas:ejemplo_tarjetas}, (error, listo)=>{})
+                Tarjeta.findOneAndUpdate({codigo:codigos},{tarjetas:ejemplo_tarjetas}, (error, listo)=>{
+                    console.log(listo)
+                })
             }
             //Aqui se resetearan las vendidas
             Tarjeta_uso.findOneAndRemove({numero:req.body.numero}, (error, eliminado)=>{

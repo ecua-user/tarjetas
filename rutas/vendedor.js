@@ -90,7 +90,7 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 							tarjeta: req.body.tarjeta,
 							numero: req.body.numero,
 							pagado_cabeza: false,
-							pagado_vendedor: false
+							pagado_vendedor: false,
 						})
 						var env = new Array()
 						env.push(activacion)
@@ -98,7 +98,7 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 						nuevoReporte.save((error, correcto) => {
 							if (error)
 								res.send('Error')
-							else {
+							else { 
 								var nuevaVenta = new Tarjeta_uso({
 									cabeza: encontrado.codigo,
 									numero: req.body.numero,
@@ -116,7 +116,7 @@ router.post('/vender', ensureAuthenticated, (req, res) => {
 									fechaventa: new Date(),
 									confirmar: false,
 									vendida: true,
-									cliente: req.body.correo,
+									cliente: req.body.correo
 								})
 								nuevaVenta.save((error, listo) => {
 									if (error){
