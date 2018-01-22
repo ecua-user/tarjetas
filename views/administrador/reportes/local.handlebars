@@ -69,9 +69,18 @@
                             <option value="{{this.nombre}}">{{this.nombre}}</option>
                             {{/each}} {{/if}}
                         </select>
-                        <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="generar_reporte_local()">Consultar</span>
-                        <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
-                        <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+                        <span class="input-group-addon btn btn-primary hidden-xs" id="basic-addon1" onclick="generar_reporte_local()">Consultar</span>
+                        <span class="input-group-addon btn btn-success hidden-xs" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
+                        <span class="input-group-addon btn btn-warning hidden-xs" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+                        <button type="button" class="btn btn-primary hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="generar_reporte_referido()">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-success hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="exportar('datos_reporte')">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-warning hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="imprimir('vista_impresion')">
+                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
                 

@@ -42,7 +42,8 @@
 </ul>
 
 <div class="row">
-    <div class="contenedor-bordes" style="width:100%; margin-top:20px; padding:20px">
+    <div class="col-lg-12">
+    <div class="contenedor-bordes">
         <div id="central-mensajes">
             {{#if success_msg}}
             <div class="centrado blanco mensaje-bien-sistema animated flash">
@@ -69,18 +70,26 @@
                     <option value="{{this.nombre}}">{{this.nombre}}</option>
                     {{/each}} {{/if}}
                 </select>
-                <span class="input-group-addon btn btn-primary" id="basic-addon1" onclick="generar_reporte_referido()">Consultar</span>
-                <span class="input-group-addon btn btn-success" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
-                <span class="input-group-addon btn btn-warning" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+                <span class="input-group-addon btn btn-primary hidden-xs" id="basic-addon1" onclick="generar_reporte_referido()">Consultar</span>
+                <span class="input-group-addon btn btn-success hidden-xs" id="basic-addon1" onclick="exportar('datos_reporte')">Exportar a excel</span>
+                <span class="input-group-addon btn btn-warning hidden-xs" id="basic-addon1" onclick="imprimir('vista_impresion')">Imrpimir</span>
+                <button type="button" class="btn btn-primary hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="generar_reporte_referido()">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-success hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="exportar('datos_reporte')">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-warning hidden-lg hidden-md hidden-sm" aria-label="Buscar" onclick="imprimir('vista_impresion')">
+                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
-        <div class="table-responsive" style="background-color:white">
-            <div id="vista_impresion">
-                <table class="table" id="datos_reporte">
+        <div class="table table-responsive" id="vista_impresion" style="background-color:white">
+            <table class="table" id="datos_reporte">
 
-                </table>
-            </div>
+            </table>
         </div>
+    </div>
     </div>
 </div>
 <script src="../modular/codigo/admin.js"></script>
