@@ -152,7 +152,7 @@
                                             <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
                                                 <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
-                                                <option onclick="presentar_locales(this.innerHTML)" value="http://res.cloudinary.com/tarjetas/image/upload/v1512860497/tarjetas/{{this.imagen}}">{{this.numero}}</option>
+                                                <option onclick="presentar_locales(this.innerHTML)" value="{{this.imagen}}">{{this.numero}}</option>
                                                 {{/each}} {{/if}}
                                             </select>
                                             <p class="blanco" id="Rvencimiento1" style="display:none">Esta tarjete vence en:
