@@ -1,7 +1,7 @@
 //Se da el valor de una fecha y lo regresa en formato legible
 function obtenerFecha(fecha){
     fecha=new Date(fecha)
-    return fecha.getDate()+'/'+ fecha.getMonth()+'/'+ fecha.getFullYear()
+    return fecha.getDate()+'/'+ (fecha.getMonth()+1)+'/'+ fecha.getFullYear()
 }
 
 function obtenerHora(fecha){
