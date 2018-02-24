@@ -56,7 +56,7 @@ router.post('/ingresar-vendedor', ensureAuthenticated, (req, res) => {
                 password: req.body.password,
                 eslocal: false,
                 esadministrador: false,
-                token: req.body.token,
+                token: cadenaAleatoria(),
                 activo: true,
                 esvendedor: true,
                 imagen: "",

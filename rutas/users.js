@@ -284,6 +284,18 @@ router.post('/reenvio_link', (req,res)=>{
         }
     })
 })
+/*
+router.get('/sintoken', (req,res)=>{
+
+     User.updateMany({token:{$exists:false}},{token:cadenaAleatoria()},(error, respuesta)=>{
+        res.send(respuesta)
+    })
+    
+    User.find().where({token:{$exists: false}}).exec((error, respuesta)=>{
+        res.send(respuesta)
+    })
+})
+*/
 
 //Permite el enrutamiento____________________________________________
 module.exports = router;
