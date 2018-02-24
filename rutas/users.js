@@ -150,7 +150,7 @@ router.post('/olvido-mail', (req, res) => {
     User.findOne().where({ username: req.body.username }).select('token nombre').exec((e, resp) => {
         respuesta = new Array()
         if (e)
-            res.send('Error')
+            res.send('Error')                  
         else {
             if (resp != null) {
                 respuesta.push(resp.token)
