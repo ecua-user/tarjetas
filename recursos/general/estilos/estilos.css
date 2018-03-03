@@ -298,6 +298,29 @@ input[type=checkbox]
 .encabezado_tabla{
     min-width: 140px;
 }
+.slid_respons{
+    max-height:15%; 
+    min-height:15%;
+}
+#espaciado_locales{
+    padding-top: 1%;
+    
+}
+textarea{
+    text-transform: uppercase;
+}
+.img_locales{
+    transition: .5s ease;
+    cursor: pointer;
+    backface-visibility: hidden;
+}
+.img_locales:hover {
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    -webkit-filter: opacity(50%);
+    filter: opacity(50%);
+    opacity: 0.5;
+}
 
 @media screen and (min-width: 1200px){
     .imagen_trj_elec{

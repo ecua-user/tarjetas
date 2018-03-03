@@ -9,7 +9,10 @@
                         <div class="carousel-inner">
                             {{#each tarjetas}}
                             <div class="carousel-item carro_trj" style="padding-left:13%; padding-right:13%">
-                                <a href="javascript:detalle_trj('{{this.codigo}}')" style="background-color:rgba(000, 000, 000, 0.8);">
+                                <!--<a href="javascript:detalle_trj('{{this.codigo}}')" style="background-color:rgba(000, 000, 000, 0.8);">
+                                    <img class="img-slider d-block w-100 borde-redondo" style="margin:4px" src="{{this.imagen}}" alt="{{this.titulo}}">
+                                </a>-->
+                                <a href="/detalle_tarjeta:{{this.codigo}}" style="background-color:rgba(000, 000, 000, 0.8);">
                                     <img class="img-slider d-block w-100 borde-redondo" style="margin:4px" src="{{this.imagen}}" alt="{{this.titulo}}">
                                 </a>
                             </div>

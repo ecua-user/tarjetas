@@ -113,6 +113,11 @@ router.post('/tarjeta', ensureAuthenticated, (req,res)=>{
         }
     })
 })
+router.post('/local-tarj',(req,res)=>{
+    User.findOne().where({codigo:req.body.codigo}).exec((e,local)=>{
+        res.send(local)
+    })
+})
 router.post('/local-trj',(req,res)=>{
     var respuesta_total= new Array()
     User.findOne().where({codigo:req.body.codigo}).exec((e,local)=>{

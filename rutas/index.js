@@ -48,9 +48,24 @@ router.post('/local',(req,res)=>{
     })
 })
 
+router.get('/detalle_tarjeta:codigo',(req,res)=>{
+    var codigoE=(req.params.codigo).substr(1,req.params.codigo.length)
+    Tarjetas.findOne().where({codigo:codigoE}).exec((error, respuesta)=>{
+        Imagen.find().exec((error, imagenes)=>{
+            var loc_array=new Array();
+            for(var i=0; i< respuesta.locales.length; i++){
+                loc_array.push({codigo:respuesta.locales[i].local})
+            }
+            User.find().where({$or:loc_array}).select('codigo logotipo nombre').exec((error,logos)=>{
+                res.render('home/tarjetas',{imagenes:imagenes, locales:logos})
+            })
+        })
+    })
+})
+
 router.post('/detalles_trj', (req,res)=>{
     Tarjetas.findOne().where({codigo:req.body.codigo}).select('titulo descripcion').exec((error, respuesta)=>{
-        res.send(respuesta)
+        res.send(respuesta.locales)
     })
 })
 

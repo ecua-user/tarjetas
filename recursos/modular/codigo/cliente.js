@@ -58,15 +58,51 @@ function presentar_locales(identidad){
         document.getElementById('Rvencimiento').style.display='block'
         document.getElementById('todos_locales').innerHTML=''
         for(var i=0;i< datos[1].length;i++){
-            document.getElementById('todos_locales').innerHTML+=`<div style="padding:4px; width:25%; float:left">
-                        <img onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[0].imagen}"/>
-                    </div> 
+            document.getElementById('todos_locales').innerHTML+=`<div style="padding:4px; width:25%; float:left"><div style="background:#000000">
+                        <img class="img_locales" onclick="detallarLoc('${datos[1][i].codigo}')" width="100%" src="${datos[1][i].logotipo }" alt="${datos[0].imagen}"/>
+                    </div> </div>
                      `       
                     
         }
         no_cargando()
     })
    
+}
+function detallarLoc_free(codigo){
+    var envio={codigo:codigo}
+	cargando('Obteniendo información...');
+	$.ajax({
+		method: "POST",
+		url: "/cliente/local-tarj",
+		data: envio
+	}).done(( datos )=>{
+        try {
+            var activo='active'
+            var cadena=''
+            document.getElementById('img_local').setAttribute('src', datos.logotipo)
+            innerTexto('nom_loc', datos.nombre)
+            innerTexto('horario_loc', datos.horario)
+            innerTexto('tel_loc', datos.telefono)
+            innerTexto('dir_loc', datos.direccion)
+            document.getElementById('mapa_loc', datos.mapa)
+            document.getElementById('face_local').setAttribute('href', datos.facebook)
+            document.getElementById('inst_local').setAttribute('href', datos.instagram)
+            document.getElementById('tel_local').setAttribute('href', 'tel://'+ datos.telefono)
+            document.getElementById('mail_local').setAttribute('href', 'mailto:'+ datos.username)
+            document.getElementById('web_local').setAttribute('href', datos.web)
+            document.getElementById('mapa_loc').setAttribute('src',datos.mapa)
+            for(var i=0; i< datos.beneficio.length; i++){
+                if(i!=0)
+                    activo=''
+                cadena+=mostrar_beneficiosLocFree(activo,datos.beneficio[i])
+            }
+            innerTexto('elementos-carrusel', cadena)	
+            no_cargando()
+            $('#local-info').modal()
+            } catch (error) {
+                alert(error)
+            }
+	})
 }
 
 function reenviar_cod(){
@@ -134,5 +170,32 @@ function mostrar_beneficiosLoc(activo, elementos){
                         </div>
                     </div>
                 </div>`
-    
+}
+function mostrar_beneficiosLocFree(activo, elementos){
+    var color='white'
+    var texto='<h1>Disponible</h1>'
+    var transparente='background:transparent;border: solid 0px white;'
+    if(!elementos.activo){
+        texto=`<div class="blanco"><h3>UTILIZADO</h3>
+                En la fecha: ${obtenerFecha(elementos.fecha_activacion)}<br>
+                Hora: ${obtenerHora(elementos.fecha_activacion)}</div>`
+        color='#D75E5E'
+    }
+        
+    return `<div id="${elementos.codigo}" class="carousel-item ${activo}" style="padding-left:2%; padding-right:2% ; background-color:${color}">
+                    <div class="row" style="padding:12px">
+                        <div class="col-lg-1 col-md-1"></div>
+                        <div class="col-lg-4 col-md-4">                                      
+                                <img class="img-slider d-block w-100" src="${elementos.imagen}"
+                                    alt="">                                      
+                        </div>
+                        <div class="col-lg-6 col-md-6" style="font-size:140%">
+                            <h3 class="centrado">Términos y condiciones</h3>
+                            <div style="padding-left:5%; padding-right:5%">
+                            <textarea class="area-beneficios"  readonly name="" id="" rows="8" style="width:100% ; height:100%; ${transparente}">${ascii_texto(elementos.beneficio)}\n${ascii_texto(elementos.restriccion)}\n
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
 }

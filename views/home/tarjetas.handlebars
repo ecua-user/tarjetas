@@ -1,12 +1,12 @@
 <div class="row" id="espaciado_locales">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="centrado " style="background-color:#131313">
+        <div class="centrado " style="background-color:#131313;">
             {{#if imagenes}}
             <div id="corousel-ben" class="carousel slide " data-ride="carousel">
                 <div class="carousel-inner" style="padding-left:25%; padding-right:25%">
                     {{#each imagenes}}
                     <div class="carousel-item carro_img" style="padding-left:2%; padding-right:2%">
-                        <img class="img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
+                        <img class="slid_respons img-slider d-block w-100" src="{{this.imagen}}" alt="{{this.codigo}}">
                     </div>
                     {{/each}}
                 </div>
@@ -21,13 +21,17 @@
             </div>
             {{/if}}
         </div>
-        <div id="nada" class="cordia">
-            <h1 class="centrado "><b>No hay nada que mostrar</b></h1>
-            <h3 class="centrado ">Seleccione una tarjeta que usted haya adquirido</h3>
-        </div>
-
         <div class="row" id="todos_locales" style="margin-top:12px;max-height:470px;overflow-y: scroll;margin-bottom:30px">
-
+            {{#if locales}}
+            {{#each locales}}
+            <div style="padding:4px; width:25%; float:left;">
+                <div style="background:#000000">
+                    <img class="img_locales" onclick="detallarLoc_free('{{this.codigo}}')" width="100%" src="{{this.logotipo}}" alt="{{this.codigo}}"/>
+                </div>
+            </div> 
+        
+            {{/each}}
+            {{/if}}
         </div>
     </div>
 </div>
@@ -35,11 +39,10 @@
 <script>
     window.addEventListener('load', () => {
         control_slider_beneficios()
+        document.getElementById('contendedor-general').style.backgroundColor = 'rgba(255,255,255,0.6)'
     })
 </script>
 <script src="../modular/codigo/cliente.js"></script>
-
-
 
 <div class="modal fade bd-example-modal-lg cordia" id="local-info" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -117,18 +120,6 @@
         </div>
     </div>
 </div>
-<script>
-    window.addEventListener('load', () => {
-        document.getElementById('tit_general').style.display = 'none'
-        document.getElementById('cabecera_cliente').style.display = 'block'
-        document.getElementById('redes_sociales').style.display = 'none'
-        document.getElementById('contendedor-general').style.backgroundColor = 'rgba(255,255,255,0.6)'
-        //innerTexto('vald', ordenarFechas(obtenerTexto('fecha_inic')))
-        //innerTexto('valh', ordenarFechas(obtenerTexto('fecha_fin')))
-
-    })
-</script>
-
 
 <div class="modal fade bd-example-modal-lg cordia" id="mapa-info" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -147,3 +138,4 @@
         </div>
     </div>
 </div>
+
