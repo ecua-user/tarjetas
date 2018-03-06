@@ -2,7 +2,6 @@
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 exphbs = require('express-handlebars')
-expressValidator = require('express-validator')
 flash = require('connect-flash')
 session = require('express-session')
 path = require('path')
@@ -56,15 +55,6 @@ servidor.use(express.static(path.join(__dirname, 'recursos')));
 servidor.use(session({ secret: 'secret', saveUninitialized: true, resave: true }));
 servidor.use(passport.initialize());
 servidor.use(passport.session());
-
-//Usando esta API se puede validar campos desde ambos lados (Cliente- Servidor)
-servidor.use(expressValidator({
-    errorFormatter: (param, msg, value)=>{
-        var namespace = param.split('.'), root = namespace.shift(), formParam = root;
-        while (namespace.length) { formParam += '[' + namespace.shift() + ']'; }
-        return { param: formParam, msg: msg, value: value };
-    }
-}));
 
 //Es necesario el poder enviar mensajes automáticos desde el servidor
 servidor.use(flash());
