@@ -1,7 +1,6 @@
 {
   "name": "tarjetas",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,5 +25,14 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecua-user/tarjetas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ecua-user/tarjetas/issues"
+  },
+  "homepage": "https://github.com/ecua-user/tarjetas#readme",
+  "description": ""
 }
