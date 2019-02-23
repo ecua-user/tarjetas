@@ -20,7 +20,7 @@ port = process.env.PORT || puerto
 //# region conexion======================= Conexión con la base de datos ======================//
 mongoose.connect('mongodb://Admin:Abc123.....@ecuadoractiva-shard-00-00-tqnvo.mongodb.net:27017,ecuadoractiva-shard-00-01-tqnvo.mongodb.net:27017,ecuadoractiva-shard-00-02-tqnvo.mongodb.net:27017/Activa?ssl=true&replicaSet=Ecuadoractiva-shard-0&authSource=admin&retryWrites=true',{ server: { reconnectTries: Number.MAX_VALUE } });
 //mongoose.connect('mongodb://Admin:Abc123.....@ds111638.mlab.com:11638/testing',{ server: { reconnectTries: Number.MAX_VALUE } });
-//mongodb://Admin:Abc123.....@ds231715.mlab.com:31715/tarjetas
+//mongoose.connect('mongodb://Admin:Abc123.....@testeo-shard-00-00-kdh5e.mongodb.net:27017,testeo-shard-00-01-kdh5e.mongodb.net:27017,testeo-shard-00-02-kdh5e.mongodb.net:27017/testeo?ssl=true&replicaSet=Testeo-shard-0&authSource=admin&retryWrites=true',{ server: { reconnectTries: Number.MAX_VALUE } });
 //Establecemos las rutas para cada uso
 routes = require('./rutas/index')
 

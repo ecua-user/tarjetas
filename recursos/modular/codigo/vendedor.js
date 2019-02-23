@@ -7,7 +7,7 @@ function venderTarjeta(event){
         document.getElementById('div-error').innerText='Selecione tipo de tarjeta'
         document.getElementById('div-error').style.display='block'
         no_cargando()   
-        return
+        return 
     }
     $.ajax({
 		method: "POST",

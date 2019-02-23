@@ -1,0 +1,133 @@
+<ul class="fondo-nav nav nav-tabs ">
+   <li class="nav-item dropdown ">
+      <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">Vendedor</a>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" href="/admin-vendedor/ingresar-vendedor">Añadir</a>
+         <a class="dropdown-item" href="/admin-vendedor/modificar-vendedor">Modificar o eliminar</a>
+         <a class="dropdown-item" href="/admin-vendedor/asignar-vendedor">Asignar tarjetas</a>
+      </div>
+   </li>
+   <li class="nav-item dropdown ">
+      <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">Local</a>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" href="/admin-local/ingresar-local">Añadir</a>
+         <a class="dropdown-item" href="/admin-local/modificar-local">Modificar o eliminar</a>
+      </div>
+   </li>
+   <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">Tarjeta</a>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" href="/admin-tarjetas/reg-tarj">Añadir</a>
+         <a class="dropdown-item" href="/admin-tarjetas/mod-tarj">Modificar o eliminar</a>
+         <a class="dropdown-item" href="/admin-tarjetas/regalar">Regalar tarjetas</a>
+      </div>
+   </li>
+   <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">Usuarios</a>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" href="/admin-cliente/eliminar-usuario">Clientes</a>
+         <a class="dropdown-item" href="/admin-cliente/vendedores">Vendedores</a>
+      </div>
+   </li>
+   <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">Reportes</a>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" href="/admin-reportes/reporte-vendedor">Por vendedor</a>
+         <a class="dropdown-item" href="/admin-reportes/reporte-referido">Por referido</a>
+         <a class="dropdown-item" href="/admin-reportes/reporte-local">Por local</a>
+      </div>
+   </li>
+   <li class="nav-item">
+      <a class="nav-link" href="/admin-home/slider">Home</a>
+   </li>
+</ul>
+
+<div class="row">
+   <div class="col-lg-1 col-md-1"></div>
+   <div class="col-lg-10 col-md-10">
+      <div class="contenedor-bordes blanco">
+         <div id="central-mensajes">
+            {{#if success_msg}}
+            <div class="centrado blanco mensaje-bien-sistema animated flash">
+               <h3>{{success_msg}}</h3>
+            </div>
+            {{/if}} {{#if error}}
+            <div class="centrado blanco mensaje-error-sistema animated flash">
+               <h3>{{error}}</h3>
+            </div>
+            {{/if}}
+            <div class="centrado blanco mensaje-bien-sistema" id="div-correcto" style="display:none; font-size:140%">
+
+            </div>
+            <div class="centrado blanco mensaje-error-sistema" id="div-error" style="display:none;font-size:140%"></div>
+         </div>
+         <h3 class="centrado ">Regalar tarjetas</h3>
+         <div class="row">
+            <div class="col-lg-5">
+               <h5 class="centrado">Regalar</h5>
+               <form method="post" onsubmit="realizarRegalo(event)" id="form_regalo">
+                  <div class="form-group">
+                     <label for="elecc_trj">Tipo de tarjeta</label>
+                     <select required name="tarjeta" id="elecc_trj" class="form-control " aria-placeholder="Tipo de tarjeta">
+                        {{#if id_trj}} {{#each id_trj}}
+                        <option value="{{this.codigo}}">{{this.titulo}}</option>
+                        {{/each}} {{/if}}
+                     </select>
+                  </div>
+                  <div class="form-group">
+                     <label for="numero_tarjeta">Número de tarjeta</label>
+                     <input type="number" class="form-control" id="numero_tarjeta" required placeholder="Número de tarjeta"
+                     name="numero">
+                  </div>
+                  <div class="form-group">
+                     <label for="correo_tarjetas">Mail de beneficiario</label>
+                     <input type="email" required name="correo" placeholder="Mail" list="correos" id="correo_tarjetas"
+                        class="form-control">
+                     <datalist id="correos">
+                        {{#if clientes}} {{#each clientes}}
+                        <option value="{{this.username}}">{{this.username}}</option>
+                        {{/each}} {{/if}}
+                     </datalist>
+                  </div>
+                  <button type="submit" class="btn btn-warning">Regalar</button>
+               </form>
+            </div>
+            <div class="col-lg-7">
+               <h5 class="centrado">Regaladas</h5>
+               <div class="table-responsive" style='background-color:white; color:black; font-family: Arial, Helvetica, sans-serif; max-height:300px'>
+                  <table class="table">
+                     <tr>
+                        <th>Tarjeta</th>
+                        <th>Número</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                     </tr>
+                     {{#if regaladas}} {{#each regaladas}}
+                        <tr class="peq">
+                           <td>{{this.tarjeta}}</td>
+                           <td>{{this.numero}}</td>
+                           <td class="td_fecha">{{this.fecha}}</td>
+                           <td>{{this.cliente}}</td>
+                        </tr>
+                     {{/each}} {{/if}}
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<script src="../modular/codigo/admin.js"></script>
+<script>
+   window.addEventListener('load', ()=>{
+      var td_fechas = document.getElementsByClassName('td_fecha')
+      for(var i=0; i < td_fechas.length; i++){
+         td_fechas[i].innerHTML= getFecha(td_fechas[i].innerHTML)
+      }
+   })
+</script>

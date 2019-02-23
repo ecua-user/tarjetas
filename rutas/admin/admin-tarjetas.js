@@ -20,6 +20,9 @@ function cadenaAleatoria() {
     return cadena;
 }
 Tarjeta_uso=require('../../modelos/tarjeta_uso')
+
+Regaladas = require('../../modelos/regaladas')
+
 router.get('/reg-tarj', ensureAuthenticated, (req, res) => {
     User.find().where({ eslocal: true }).exec((error, locales) => {
         res.render('administrador/tarjeta/ingresar', { locales: locales })
@@ -374,4 +377,50 @@ router.post('/trj_vend',ensureAuthenticated ,(req,res)=>{
         }
     })
 })
+
+router.get('/regalar', ensureAuthenticated,(req,res)=>{
+    User.find().where({eslocal:false, esadministrador:false}).exec((error, clientes)=>{
+        Regaladas.find().exec((error, regalos)=>{
+            Tarjeta.find().exec((error, id_trj)=>{
+                res.render('administrador/tarjeta/regalar',{clientes:clientes, regaladas:regalos.reverse(), id_trj: id_trj})
+            })
+        })
+    })
+})
+
+router.post('/regalar', ensureAuthenticated, (req,res)=>{
+    Tarjeta.find().where({tarjetas: { $elemMatch: { numero: Number(req.body.numero), vendedor:"" } } }).exec((error, tj_enc)=>{
+        if(error) {res.send('Error'); return}
+        if(tj_enc.length==0) {res.send('Error 1'); return } //Esta tarjeta esta asignada no puede ser regalada       
+        Tarjeta.findOneAndUpdate(
+            {codigo : req.body.tarjeta }, { $set: { 
+                "tarjetas.$[elem].vendedor" : req.user.codigo, 
+                "tarjetas.$[elem].activo" :true,
+                "tarjetas.$[elem].cliente": req.body.correo
+            }},{ arrayFilters: [ { 
+                "elem.vendedor": "" , 
+                "elem.numero": Number(req.body.numero) 
+            } ], upsert: true }, (error, listo)=>{
+                var activacion = cadenaAleatoria()
+                var nuevaVenta = new Tarjeta_uso({
+                    cabeza: listo.codigo,                          numero: req.body.numero,    fechainicial: new Date(listo.fechainicial),
+                    fechafinal: new Date(listo.fechafinal),        titulo: listo.titulo,      imagen: listo.imagen,
+                    linkface: listo.linkface,                      linkInst: listo.linkInst,  locales: listo.locales,
+                    activacion: activacion,                         activo: true,               vendedor: req.user.codigo,
+                    fechaasignacion: new Date(listo.fechainicial), fechaventa: new Date(),     confirmar: false,
+                    vendida: true,                                  cliente: req.body.correo
+                })
+                nuevaVenta.save((error, completo) => {
+                    if (error){ res.send('Error') ; return} 
+                    var regalo = new Regaladas( { tarjeta: listo.titulo ,numero: req.body.numero, fecha:new Date(), cliente:req.body.correo } )
+                    regalo.save((error, listo)=>{
+                        if (error){ res.send('Error');  return}
+                        res.send(req.body.correo)
+                    })
+                })
+            })
+        })
+})     
+                    
+
 module.exports = router;

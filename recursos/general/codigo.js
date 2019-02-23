@@ -282,3 +282,13 @@ function validarURL(event) {
 function quitarValidacion() {
 	document.getElementById('input_video').setCustomValidity('')
 }
+
+function obtenerCAD(data){
+    if(data.length<2) return '0'+data
+    else return data
+ }
+ function getFecha(fecha){
+     var options = {  year: 'numeric', month: 'numeric', day: 'numeric' };
+    fecha=new Date(fecha).toLocaleDateString("ec-ES", options)
+    return fecha
+ }

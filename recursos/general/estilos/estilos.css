@@ -298,6 +298,9 @@ input[type=checkbox]
 .encabezado_tabla{
     min-width: 140px;
 }
+.peq{
+    font-size: 12px;
+}
 .slid_respons{
     max-height:15%; 
     min-height:15%;
