@@ -21,12 +21,14 @@
     <meta property="og:site_name" content="Republica del Salvador Activa, i.e. Moz" />
     <meta property="article:tag" content="descuentos" />
     <!--Bootstraps-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
         crossorigin="anonymous"></script>
     <!--Scripts propios-->
     <script src="../general/codigo.js"></script>
@@ -69,12 +71,44 @@
     <link rel="stylesheet" href="../general/estilos/estilos.css">
     <script src="../general/tableExport.js"></script>
     <script src="../general/jquery.base64.js"></script>
+
+
+    <!--Anaitics-->
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2050567531707555');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=2050567531707555&ev=PageView&noscript=1" /></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136110017-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-136110017-1');
+    </script>
 </head>
 
 <body>
     <nav class="navbar navbar-fixed-top navbar-expand-lg nav-negro" style="background-color:black">
         <a href="/">
-            <img src="../general/imagenes/brand.png" alt="Brand" class="img-responsive" style="margin-top:-25px;" width="150px">
+            <img src="../general/imagenes/brand.png" alt="Brand" class="img-responsive" style="margin-top:-25px;"
+                width="150px">
         </a>
         <div id="bienvenida0" class="blanco centrado" style="padding-left:4px; padding-right:4px">
             {{#if user}}
@@ -100,34 +134,41 @@
                 </div>
             </div>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse calibri" id="navbarSupportedContent">
             <div class="navbar-nav mr-auto blanco" id="espaciado" style="margin:0 auto">
                 <div style="margin: 0 auto; text-align:center; width:100%" id="banner-titulo">
                     <div id="tit_general">
-                        
+
                     </div>
                     <div id="cabecera_cliente">
                         <div class="row">
                             {{#if user.escliente}}
-                            <div class="col-lg-6 col-md-6 colsm-6 col-xs-6">   
+                            <div class="col-lg-6 col-md-6 colsm-6 col-xs-6">
                                 <div id="sel_trj0">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <i class="zmdi zmdi-info " id="estado_local" style="display:none; position:absolute"></i>
-                                            <img src="" id="img_trj" width="100%" alt="" class="borde-redondo imagen_trj_elec">
+                                            <i class="zmdi zmdi-info " id="estado_local"
+                                                style="display:none; position:absolute"></i>
+                                            <img src="" id="img_trj" width="100%" alt=""
+                                                class="borde-redondo imagen_trj_elec">
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" >
-                                            <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
-                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                            <select required name="tarjeta"
+                                                onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())"
+                                                id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">
+                                                    Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
-                                                <option onclick="presentar_locales(this.innerHTML)" value="{{this.imagen}}">{{this.numero}}</option>
+                                                <option onclick="presentar_locales(this.innerHTML)"
+                                                    value="{{this.imagen}}">{{this.numero}}</option>
                                                 {{/each}} {{/if}}
                                             </select>
-                                            <p class="blanco" id="Rvencimiento" style="display:none">Esta tarjete vence en:
+                                            <p class="blanco" id="Rvencimiento" style="display:none">Esta tarjete vence
+                                                en:
                                                 <b id="vencimiento"></b>
                                             </p>
                                         </div>
@@ -144,18 +185,24 @@
                                 </div>
                                 <div id="sel_trj1" style="padding-top:30px">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" >
-                                            <i class="zmdi zmdi-info zmdi-hc-2x" id="estado_local1" style="display:none; position:absolute"></i>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <i class="zmdi zmdi-info zmdi-hc-2x" id="estado_local1"
+                                                style="display:none; position:absolute"></i>
                                             <img src="" id="img_trj1" width="100%" alt="" class="borde-redondo">
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-top:20px">
-                                            <select required name="tarjeta" onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())" id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
-                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">Seleccionar tarjeta</option>
+                                            <select required name="tarjeta"
+                                                onchange="actualizar_img(this.value);presentar_locales($(this).find('option:selected').text())"
+                                                id="elecc_trj" style="width:100%" aria-placeholder="Tipo de tarjeta">
+                                                <option value="NA" onclick="presentar_locales(this.innerHTML)">
+                                                    Seleccionar tarjeta</option>
                                                 {{#if tarjetas}} {{#each tarjetas}}
-                                                <option onclick="presentar_locales(this.innerHTML)" value="{{this.imagen}}">{{this.numero}}</option>
+                                                <option onclick="presentar_locales(this.innerHTML)"
+                                                    value="{{this.imagen}}">{{this.numero}}</option>
                                                 {{/each}} {{/if}}
                                             </select>
-                                            <p class="blanco" id="Rvencimiento1" style="display:none">Esta tarjete vence en:
+                                            <p class="blanco" id="Rvencimiento1" style="display:none">Esta tarjete vence
+                                                en:
                                                 <b id="vencimiento1"></b>
                                             </p>
                                         </div>
@@ -210,16 +257,19 @@
                         <div class="col-lg-8 col-md-8">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 centrado" style="margin-bottom:4px">
-                                    <input type="email" name="username" class="form-control form-control-size" placeholder="Correo electrónico" required>
+                                    <input type="email" name="username" class="form-control form-control-size"
+                                        placeholder="Correo electrónico" required>
                                 </div>
                                 <div class="col-lg-6 col-md-6" style="margin-bottom:4px">
-                                    <input type="password" name="password" class="form-control form-control-size"  placeholder="Contraseña" required>
+                                    <input type="password" name="password" class="form-control form-control-size"
+                                        placeholder="Contraseña" required>
                                     <!--<a class="blanco form-control-size" href="/users/confirmar">¿Confirmar tu cuenta?</a>-->
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4" style="margin-bottom:4px">
-                            <button type="submit" class="btn btn-primary nprimary" style="width:100%">INICIAR SESIÓN</button>
+                            <button type="submit" class="btn btn-primary nprimary" style="width:100%">INICIAR
+                                SESIÓN</button>
                             <a href="/users/olvido" class="blanco form-control-size">¿Olvidaste tu contraseña?</a>
                         </div>
                     </div>
@@ -228,7 +278,7 @@
             </div>
         </div>
     </nav>
-    <div id="contendedor-general"> 
+    <div id="contendedor-general">
         <div style="min-height:70%;">
             <div class="fullscreen-bg">
                 <video loop muted autoplay poster="general/imagenes/fondo.png" class="fullscreen-bg__video">
@@ -273,7 +323,7 @@
         </div>
     </footer>
     <script>
-        (function (){
+        (function () {
             var direccion = window.location.pathname
             if (direccion != '/cliente/perfil') {
                 document.getElementById('tit_general').style.display = 'none'
@@ -282,8 +332,8 @@
             }
         })()
     </script>
-    
-    
+
+
 </body>
 
 </html>
